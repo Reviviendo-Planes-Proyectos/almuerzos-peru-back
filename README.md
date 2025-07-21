@@ -1,99 +1,422 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🍽️ Almuerzos Perú - Backend API v1.0.0 🎉
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
+[![Node.js](https://img.shields.io/badge/node.js-18+-blue.svg)](https://nodejs.org)
+[![NestJS](https://img.shields.io/badge/nestjs-10.x-red.svg)](https://nestjs.com)
+[![TypeScript](https://img.shields.io/badge/typescript-5.x-blue.svg)](https://typescriptlang.org)
+[![PostgreSQL](https://img.shields.io/badge/postgresql-15+-blue.svg)](https://postgresql.org)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://docker.com)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Descripción
 
-## Description
+Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **NestJS**, **TypeORM** y **PostgreSQL**. Implementa **Clean Architecture** con estructura modular para máxima escalabilidad y mantenibilidad.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 🌟 Características Principales
 
-## Project setup
+- ✅ **Clean Architecture** con 3 capas bien definidas
+- ✅ **API REST** con versionado automático (`/api/v1`)
+- ✅ **Validaciones** automáticas con decoradores
+- ✅ **Documentación** completa de arquitectura
+- ✅ **Docker** ready para deployment
+- ✅ **Tests** unitarios implementados
+- ✅ **Logging** HTTP y manejo de errores
+- ✅ **CORS** configurado para frontend
+- ✅ **TypeScript** con strict mode
 
-```bash
-$ npm install
+## 🏗️ Arquitectura
+
+Este proyecto sigue los principios de **Clean Architecture + Modular Structure**:
+
+- **🟢 Domain Layer:** Entidades y reglas de negocio puras
+- **🔵 Application Layer:** Casos de uso y orquestación
+- **🟡 Infrastructure Layer:** Controllers, repositories y adaptadores externos
+
+📖 **[Ver documentación completa de arquitectura](./docs/architecture.md)**
+
+## 🚀 Tecnologías
+
+- **Framework:** NestJS 10.x
+- **Base de Datos:** PostgreSQL (AWS RDS)
+- **ORM:** TypeORM 0.3.x
+- **Lenguaje:** TypeScript
+- **Validación:** Class-validator
+- **Testing:** Jest
+- **Linting:** ESLint + Prettier
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── 📁 common/              # Elementos compartidos
+├── 📁 config/              # Configuraciones
+├── 📁 shared/              # DTOs, utils compartidos
+├── 📁 modules/             # Módulos de dominio
+│   └── 📁 users/           # Módulo de usuarios
+│       ├── domain/         # Entidades y reglas de negocio
+│       ├── application/    # Casos de uso y DTOs
+│       └── infrastructure/ # Controllers y repositories
+└── 📁 scripts/             # Scripts de utilidades
 ```
 
-## Compile and run the project
+## ⚡ Instalación y Configuración
+
+### 1. Clonar repositorio
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/Reviviendo-Planes-Proyectos/almuerzos-peru-back.git
+cd almuerzos-peru-back
 ```
 
-## Run tests
+### 2. Instalar dependencias
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 3. Configurar variables de entorno
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Copiar archivo de ejemplo
+cp .env.example .env
+
+# Editar con tus datos de base de datos
+DB_HOST=your-database-host
+DB_PORT=5432
+DB_USERNAME=your-username
+DB_PASSWORD=your-password
+DB_NAME=your-database-name
+DB_SSL=true
+
+NODE_ENV=development
+PORT=3000
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 4. Verificar conexión a base de datos
 
-## Resources
+```bash
+npm run db:check
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🔧 Scripts Disponibles
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Desarrollo
 
-## Support
+```bash
+# Modo desarrollo con watch
+npm run start:dev
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Modo desarrollo normal
+npm run start
 
-## Stay in touch
+# Modo producción
+npm run start:prod
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Base de Datos
 
-## License
+```bash
+# Verificar conexión
+npm run db:check
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Probar funcionalidad completa
+npm run db:test
+```
+
+### Calidad de Código
+
+```bash
+# Formatear código
+npm run format
+
+# Linting
+npm run lint
+
+# Construir proyecto
+npm run build
+```
+
+### Testing
+
+```bash
+# Tests unitarios
+npm run test
+
+# Tests en modo watch
+npm run test:watch
+
+# Tests con cobertura
+npm run test:cov
+
+# Tests end-to-end
+npm run test:e2e
+```
+
+## 🌐 API Endpoints
+
+### Usuarios
+
+- `GET /users` - Listar todos los usuarios
+- `GET /users/:id` - Obtener usuario por ID
+- `POST /users` - Crear nuevo usuario
+- `PUT /users/:id` - Actualizar usuario
+- `DELETE /users/:id` - Eliminar usuario
+
+### Ejemplo de uso
+
+```bash
+# Listar usuarios
+curl http://localhost:3000/users
+
+## 🌐 API Endpoints
+
+La API está disponible en: **`http://localhost:3000/api/v1`**
+
+### 🏠 Endpoints Principales
+
+#### Health Check
+```bash
+GET /api/v1/health
+```
+
+#### Información de la API
+```bash
+GET /api/v1
+```
+
+### 👥 Usuarios (CRUD Completo)
+
+#### Listar todos los usuarios
+```bash
+GET /api/v1/users
+```
+
+#### Obtener usuario por ID
+```bash
+GET /api/v1/users/:id
+```
+
+#### Crear nuevo usuario
+```bash
+POST /api/v1/users
+Content-Type: application/json
+
+{
+  "name": "Juan Pérez",
+  "email": "juan@ejemplo.com",
+  "phone": "+51999888777"
+}
+```
+
+#### Actualizar usuario
+```bash
+PUT /api/v1/users/:id
+Content-Type: application/json
+
+{
+  "name": "Juan Carlos Pérez",
+  "phone": "+51987654321"
+}
+```
+
+#### Eliminar usuario
+```bash
+DELETE /api/v1/users/:id
+```
+
+### 📝 Formato de Respuesta
+
+Todas las respuestas siguen el formato estándar:
+
+```json
+{
+  "success": true,
+  "message": "Operación exitosa",
+  "data": { /* datos de respuesta */ },
+  "timestamp": "2025-07-21T16:40:30.263Z",
+  "path": "/api/v1/users"
+}
+```
+
+## 🔬 Ejemplos de Uso
+
+### Crear usuario con validaciones
+```bash
+# Crear usuario
+curl -X POST http://localhost:3000/api/v1/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Juan Pérez",
+    "email": "juan@ejemplo.com",
+    "phone": "+51999888777"
+  }'
+
+# Respuesta exitosa
+{
+  "success": true,
+  "message": "Operación exitosa",
+  "data": {
+    "email": "juan@ejemplo.com",
+    "name": "Juan Pérez",
+    "phone": "+51999888777",
+    "isActive": true
+  },
+  "timestamp": "2025-07-21T16:40:30.263Z",
+  "path": "/api/v1/users"
+}
+```
+
+### Manejo de errores
+```bash
+# Email inválido
+curl -X POST http://localhost:3000/api/v1/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test",
+    "email": "email-invalido",
+    "phone": "+51999888777"
+  }'
+
+# Respuesta de error
+{
+  "statusCode": 400,
+  "message": ["El email debe tener un formato válido"],
+  "error": "Bad Request"
+}
+```
+
+## 🧪 Testing y Verificación
+
+### Tests Unitarios
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Tests con watch mode
+npm run test:watch
+
+# Tests con cobertura
+npm run test:cov
+```
+
+### Test de funcionalidad completa
+```bash
+npm run db:test
+```
+
+Este comando ejecuta una prueba completa que:
+- ✅ Verifica conexión a base de datos
+- ✅ Crea usuarios de prueba
+- ✅ Realiza operaciones CRUD
+- ✅ Valida reglas de negocio
+
+### Verificación manual de la API
+```bash
+# Health check
+curl http://localhost:3000/api/v1/health
+
+# Listar usuarios
+curl http://localhost:3000/api/v1/users
+
+# Información de la API
+curl http://localhost:3000/api/v1
+```
+
+## 🐳 Docker
+
+### Desarrollo con Docker Compose
+```bash
+# Levantar toda la aplicación
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Parar servicios
+docker-compose down
+```
+
+### Build para producción
+```bash
+# Construir imagen
+docker build -t almuerzos-peru-api .
+
+# Ejecutar contenedor
+docker run -p 3000:3000 \
+  -e DB_HOST=your-db-host \
+  -e DB_PASSWORD=your-password \
+  almuerzos-peru-api
+```
+
+## 📊 Estado del Proyecto v1.0.0
+
+### ✅ Completado
+
+- [x] **Arquitectura:** Clean Architecture implementada
+- [x] **API REST:** Endpoints con versionado `/api/v1`
+- [x] **Base de Datos:** PostgreSQL + TypeORM configurado
+- [x] **Validaciones:** Class-validator implementado
+- [x] **Tests:** Unitarios para módulo Users
+- [x] **Calidad:** ESLint + Prettier configurado
+- [x] **Documentación:** README + Architecture.md completos
+- [x] **Docker:** Dockerfile + docker-compose ready
+- [x] **Logging:** Middleware HTTP + manejo de errores
+- [x] **CORS:** Configurado para frontend
+- [x] **TypeScript:** Strict mode habilitado
+
+### 🔄 En Desarrollo (v1.1.0)
+
+- [ ] Módulo de restaurantes
+- [ ] Módulo de pedidos (orders)
+- [ ] Sistema de autenticación JWT
+- [ ] Swagger/OpenAPI documentation
+- [ ] Rate limiting
+- [ ] Pipeline CI/CD
+
+### 📋 Roadmap Futuro
+
+#### v1.2.0 - Features Avanzadas
+- [ ] Módulo de menús y categorías
+- [ ] Sistema de notificaciones
+- [ ] Geolocalización
+- [ ] Dashboard de administración
+
+#### v2.0.0 - Enterprise
+- [ ] Microservicios architecture
+- [ ] Event sourcing
+- [ ] Analytics y Business Intelligence
+- [ ] Integración con sistemas de pago
+- [ ] Integración con pasarelas de pago
+- [ ] Dashboard administrativo
+- [ ] Sistema de reviews
+
+## 🛠️ Solución de Problemas
+
+### Error de crypto
+
+Si encuentras errores relacionados con `crypto is not defined`:
+
+```bash
+# El proyecto incluye un polyfill automático
+# Verificar que esté importado en main.ts
+import './crypto-polyfill';
+```
+
+### Problemas de conexión BD
+
+```bash
+# Verificar variables de entorno
+npm run db:check
+
+# Revisar logs de conexión
+npm run start:dev
+```
+
+### Errores de formato
+
+```bash
+# Formatear automáticamente
+npm run format
+
+# Corregir linting
+npm run lint
+```

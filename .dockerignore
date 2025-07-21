@@ -1,0 +1,54 @@
+# Dependencias
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de desarrollo
+.env
+.env.local
+.env.development
+.env.production
+
+# Archivos de construcción
+dist
+build
+coverage
+
+# Archivos de control de versiones
+.git
+.gitignore
+.gitattributes
+
+# Archivos de configuración IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+logs
+*.log
+
+# Archivos de testing
+coverage
+.nyc_output
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentación
+README.md
+CHANGELOG.md
+ARCHITECTURE.md
+docs/
+
+# Scripts de desarrollo
+scripts/
+.husky/

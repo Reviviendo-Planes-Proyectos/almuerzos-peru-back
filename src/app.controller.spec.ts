@@ -15,8 +15,22 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return API information', () => {
+      const result = appController.getHello();
+      expect(result).toHaveProperty('message', '🍽️ API de Almuerzos Perú');
+      expect(result).toHaveProperty('version', '1.0.0');
+      expect(result).toHaveProperty('status', 'active');
+      expect(result).toHaveProperty('timestamp');
+    });
+  });
+
+  describe('health', () => {
+    it('should return health status', () => {
+      const result = appController.getHealth();
+      expect(result).toHaveProperty('status', 'ok');
+      expect(result).toHaveProperty('version', '1.0.0');
+      expect(result).toHaveProperty('uptime');
+      expect(result).toHaveProperty('timestamp');
     });
   });
 });
