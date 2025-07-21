@@ -25,11 +25,13 @@ Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **Nes
 
 ## 🏗️ Arquitectura
 
-Este proyecto sigue los principios de **Clean Architecture + Modular Structure**:
+Este proyecto implementa **Arquitectura Hexagonal (Ports & Adapters)** con estructura modular:
 
-- **🟢 Domain Layer:** Entidades y reglas de negocio puras
+- **🟢 Domain Layer:** Entidades y lógica de negocio central
 - **🔵 Application Layer:** Casos de uso y orquestación
-- **🟡 Infrastructure Layer:** Controllers, repositories y adaptadores externos
+- **🟡 Infrastructure Layer:** Adaptadores externos (controllers, repositories, entidades ORM)
+
+La arquitectura hexagonal permite que el núcleo de negocio sea independiente de frameworks y tecnologías externas, facilitando la escalabilidad, testeo y mantenibilidad.
 
 📖 **[Ver documentación completa de arquitectura](./docs/architecture.md)**
 
