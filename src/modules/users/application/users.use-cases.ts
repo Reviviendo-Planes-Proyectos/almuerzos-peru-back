@@ -8,7 +8,7 @@ export class UsersUseCases {
   constructor(
     @Inject('IUserRepository')
     private readonly userRepository: IUserRepository,
-  ) { }
+  ) {}
 
   async getAllUsers(): Promise<UserResponseDto[]> {
     const users = await this.userRepository.findAll();
