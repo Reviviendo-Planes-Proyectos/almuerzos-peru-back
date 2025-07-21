@@ -24,7 +24,6 @@
     "db:test": "ts-node src/scripts/test-typeorm.ts",
     "typecheck": "tsc --noEmit",
     "precommit": "npm run lint:check && npm run format:check && npm run typecheck",
-    "prepare": "npm run build",
     "version": "npm run format && npm run lint && git add -A"
   },
   "dependencies": {
