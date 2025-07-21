@@ -1,7 +1,7 @@
 import '../crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
-import { UsersService } from '../users/users.service';
+import { UsersUseCases } from '../modules/users/application/users.use-cases';
 
 async function testTypeORM() {
   console.log('🧪 Iniciando prueba de TypeORM...\n');
@@ -12,11 +12,11 @@ async function testTypeORM() {
       logger: false,
     });
 
-    const usersService = app.get(UsersService);
+    const usersUseCases = app.get(UsersUseCases);
 
     // 🔍 Paso 1: Verificar tabla vacía
     console.log('1️⃣ Verificando usuarios existentes...');
-    const existingUsers = await usersService.findAll();
+    const existingUsers = await usersUseCases.getAllUsers();
     console.log(`   📊 Usuarios encontrados: ${existingUsers.length}`);
     if (existingUsers.length > 0) {
       console.log(
@@ -27,7 +27,7 @@ async function testTypeORM() {
 
     // 🆕 Paso 2: Crear un usuario de prueba
     console.log('\n2️⃣ Creando usuario de prueba...');
-    const newUser = await usersService.create({
+    const newUser = await usersUseCases.createUser({
       name: 'Usuario Prueba',
       email: `test_${Date.now()}@ejemplo.com`,
       phone: '+51 999 888 777',
@@ -36,14 +36,14 @@ async function testTypeORM() {
 
     // 🔍 Paso 3: Buscar el usuario creado
     console.log('\n3️⃣ Buscando usuario por ID...');
-    const foundUser = await usersService.findOne(newUser.id);
+    const foundUser = await usersUseCases.getUserById(newUser.id);
     console.log(
       `   🔎 Usuario encontrado: ${foundUser.name} - ${foundUser.email}`,
     );
 
     // ✏️ Paso 4: Actualizar el usuario
     console.log('\n4️⃣ Actualizando usuario...');
-    const updatedUser = await usersService.update(newUser.id, {
+    const updatedUser = await usersUseCases.updateUser(newUser.id, {
       name: 'Usuario Actualizado',
       phone: '+51 111 222 333',
     });
@@ -51,7 +51,7 @@ async function testTypeORM() {
 
     // 📋 Paso 5: Listar todos los usuarios
     console.log('\n5️⃣ Listando todos los usuarios...');
-    const allUsers = await usersService.findAll();
+    const allUsers = await usersUseCases.getAllUsers();
     console.log(`   📊 Total de usuarios: ${allUsers.length}`);
     allUsers.forEach((user, index) => {
       console.log(
