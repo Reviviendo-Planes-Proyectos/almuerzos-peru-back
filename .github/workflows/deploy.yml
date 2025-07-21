@@ -1,9 +1,9 @@
-name: 🚀 Deploy NestJS to Fly.io
+name: Deploy to Fly.io
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:

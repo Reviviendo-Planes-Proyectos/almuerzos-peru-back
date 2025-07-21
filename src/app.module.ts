@@ -34,7 +34,7 @@ import { ResponseInterceptor } from './shared/interceptors/response.interceptor'
                 require: true,
               }
             : false,
-          synchronize: true,
+          synchronize: configService.get('NODE_ENV') !== 'production',
           autoLoadEntities: true,
         };
 
