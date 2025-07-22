@@ -76,4 +76,25 @@ describe('runUserTests', () => {
     const result = await runUserTests();
     expect(result).toBe(false);
   });
+
+  it('❌ debería loggear código y detalle de error si existen', async () => {
+    const error = new Error('Error con código y detalle') as any;
+    error.code = 'ERR123';
+    error.detail = 'Detalle del error';
+
+    (NestFactory.create as jest.Mock).mockRejectedValueOnce(error);
+
+    const result = await runUserTests();
+    expect(result).toBe(false);
+  });
+
+  it('❌ debería loggear "No disponible" si error no tiene detail', async () => {
+    const error = new Error('Error sin detalle') as any;
+    error.code = 'ERR456';
+
+    (NestFactory.create as jest.Mock).mockRejectedValueOnce(error);
+
+    const result = await runUserTests();
+    expect(result).toBe(false);
+  });
 });

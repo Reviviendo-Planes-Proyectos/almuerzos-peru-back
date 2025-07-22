@@ -56,4 +56,14 @@ describe('checkDatabaseConnection', () => {
 
     expect(mockDataSource.query).toHaveBeenCalledWith('SELECT NOW() as current_time');
   });
+
+  it('❌ debe retornar false si falla la consulta SELECT NOW()', async () => {
+    mockDataSource.isInitialized = true;
+    mockDataSource.query = jest.fn().mockRejectedValue(new Error('Error en SELECT NOW()'));
+
+    const result = await checkDatabaseConnection();
+
+    expect(result).toBe(false);
+    expect(mockError).toHaveBeenCalledWith(expect.stringContaining('Error en SELECT NOW()'));
+  });
 });
