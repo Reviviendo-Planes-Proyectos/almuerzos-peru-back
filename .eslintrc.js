@@ -19,6 +19,7 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js', 'dist/', 'node_modules/'],
   rules: {
+    '@typescript-eslint/no-require-imports': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
