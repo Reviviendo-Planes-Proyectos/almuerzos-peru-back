@@ -1,4 +1,4 @@
-import { ResponseInterceptor, ApiResponse } from './response.interceptor';
+import { ResponseInterceptor, ApiResponse } from '../response.interceptor';
 import { ExecutionContext, CallHandler } from '@nestjs/common';
 import { of } from 'rxjs';
 

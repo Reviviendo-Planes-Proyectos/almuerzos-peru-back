@@ -1,5 +1,5 @@
-import { LoggerMiddleware } from './logger.middleware';
 import { Request, Response } from 'express';
+import { LoggerMiddleware } from '../logger.middleware';
 
 describe('LoggerMiddleware', () => {
   let middleware: LoggerMiddleware;

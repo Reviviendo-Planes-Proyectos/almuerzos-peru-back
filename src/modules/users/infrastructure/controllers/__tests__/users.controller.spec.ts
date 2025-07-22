@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
-import { UsersUseCases } from '../../application/users.use-cases';
 import { HttpException } from '@nestjs/common';
+import { UsersController } from '../users.controller';
+import { UsersUseCases } from '../../../application/users.use-cases';
 
 describe('UsersController', () => {
   let controller: UsersController;

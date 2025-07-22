@@ -1,4 +1,4 @@
-import { databaseConfig } from './database.config';
+import { databaseConfig } from '../database.config';
 
 describe('databaseConfig', () => {
   it('debería tener las propiedades necesarias', () => {

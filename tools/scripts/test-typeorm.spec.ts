@@ -1,6 +1,6 @@
 import { runUserTests } from './test-typeorm';
 import { NestFactory } from '@nestjs/core';
-import { UsersUseCases } from '../modules/users/application/users.use-cases';
+import { UsersUseCases } from '../../src/modules/users/application/users.use-cases';
 
 jest.mock('@nestjs/core', () => ({
   NestFactory: {

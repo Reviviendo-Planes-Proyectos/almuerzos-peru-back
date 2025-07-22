@@ -1,4 +1,4 @@
-import { UserEntity } from './user.entity';
+import { UserEntity } from '../user.entity';
 
 describe('UserEntity', () => {
   it('debería crear una instancia con los valores requeridos', () => {
