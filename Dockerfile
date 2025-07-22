@@ -15,7 +15,7 @@ FROM node:18-alpine AS production
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
 COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
 
