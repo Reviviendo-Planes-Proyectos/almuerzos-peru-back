@@ -12,9 +12,9 @@ import { UsersController } from './infrastructure/controllers/users.controller';
     UsersUseCases,
     {
       provide: 'IUserRepository',
-      useClass: TypeOrmUserRepository,
-    },
+      useClass: TypeOrmUserRepository
+    }
   ],
-  exports: [UsersUseCases, 'IUserRepository'],
+  exports: [UsersUseCases, 'IUserRepository']
 })
 export class UsersModule {}

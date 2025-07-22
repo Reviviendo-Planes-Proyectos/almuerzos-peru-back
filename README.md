@@ -165,7 +165,7 @@ npm run test:e2e
 
 ### Ejemplo de uso
 
-```bash
+````bash
 # Listar usuarios
 curl http://localhost:3000/users
 
@@ -178,9 +178,10 @@ La API está disponible en: **`http://localhost:3000/api/v1`**
 #### Health Check
 ```bash
 GET /api/v1/health
-```
+````
 
 #### Información de la API
+
 ```bash
 GET /api/v1
 ```
@@ -188,16 +189,19 @@ GET /api/v1
 ### 👥 Usuarios (CRUD Completo)
 
 #### Listar todos los usuarios
+
 ```bash
 GET /api/v1/users
 ```
 
 #### Obtener usuario por ID
+
 ```bash
 GET /api/v1/users/:id
 ```
 
 #### Crear nuevo usuario
+
 ```bash
 POST /api/v1/users
 Content-Type: application/json
@@ -210,6 +214,7 @@ Content-Type: application/json
 ```
 
 #### Actualizar usuario
+
 ```bash
 PUT /api/v1/users/:id
 Content-Type: application/json
@@ -221,6 +226,7 @@ Content-Type: application/json
 ```
 
 #### Eliminar usuario
+
 ```bash
 DELETE /api/v1/users/:id
 ```
@@ -233,7 +239,9 @@ Todas las respuestas siguen el formato estándar:
 {
   "success": true,
   "message": "Operación exitosa",
-  "data": { /* datos de respuesta */ },
+  "data": {
+    /* datos de respuesta */
+  },
   "timestamp": "2025-07-21T16:40:30.263Z",
   "path": "/api/v1/users"
 }
@@ -242,6 +250,7 @@ Todas las respuestas siguen el formato estándar:
 ## 🔬 Ejemplos de Uso
 
 ### Crear usuario con validaciones
+
 ```bash
 # Crear usuario
 curl -X POST http://localhost:3000/api/v1/users \
@@ -268,6 +277,7 @@ curl -X POST http://localhost:3000/api/v1/users \
 ```
 
 ### Manejo de errores
+
 ```bash
 # Email inválido
 curl -X POST http://localhost:3000/api/v1/users \
@@ -289,6 +299,7 @@ curl -X POST http://localhost:3000/api/v1/users \
 ## 🧪 Testing y Verificación
 
 ### Tests Unitarios
+
 ```bash
 # Ejecutar todos los tests
 npm test
@@ -301,17 +312,20 @@ npm run test:cov
 ```
 
 ### Test de funcionalidad completa
+
 ```bash
 npm run db:test
 ```
 
 Este comando ejecuta una prueba completa que:
+
 - ✅ Verifica conexión a base de datos
 - ✅ Crea usuarios de prueba
 - ✅ Realiza operaciones CRUD
 - ✅ Valida reglas de negocio
 
 ### Verificación manual de la API
+
 ```bash
 # Health check
 curl http://localhost:3000/api/v1/health
@@ -326,6 +340,7 @@ curl http://localhost:3000/api/v1
 ## 🐳 Docker
 
 ### Desarrollo con Docker Compose
+
 ```bash
 # Levantar toda la aplicación
 docker-compose up -d
@@ -338,6 +353,7 @@ docker-compose down
 ```
 
 ### Build para producción
+
 ```bash
 # Construir imagen
 docker build -t almuerzos-peru-api .
@@ -377,12 +393,14 @@ docker run -p 3000:3000 \
 ### 📋 Roadmap Futuro
 
 #### v1.2.0 - Features Avanzadas
+
 - [ ] Módulo de menús y categorías
 - [ ] Sistema de notificaciones
 - [ ] Geolocalización
 - [ ] Dashboard de administración
 
 #### v2.0.0 - Enterprise
+
 - [ ] Microservicios architecture
 - [ ] Event sourcing
 - [ ] Analytics y Business Intelligence

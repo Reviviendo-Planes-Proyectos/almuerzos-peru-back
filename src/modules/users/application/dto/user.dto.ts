@@ -6,7 +6,7 @@ import {
   IsPhoneNumber,
   MinLength,
   MaxLength,
-  IsNotEmpty,
+  IsNotEmpty
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -22,7 +22,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsPhoneNumber('PE', {
-    message: 'El teléfono debe ser un número válido de Perú',
+    message: 'El teléfono debe ser un número válido de Perú'
   })
   phone?: string;
 }
@@ -36,7 +36,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsPhoneNumber('PE', {
-    message: 'El teléfono debe ser un número válido de Perú',
+    message: 'El teléfono debe ser un número válido de Perú'
   })
   phone?: string;
 

@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -8,11 +8,13 @@ import { UsersModule } from './modules/users/users.module';
 import { LoggerMiddleware } from './shared/middleware/logger.middleware';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 
+const logger = new Logger('TypeORM');
+
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '.env'
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -30,38 +32,28 @@ import { ResponseInterceptor } from './shared/interceptors/response.interceptor'
           ssl: sslEnabled
             ? {
                 rejectUnauthorized: false,
-                // Especificar configuración SSL explícita para evitar problemas con crypto
-                require: true,
+                require: true
               }
             : false,
           synchronize: configService.get('NODE_ENV') !== 'production',
-          autoLoadEntities: true,
+          autoLoadEntities: true
         };
 
-        console.log('🔧 TypeORM Config:', {
-          host: config.host,
-          port: config.port,
-          username: config.username,
-          password: config.password
-            ? '***' + config.password.slice(-3)
-            : 'undefined',
-          database: config.database,
-        });
-
+        logger.log(`🔧 Conectando a DB: ${config.host}:${config.port} - ${config.database}`);
         return config;
       },
-      inject: [ConfigService],
+      inject: [ConfigService]
     }),
-    UsersModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor,
-    },
-  ],
+      useClass: ResponseInterceptor
+    }
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

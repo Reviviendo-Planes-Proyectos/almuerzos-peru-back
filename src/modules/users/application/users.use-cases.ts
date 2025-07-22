@@ -7,7 +7,7 @@ import { CreateUserDto, UpdateUserDto, UserResponseDto } from './dto/user.dto';
 export class UsersUseCases {
   constructor(
     @Inject('IUserRepository')
-    private readonly userRepository: IUserRepository,
+    private readonly userRepository: IUserRepository
   ) {}
 
   async getAllUsers(): Promise<UserResponseDto[]> {
@@ -25,9 +25,7 @@ export class UsersUseCases {
     const userData = User.create(createUserDto);
 
     // Check if email already exists
-    const existingUser = await this.userRepository.findByEmail(
-      createUserDto.email,
-    );
+    const existingUser = await this.userRepository.findByEmail(createUserDto.email);
     if (existingUser) {
       throw new Error('Email already exists');
     }
@@ -37,10 +35,7 @@ export class UsersUseCases {
     return this.toResponseDto(newUser);
   }
 
-  async updateUser(
-    id: number,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserResponseDto | null> {
+  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<UserResponseDto | null> {
     // Check if user exists
     const existingUser = await this.userRepository.findById(id);
     if (!existingUser) {
@@ -70,7 +65,7 @@ export class UsersUseCases {
       phone: user.phone,
       isActive: user.isActive,
       createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      updatedAt: user.updatedAt
     };
   }
 }
