@@ -22,12 +22,12 @@ export class User implements IUser {
   // Domain business rules
   static create(data: { email: string; name: string; phone?: string }): Omit<IUser, 'id' | 'createdAt' | 'updatedAt'> {
     // Business rule: Email must be valid
-    if (!data.email || !data.email.includes('@')) {
+    if (!data.email?.includes('@')) {
       throw new Error('Email must be valid');
     }
 
     // Business rule: Name must not be empty
-    if (!data.name || data.name.trim().length === 0) {
+    if (!data.name?.trim()) {
       throw new Error('Name is required');
     }
 
