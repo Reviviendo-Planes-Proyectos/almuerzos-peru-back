@@ -1,18 +1,17 @@
-// Polyfill para crypto en Node.js
 import * as nodeCrypto from 'crypto';
 
-// Si no existe crypto global, lo definimos
 if (typeof globalThis.crypto === 'undefined') {
-  // Polyfill básico para Web Crypto API en Node.js
-  globalThis.crypto = {
-    getRandomValues: (arr: any) => {
-      const buffer = nodeCrypto.randomBytes(arr.length);
-      arr.set(buffer);
+  const cryptoPolyfill: Crypto = {
+    getRandomValues: <T extends ArrayBufferView>(arr: T): T => {
+      const buffer = nodeCrypto.randomBytes(arr.byteLength);
+      new Uint8Array(arr.buffer, arr.byteOffset, arr.byteLength).set(buffer);
       return arr;
     },
     randomUUID: () => nodeCrypto.randomUUID(),
-    subtle: {} as any, // Stub para crypto.subtle
-  } as any;
+    subtle: {} as SubtleCrypto
+  };
+
+  globalThis.crypto = cryptoPolyfill;
 }
 
 export {};

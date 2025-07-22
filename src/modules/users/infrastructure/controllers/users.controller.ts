@@ -8,7 +8,7 @@ import {
   Param,
   HttpException,
   HttpStatus,
-  ParseIntPipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { UsersUseCases } from '../../application/users.use-cases';
 import { CreateUserDto, UpdateUserDto } from '../../application/dto/user.dto';
@@ -53,10 +53,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
       const user = await this.usersUseCases.updateUser(id, updateUserDto);
       if (!user) {

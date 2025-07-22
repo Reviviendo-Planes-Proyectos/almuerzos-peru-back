@@ -8,15 +8,7 @@ const dbConfig: TypeOrmModuleOptions = {
   password: String(process.env.DB_PASSWORD),
   database: process.env.DB_NAME,
   synchronize: true,
-  autoLoadEntities: true,
+  autoLoadEntities: true
 };
-
-console.log('📦 DB CONFIG:', {
-  host: dbConfig.host,
-  port: dbConfig.port,
-  username: dbConfig.username,
-  password: '***' + String(process.env.DB_PASSWORD).slice(-3),
-  database: dbConfig.database,
-});
 
 export const databaseConfig = dbConfig;

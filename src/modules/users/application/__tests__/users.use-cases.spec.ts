@@ -1,12 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersUseCases } from './users.use-cases';
-import { IUserRepository } from '../domain/user.repository.interface';
-import { User } from '../domain/user.entity';
+import { UsersUseCases } from '../users.use-cases';
+import { User } from '../../domain/user.entity';
 
 describe('UsersUseCases', () => {
   let usersUseCases: UsersUseCases;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let userRepository: IUserRepository;
 
   const mockUserRepository = {
     findAll: jest.fn(),
@@ -14,7 +11,7 @@ describe('UsersUseCases', () => {
     findByEmail: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
-    delete: jest.fn(),
+    delete: jest.fn()
   };
 
   beforeEach(async () => {
@@ -23,13 +20,12 @@ describe('UsersUseCases', () => {
         UsersUseCases,
         {
           provide: 'IUserRepository',
-          useValue: mockUserRepository,
-        },
-      ],
+          useValue: mockUserRepository
+        }
+      ]
     }).compile();
 
     usersUseCases = module.get<UsersUseCases>(UsersUseCases);
-    userRepository = module.get<IUserRepository>('IUserRepository');
   });
 
   beforeEach(() => {
@@ -40,7 +36,7 @@ describe('UsersUseCases', () => {
     it('should return all users', async () => {
       const mockUsers = [
         User.create({ email: 'test1@example.com', name: 'Test User 1' }),
-        User.create({ email: 'test2@example.com', name: 'Test User 2' }),
+        User.create({ email: 'test2@example.com', name: 'Test User 2' })
       ];
       mockUserRepository.findAll.mockResolvedValue(mockUsers);
 
@@ -55,7 +51,7 @@ describe('UsersUseCases', () => {
     it('should return user by id', async () => {
       const mockUser = User.create({
         email: 'test@example.com',
-        name: 'Test User',
+        name: 'Test User'
       });
       mockUserRepository.findById.mockResolvedValue(mockUser);
 
@@ -80,13 +76,13 @@ describe('UsersUseCases', () => {
       const createUserDto = {
         email: 'test@example.com',
         name: 'Test User',
-        phone: '+51987654321',
+        phone: '+51987654321'
       };
 
       const mockUser = User.create({
         email: createUserDto.email,
         name: createUserDto.name,
-        phone: createUserDto.phone,
+        phone: createUserDto.phone
       });
       mockUserRepository.findByEmail.mockResolvedValue(null);
       mockUserRepository.create.mockResolvedValue(mockUser);
@@ -94,32 +90,24 @@ describe('UsersUseCases', () => {
       const result = await usersUseCases.createUser(createUserDto);
 
       expect(result).toEqual(mockUser);
-      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
-        createUserDto.email,
-      );
-      expect(mockUserRepository.create).toHaveBeenCalledWith(
-        expect.any(Object),
-      );
+      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(createUserDto.email);
+      expect(mockUserRepository.create).toHaveBeenCalledWith(expect.any(Object));
     });
 
     it('should throw error if email already exists', async () => {
       const createUserDto = {
         email: 'existing@example.com',
-        name: 'Test User',
+        name: 'Test User'
       };
 
       const existingUser = User.create({
         email: 'existing@example.com',
-        name: 'Existing User',
+        name: 'Existing User'
       });
       mockUserRepository.findByEmail.mockResolvedValue(existingUser);
 
-      await expect(usersUseCases.createUser(createUserDto)).rejects.toThrow(
-        'Email already exists',
-      );
-      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
-        createUserDto.email,
-      );
+      await expect(usersUseCases.createUser(createUserDto)).rejects.toThrow('Email already exists');
+      expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(createUserDto.email);
       expect(mockUserRepository.create).not.toHaveBeenCalled();
     });
   });
@@ -129,11 +117,11 @@ describe('UsersUseCases', () => {
       const updateUserDto = { name: 'Updated Name' };
       const existingUser = User.create({
         email: 'test@example.com',
-        name: 'Test User',
+        name: 'Test User'
       });
       const updatedUser = User.create({
         email: 'test@example.com',
-        name: 'Updated Name',
+        name: 'Updated Name'
       });
 
       mockUserRepository.findById.mockResolvedValue(existingUser);
@@ -160,7 +148,7 @@ describe('UsersUseCases', () => {
     it('should delete user', async () => {
       const existingUser = User.create({
         email: 'test@example.com',
-        name: 'Test User',
+        name: 'Test User'
       });
       mockUserRepository.findById.mockResolvedValue(existingUser);
       mockUserRepository.delete.mockResolvedValue(undefined);
@@ -174,9 +162,7 @@ describe('UsersUseCases', () => {
     it('should throw error if user not found', async () => {
       mockUserRepository.findById.mockResolvedValue(null);
 
-      await expect(usersUseCases.deleteUser(999)).rejects.toThrow(
-        'User not found',
-      );
+      await expect(usersUseCases.deleteUser(999)).rejects.toThrow('User not found');
       expect(mockUserRepository.delete).not.toHaveBeenCalled();
     });
   });
