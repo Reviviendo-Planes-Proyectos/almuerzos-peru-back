@@ -1,11 +1,12 @@
 import './crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   try {
-    console.log('🚀 Iniciando aplicación NestJS...');
+    logger.log('🚀 Iniciando aplicación NestJS...');
     const app = await NestFactory.create(AppModule, {
       logger: ['error', 'warn', 'log', 'debug', 'verbose']
     });
@@ -36,10 +37,11 @@ async function bootstrap() {
     const port = process.env.PORT ?? 3000;
     await app.listen(port, '0.0.0.0'); // ← clave para Fly.io
 
-    console.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`);
-    console.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`);
+    logger.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`);
+    logger.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`);
   } catch (error) {
-    console.error('❌ Error iniciando la aplicación:', error);
+    const logger = new Logger('BootstrapError');
+    logger.error('❌ Error iniciando la aplicación', error.stack || error.message);
     process.exit(1);
   }
 }

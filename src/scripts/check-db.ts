@@ -2,9 +2,10 @@ import '../crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../app.module';
 import { DataSource } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
-async function checkDatabaseConnection() {
-  console.log('🔍 Verificando conexión a la base de datos...');
+export async function checkDatabaseConnection(): Promise<boolean> {
+  const logger = new Logger('DBCheck');
 
   try {
     const app = await NestFactory.create(AppModule, {
@@ -13,24 +14,30 @@ async function checkDatabaseConnection() {
 
     const dataSource = app.get(DataSource);
 
-    if (dataSource.isInitialized) {
-      console.log('✅ Conexión exitosa');
-      console.log(`📊 Base de datos: ${(dataSource.options as any).database}`);
-      console.log(`🏠 Host: ${(dataSource.options as any).host}`);
-
-      // Consulta de prueba
-      const result = await dataSource.query('SELECT NOW() as current_time');
-      console.log(`⏰ Tiempo servidor: ${result[0].current_time}`);
-    } else {
-      console.log('❌ Conexión fallida');
+    if (!dataSource.isInitialized) {
+      logger.error('❌ Conexión fallida');
+      await app.close();
+      return false;
     }
 
+    logger.log('✅ Conexión exitosa');
+    logger.log(`📊 Base de datos: ${(dataSource.options as any).database}`);
+    logger.log(`🏠 Host: ${(dataSource.options as any).host}`);
+
+    const result = await dataSource.query('SELECT NOW() as current_time');
+    logger.log(`⏰ Tiempo servidor: ${result[0].current_time}`);
+
     await app.close();
-    console.log('✅ Verificación completada');
-  } catch (error) {
-    console.error('❌ Error:', error.message);
-    process.exit(1);
+    logger.log('✅ Verificación completada');
+    return true;
+  } catch (error: any) {
+    logger.error('❌ Error: ' + error.message);
+    return false;
   }
 }
 
-checkDatabaseConnection();
+if (require.main === module) {
+  checkDatabaseConnection().then((success) => {
+    if (!success) process.exit(1);
+  });
+}
