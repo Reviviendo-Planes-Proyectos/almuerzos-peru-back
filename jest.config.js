@@ -1,25 +1,27 @@
 module.exports = {
-  moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: 'src',
+  moduleFileExtensions: ['ts', 'js', 'json'],
   testRegex: '.*\\.spec\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest'
   },
+  testEnvironment: 'node',
+  verbose: true,
+  coverageDirectory: '../coverage',
   collectCoverageFrom: [
     '**/*.(t|j)s',
     '!**/*.module.ts',
     '!**/main.ts',
     '!**/interfaces/**',
-    '!**/mocks/**',
-    '!**/dto/**'
+    '!**/dto/**',
+    '!**/__mocks__/**',
+    '!**/config/**',
+    '!**/constants/**'
   ],
-  coverageDirectory: '../coverage',
-  testEnvironment: 'node',
-  verbose: true,
   coverageReporters: ['text', 'lcov', 'json-summary', 'text-summary'],
   coverageThreshold: {
     global: {
-      branches: 75,
+      branches: 80,
       functions: 80,
       lines: 80,
       statements: 80

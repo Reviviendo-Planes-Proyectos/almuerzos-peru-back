@@ -1,7 +1,7 @@
-import '../crypto-polyfill';
+import '../../src/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../app.module';
-import { UsersUseCases } from '../modules/users/application/users.use-cases';
+import { AppModule } from '../../src/app.module';
+import { UsersUseCases } from '../../src/modules/users/application/users.use-cases';
 import { Logger } from '@nestjs/common';
 
 const logger = new Logger('TypeORMTest');

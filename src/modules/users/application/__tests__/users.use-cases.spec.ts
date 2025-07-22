@@ -1,12 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersUseCases } from './users.use-cases';
-import { IUserRepository } from '../domain/user.repository.interface';
-import { User } from '../domain/user.entity';
+import { UsersUseCases } from '../users.use-cases';
+import { User } from '../../domain/user.entity';
 
 describe('UsersUseCases', () => {
   let usersUseCases: UsersUseCases;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let userRepository: IUserRepository;
 
   const mockUserRepository = {
     findAll: jest.fn(),
@@ -29,7 +26,6 @@ describe('UsersUseCases', () => {
     }).compile();
 
     usersUseCases = module.get<UsersUseCases>(UsersUseCases);
-    userRepository = module.get<IUserRepository>('IUserRepository');
   });
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
-import '../crypto-polyfill';
+import '../../src/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../app.module';
+import { AppModule } from '../../src/app.module';
 import { DataSource } from 'typeorm';
 import { Logger } from '@nestjs/common';
 

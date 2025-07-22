@@ -14,10 +14,8 @@ FROM node:18-alpine AS production
 
 WORKDIR /app
 
-RUN addgroup -g 1001 -S nodejs && adduser -u 1001 -S node --ingroup nodejs
-
 COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 
 COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
 

@@ -2,9 +2,11 @@ import './crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { DataSource } from 'typeorm';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
+
   try {
     logger.log('🚀 Iniciando aplicación NestJS...');
     const app = await NestFactory.create(AppModule, {
@@ -35,7 +37,15 @@ async function bootstrap() {
     app.setGlobalPrefix('api');
 
     const port = process.env.PORT ?? 3000;
-    await app.listen(port, '0.0.0.0'); // ← clave para Fly.io
+    const dataSource = app.get(DataSource);
+
+    await app.listen(port, '0.0.0.0');
+
+    if (dataSource.isInitialized) {
+      logger.log(`✅ Base de datos conectada: ${String(dataSource.options.database)}`);
+    } else {
+      logger.error('❌ Base de datos NO conectada');
+    }
 
     logger.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`);
     logger.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`);

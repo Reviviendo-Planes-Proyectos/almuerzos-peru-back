@@ -2,10 +2,8 @@ name: Deploy to Fly.io
 
 on:
   push:
-    branches:
-      - master
-      - develop
-    pull_request:
+    branches: [develop, master]
+  pull_request:
       types: [opened, synchronize, reopened]
 
 jobs:
