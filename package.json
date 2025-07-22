@@ -24,7 +24,8 @@
     "db:test": "ts-node src/scripts/test-typeorm.ts",
     "typecheck": "tsc --noEmit",
     "precommit": "npm run lint:check && npm run format:check && npm run typecheck",
-    "version": "npm run format && npm run lint && git add -A"
+    "version": "npm run format && npm run lint && git add -A",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -40,6 +41,8 @@
     "typeorm": "^0.3.25"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
@@ -54,6 +57,7 @@
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^9.1.7",
     "jest": "^29.5.0",
     "prettier": "^3.0.0",
     "source-map-support": "^0.5.21",
