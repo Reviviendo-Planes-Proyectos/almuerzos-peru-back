@@ -4,7 +4,7 @@ module.exports = {
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   plugins: ['@typescript-eslint'],
   extends: [
@@ -15,7 +15,7 @@ module.exports = {
   ],
   env: {
     node: true,
-    jest: true,
+    jest: true
   },
   ignorePatterns: ['.eslintrc.js', 'dist/', 'node_modules/'],
   rules: {
