@@ -7,12 +7,12 @@ async function bootstrap() {
   try {
     console.log('🚀 Iniciando aplicación NestJS...');
     const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log', 'debug', 'verbose'],
+      logger: ['error', 'warn', 'log', 'debug', 'verbose']
     });
 
     app.enableCors({
       origin: process.env.FRONTEND_URL || 'http://localhost:3001',
-      credentials: true,
+      credentials: true
     });
 
     app.useGlobalPipes(
@@ -21,14 +21,14 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
         transform: true,
         transformOptions: {
-          enableImplicitConversion: true,
-        },
-      }),
+          enableImplicitConversion: true
+        }
+      })
     );
 
     app.enableVersioning({
       type: VersioningType.URI,
-      defaultVersion: '1',
+      defaultVersion: '1'
     });
 
     app.setGlobalPrefix('api');

@@ -16,15 +16,11 @@ export class User implements IUser {
     public phone: string | undefined,
     public isActive: boolean,
     public createdAt: Date,
-    public updatedAt: Date,
+    public updatedAt: Date
   ) {}
 
   // Domain business rules
-  static create(data: {
-    email: string;
-    name: string;
-    phone?: string;
-  }): Omit<IUser, 'id' | 'createdAt' | 'updatedAt'> {
+  static create(data: { email: string; name: string; phone?: string }): Omit<IUser, 'id' | 'createdAt' | 'updatedAt'> {
     // Business rule: Email must be valid
     if (!data.email || !data.email.includes('@')) {
       throw new Error('Email must be valid');
@@ -39,7 +35,7 @@ export class User implements IUser {
       email: data.email.toLowerCase().trim(),
       name: data.name.trim(),
       phone: data.phone?.trim(),
-      isActive: true,
+      isActive: true
     };
   }
 

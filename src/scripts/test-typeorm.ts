@@ -9,7 +9,7 @@ async function testTypeORM() {
   try {
     // Crear aplicación
     const app = await NestFactory.create(AppModule, {
-      logger: false,
+      logger: false
     });
 
     const usersUseCases = app.get(UsersUseCases);
@@ -21,7 +21,7 @@ async function testTypeORM() {
     if (existingUsers.length > 0) {
       console.log(
         '   👥 Usuarios:',
-        existingUsers.map((u) => `${u.name} (${u.email})`),
+        existingUsers.map((u) => `${u.name} (${u.email})`)
       );
     }
 
@@ -30,22 +30,20 @@ async function testTypeORM() {
     const newUser = await usersUseCases.createUser({
       name: 'Usuario Prueba',
       email: `test_${Date.now()}@ejemplo.com`,
-      phone: '+51 999 888 777',
+      phone: '+51 999 888 777'
     });
     console.log(`   ✅ Usuario creado: ${newUser.name} (ID: ${newUser.id})`);
 
     // 🔍 Paso 3: Buscar el usuario creado
     console.log('\n3️⃣ Buscando usuario por ID...');
     const foundUser = await usersUseCases.getUserById(newUser.id);
-    console.log(
-      `   🔎 Usuario encontrado: ${foundUser.name} - ${foundUser.email}`,
-    );
+    console.log(`   🔎 Usuario encontrado: ${foundUser.name} - ${foundUser.email}`);
 
     // ✏️ Paso 4: Actualizar el usuario
     console.log('\n4️⃣ Actualizando usuario...');
     const updatedUser = await usersUseCases.updateUser(newUser.id, {
       name: 'Usuario Actualizado',
-      phone: '+51 111 222 333',
+      phone: '+51 111 222 333'
     });
     console.log(`   ✏️ Usuario actualizado: ${updatedUser.name}`);
 
@@ -54,18 +52,12 @@ async function testTypeORM() {
     const allUsers = await usersUseCases.getAllUsers();
     console.log(`   📊 Total de usuarios: ${allUsers.length}`);
     allUsers.forEach((user, index) => {
-      console.log(
-        `   ${index + 1}. ${user.name} - ${user.email} (Activo: ${user.isActive})`,
-      );
+      console.log(`   ${index + 1}. ${user.name} - ${user.email} (Activo: ${user.isActive})`);
     });
 
     // 🧹 Paso 6: Limpiar datos de prueba (opcional)
-    console.log(
-      '\n6️⃣ ¿Desea eliminar el usuario de prueba? (Por ahora lo dejamos)',
-    );
-    console.log(
-      `   💡 Para eliminarlo manualmente: DELETE FROM users WHERE id = ${newUser.id};`,
-    );
+    console.log('\n6️⃣ ¿Desea eliminar el usuario de prueba? (Por ahora lo dejamos)');
+    console.log(`   💡 Para eliminarlo manualmente: DELETE FROM users WHERE id = ${newUser.id};`);
 
     await app.close();
     console.log('\n✅ Prueba de TypeORM completada exitosamente! 🎉');

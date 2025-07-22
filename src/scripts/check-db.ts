@@ -8,7 +8,7 @@ async function checkDatabaseConnection() {
 
   try {
     const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log'],
+      logger: ['error', 'warn', 'log']
     });
 
     const dataSource = app.get(DataSource);

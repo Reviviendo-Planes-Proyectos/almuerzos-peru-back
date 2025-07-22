@@ -9,7 +9,7 @@ import { UserEntity } from '../entities/user.entity';
 export class TypeOrmUserRepository implements IUserRepository {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
   async findAll(): Promise<IUser[]> {
@@ -26,9 +26,7 @@ export class TypeOrmUserRepository implements IUserRepository {
     return user || null;
   }
 
-  async create(
-    userData: Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<IUser> {
+  async create(userData: Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>): Promise<IUser> {
     const user = this.userRepository.create(userData);
     return await this.userRepository.save(user);
   }

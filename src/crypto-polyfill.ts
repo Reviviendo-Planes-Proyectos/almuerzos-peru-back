@@ -11,7 +11,7 @@ if (typeof globalThis.crypto === 'undefined') {
       return arr;
     },
     randomUUID: () => nodeCrypto.randomUUID(),
-    subtle: {} as any, // Stub para crypto.subtle
+    subtle: {} as any // Stub para crypto.subtle
   } as any;
 }
 
