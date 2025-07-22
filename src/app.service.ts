@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { HelloResponse } from './common/interfaces/app/hello-response.interface';
+import { HealthResponse } from './common/interfaces/app/health-response.interface';
 
 @Injectable()
 export class AppService {
-  getHello(): object {
+  getHello(): HelloResponse {
     return {
       message: '🍽️ API de Almuerzos Perú',
       version: '1.0.0',
@@ -11,7 +13,7 @@ export class AppService {
     };
   }
 
-  getHealth(): object {
+  getHealth(): HealthResponse {
     return {
       status: 'ok',
       uptime: process.uptime(),
