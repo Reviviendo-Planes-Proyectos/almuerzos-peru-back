@@ -7,25 +7,34 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.js\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"*.js\" --fix",
-    "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\" \"*.js\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typecheck": "tsc --noEmit",
     "db:check": "ts-node src/scripts/check-db.ts",
     "db:test": "ts-node src/scripts/test-typeorm.ts",
-    "typecheck": "tsc --noEmit",
-    "precommit": "npm run lint:check && npm run format:check && npm run typecheck",
-    "version": "npm run format && npm run lint && git add -A",
-    "prepare": "husky"
+    "prepare": "husky install",
+    "precommit": "lint-staged",
+    "version": "npm run format && npm run lint && git add -A"
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md,html,scss}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -59,6 +68,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.1.7",
     "jest": "^29.5.0",
+    "lint-staged": "^15.5.2",
     "prettier": "^3.0.0",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
