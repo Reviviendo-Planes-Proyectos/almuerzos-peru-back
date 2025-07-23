@@ -19,9 +19,23 @@ Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **Nes
 - ✅ **Documentación** completa de arquitectura
 - ✅ **Docker** ready para deployment
 - ✅ **Tests** unitarios implementados
-- ✅ **Logging** HTTP y manejo de errores
+- ✅ **Logging avanzado con Winston**: Toda la app usa un logger propio basado en Winston, configurable para consola y archivos, con soporte de contexto y trazas, evitando el uso de `console.log` y permitiendo integración futura con sistemas externos.
 - ✅ **CORS** configurado para frontend
 - ✅ **TypeScript** con strict mode
+
+## 📚 Tabla de Contenidos
+
+- [📋 Descripción](#-descripción)
+- [🏗️ Arquitectura](#️-arquitectura)
+- [🚀 Tecnologías](./docs/technologies.md)
+- [📂 Estructura del Proyecto](./docs/project-structure.md)
+- [⚡ Instalación y Configuración](#-instalación-y-configuración)
+- [🔧 Scripts Disponibles](#-scripts-disponibles)
+- [🌐 API Endpoints](#-api-endpoints)
+- [🧪 Testing y Verificación](#-testing-y-verificación)
+- [🐳 Docker](#-docker)
+- [📊 Estado del Proyecto](#-estado-del-proyecto-v100)
+- [🛠️ Solución de Problemas](#️-solución-de-problemas)
 
 ## 🏗️ Arquitectura
 
@@ -440,3 +454,23 @@ npm run format
 # Corregir linting
 npm run lint
 ```
+
+---
+
+## 📝 Logging centralizado con Winston
+
+El proyecto utiliza un logger personalizado basado en Winston, accesible desde cualquier parte del código:
+
+```typescript
+import { logger } from './common/logger/logger';
+
+logger.log('Mensaje informativo', 'ContextoOpcional');
+logger.error('Mensaje de error', 'traza opcional', 'ContextoOpcional');
+logger.warn('Mensaje de advertencia', 'ContextoOpcional');
+logger.debug('Mensaje debug', 'ContextoOpcional');
+logger.verbose('Mensaje verbose', 'ContextoOpcional');
+```
+
+- En producción, los logs se guardan en archivos en la carpeta `logs/`.
+- En desarrollo, los logs se muestran en consola a color.
+- El logger es compatible con la interfaz de NestJS (`LoggerService`).
