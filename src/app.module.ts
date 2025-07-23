@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer, Logger } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
@@ -6,9 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { LoggerMiddleware } from './shared/middleware/logger.middleware';
+import { logger } from './common/logger/logger';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
-
-const logger = new Logger('TypeORM');
 
 @Module({
   imports: [

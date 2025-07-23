@@ -1,10 +1,9 @@
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { logger } from '../../common/logger/logger';
 import { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  private readonly logger = new Logger('HTTP');
-
   use(req: Request, res: Response, next: NextFunction): void {
     const { method, originalUrl, ip } = req;
     const userAgent = req.get('User-Agent') || '';
@@ -14,13 +13,11 @@ export class LoggerMiddleware implements NestMiddleware {
       const { statusCode } = res;
       const contentLength = res.get('Content-Length');
       const responseTime = Date.now() - startTime;
-
       const logMessage = `${method} ${originalUrl} ${statusCode} ${contentLength || 0}b - ${responseTime}ms - ${ip} ${userAgent}`;
-
       if (statusCode >= 400) {
-        this.logger.error(logMessage);
+        logger.error(logMessage, undefined, 'HTTP');
       } else {
-        this.logger.log(logMessage);
+        logger.log(logMessage, 'HTTP');
       }
     });
 
