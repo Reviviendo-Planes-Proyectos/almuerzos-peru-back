@@ -1,16 +1,15 @@
 import './crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType, Logger } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { logger } from './common/logger/logger';
 import { AppModule } from './app.module';
 import { DataSource } from 'typeorm';
 
 async function bootstrap() {
-  const logger = new Logger('Bootstrap');
-
   try {
-    logger.log('🚀 Iniciando aplicación NestJS...');
+    logger.log('🚀 Iniciando aplicación NestJS...', 'Bootstrap');
     const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log', 'debug', 'verbose']
+      logger: logger
     });
 
     app.enableCors({
@@ -42,16 +41,15 @@ async function bootstrap() {
     await app.listen(port, '0.0.0.0');
 
     if (dataSource.isInitialized) {
-      logger.log(`✅ Base de datos conectada: ${String(dataSource.options.database)}`);
+      logger.log(`✅ Base de datos conectada: ${String(dataSource.options.database)}`, 'Bootstrap');
     } else {
-      logger.error('❌ Base de datos NO conectada');
+      logger.error('❌ Base de datos NO conectada', undefined, 'Bootstrap');
     }
 
-    logger.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`);
-    logger.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`);
+    logger.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`, 'Bootstrap');
+    logger.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`, 'Bootstrap');
   } catch (error) {
-    const logger = new Logger('BootstrapError');
-    logger.error('❌ Error iniciando la aplicación', error.stack || error.message);
+    logger.error('❌ Error iniciando la aplicación', error.stack || error.message, 'Bootstrap');
     process.exit(1);
   }
 }
