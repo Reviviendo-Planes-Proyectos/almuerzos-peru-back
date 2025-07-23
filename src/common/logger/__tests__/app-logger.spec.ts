@@ -1,3 +1,5 @@
+import { logFormatter } from '../log-formatter';
+
 const mockWinstonLogger = {
   info: jest.fn(),
   error: jest.fn(),
@@ -73,5 +75,27 @@ describe('logger exportado directamente', () => {
   it('debe funcionar error() desde instancia exportada', () => {
     logger.error('external error');
     expect(mockWinstonLogger.error).toHaveBeenCalledWith('external error');
+  });
+});
+
+describe('logFormatter', () => {
+  it('formatea correctamente sin metadatos', () => {
+    const result = logFormatter({
+      timestamp: '2025-07-23 12:00:00',
+      level: 'info',
+      message: 'Mensaje simple'
+    });
+    expect(result).toBe('2025-07-23 12:00:00 [INFO]: Mensaje simple ');
+  });
+
+  it('formatea correctamente con metadatos', () => {
+    const result = logFormatter({
+      timestamp: '2025-07-23 12:00:00',
+      level: 'warn',
+      message: 'Advertencia',
+      service: 'UserService',
+      code: 404
+    });
+    expect(result).toBe('2025-07-23 12:00:00 [WARN]: Advertencia {"service":"UserService","code":404}');
   });
 });

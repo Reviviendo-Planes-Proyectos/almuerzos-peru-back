@@ -1,25 +1,14 @@
 import { LoggerService } from '@nestjs/common';
 import * as winston from 'winston';
+import { logFormatter } from './log-formatter';
 
-// Configuración de Winston
 const winstonLogger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf((info) => {
-      const { timestamp, level, message, ...meta } = info as {
-        timestamp: string;
-        level: string;
-        message: string;
-        [key: string]: any;
-      };
-      return `${timestamp} [${level.toUpperCase()}]: ${String(message)} ${Object.keys(meta).length ? JSON.stringify(meta) : ''}`;
-    })
+    winston.format.printf(logFormatter)
   ),
-  transports: [
-    new winston.transports.Console()
-    // Puedes agregar más transports aquí (archivos, http, etc)
-  ]
+  transports: [new winston.transports.Console()]
 });
 
 export class AppLogger implements LoggerService {
