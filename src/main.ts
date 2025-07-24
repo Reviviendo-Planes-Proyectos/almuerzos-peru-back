@@ -13,9 +13,14 @@ async function bootstrap() {
       logger: logger
     });
 
+    const allowedOrigins = process.env.FRONTEND_URL?.split(',') || [];
+    logger.log(`process.env.FRONTEND_URL: ${process.env.FRONTEND_URL}`, 'Bootstrap');
+
     app.enableCors({
-      origin: process.env.FRONTEND_URL || 'http://localhost:3001',
-      credentials: true
+      origin: allowedOrigins,
+      credentials: true,
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     });
 
     app.useGlobalPipes(
