@@ -4,7 +4,7 @@
   "description": "API REST para plataforma de almuerzos en Perú con Clean Architecture",
   "author": "Equipo Almuerzos Perú",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "start": "nest start",
@@ -15,6 +15,8 @@
     "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
+    "fly:deploy": "nest build && fly deploy",
+    "fly:logs": "fly logs",
     "test": "jest",
     "test:watch": "jest --watchAll --verbose",
     "test:coverage": "jest --config jest.config.js --coverage --verbose",
