@@ -25,6 +25,8 @@ src/
                 └── typeorm-user.repository.ts   # Implementación del repositorio
 ```
 
+&nbsp;
+
 ## 🎯 Principios Aplicados
 
 ### **🟢 Domain Layer (Dominio)**
@@ -45,6 +47,8 @@ src/
 - **Repositories:** Persistencia de datos
 - **Entities:** Mapping con base de datos
 
+&nbsp;
+
 ## 🔄 Flujo de Datos
 
 ```
@@ -53,6 +57,8 @@ HTTP Request → Controller → Use Case → Repository → Database
                   DTO    Domain Entity  TypeORM Entity
 ```
 
+&nbsp;
+
 ## 🚀 Beneficios
 
 - ✅ **Testeable:** Fácil mocking de dependencias
@@ -60,6 +66,8 @@ HTTP Request → Controller → Use Case → Repository → Database
 - ✅ **Escalable:** Fácil agregar nuevos módulos
 - ✅ **Independiente:** Dominio sin dependencias externas
 - ✅ **SOLID:** Principios de diseño aplicados
+
+&nbsp;
 
 ## 📋 Comandos Útiles
 
@@ -77,6 +85,8 @@ npm run start:dev
 npm run build
 ```
 
+&nbsp;
+
 ## 🔧 Endpoints Disponibles
 
 - `GET /users` - Listar usuarios
@@ -84,3 +94,9 @@ npm run build
 - `POST /users` - Crear usuario
 - `PUT /users/:id` - Actualizar usuario
 - `DELETE /users/:id` - Eliminar usuario
+
+&nbsp;
+
+---
+
+© 2025 Almuerzos Perú

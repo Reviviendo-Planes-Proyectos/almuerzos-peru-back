@@ -2,6 +2,8 @@
 
 Este documento describe la estructura del proyecto **Almuerzos Perú - Backend API** y explica el propósito de cada carpeta y archivo principal.
 
+&nbsp;
+
 ## 🌳 Árbol de Directorios
 
 ```
@@ -16,6 +18,8 @@ src/
 │       └── infrastructure/ # Controllers y repositories
 └── 📁 scripts/             # Scripts de utilidades
 ```
+
+&nbsp;
 
 ## 📁 Descripción de Carpetas
 
@@ -51,3 +55,9 @@ Scripts de utilidad para tareas específicas, como verificar la conexión a la b
 - `docker-compose.yml`: Configuración para levantar servicios con Docker.
 - `jest.config.js`: Configuración de Jest para pruebas.
 - `tsconfig.json`: Configuración de TypeScript.
+
+&nbsp;
+
+---
+
+© 2025 Almuerzos Perú
