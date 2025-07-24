@@ -7,6 +7,8 @@
 [![PostgreSQL](https://img.shields.io/badge/postgresql-15+-blue.svg)](https://postgresql.org)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://docker.com)
 
+&nbsp;
+
 ## 📋 Descripción
 
 Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **NestJS**, **TypeORM** y **PostgreSQL**. Implementa **Clean Architecture** con estructura modular para máxima escalabilidad y mantenibilidad.
@@ -23,6 +25,8 @@ Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **Nes
 - ✅ **CORS** configurado para frontend
 - ✅ **TypeScript** con strict mode
 
+&nbsp;
+
 ## 📚 Tabla de Contenidos
 
 - [📋 Descripción](#-descripción)
@@ -32,10 +36,14 @@ Sistema backend para la plataforma de almuerzos peruanos, desarrollado con **Nes
 - [⚡ Instalación y Configuración](#-instalación-y-configuración)
 - [🔧 Scripts Disponibles](#-scripts-disponibles)
 - [🌐 API Endpoints](#-api-endpoints)
+- [📝 Documentación interactiva (Swagger)](#-documentación-interactiva-swagger)
 - [🧪 Testing y Verificación](#-testing-y-verificación)
 - [🐳 Docker](#-docker)
+- [🚀 Despliegue en Fly.io](#-deploy-flyio)
 - [📊 Estado del Proyecto](#-estado-del-proyecto-v100)
 - [🛠️ Solución de Problemas](#️-solución-de-problemas)
+
+&nbsp;
 
 ## 🏗️ Arquitectura
 
@@ -48,6 +56,8 @@ Este proyecto implementa **Arquitectura Hexagonal (Ports & Adapters)** con estru
 La arquitectura hexagonal permite que el núcleo de negocio sea independiente de frameworks y tecnologías externas, facilitando la escalabilidad, testeo y mantenibilidad.
 
 📖 **[Ver documentación completa de arquitectura](./docs/architecture.md)**
+
+&nbsp;
 
 ## 🚀 Tecnologías
 
@@ -74,7 +84,39 @@ src/
 └── 📁 scripts/             # Scripts de utilidades
 ```
 
+&nbsp;
+
 ## ⚡ Instalación y Configuración
+
+### Configuración de CORS (Frontend-Backend)
+
+Para permitir solicitudes desde el frontend (local y producción), configura los orígenes permitidos en el archivo `.env`:
+
+```env
+FRONTEND_URL=http://localhost:4200,http://localhost:3000,https://almuerzos-peru-front.vercel.app
+```
+
+El backend leerá esta variable y habilitará CORS automáticamente para esos orígenes.
+
+**En producción**, asegúrate de incluir la URL de tu frontend desplegado (por ejemplo, Vercel):
+
+```env
+FRONTEND_URL=https://almuerzos-peru-front.vercel.app
+```
+
+No es necesario modificar el código para agregar/quitar orígenes, solo actualiza la variable de entorno y reinicia el backend.
+
+#### Test rápido de CORS desde el frontend
+
+Puedes probar la conexión con el backend usando fetch o axios desde el frontend:
+
+```js
+fetch('https://almuerzos-peru.fly.dev/api/v1/users')
+  .then((res) => res.json())
+  .then((data) => console.log(data));
+```
+
+Si recibes datos correctamente y no hay errores de CORS en la consola del navegador, la configuración es exitosa.
 
 ### 1. Clonar repositorio
 
@@ -112,6 +154,8 @@ PORT=3000
 ```bash
 npm run db:check
 ```
+
+&nbsp;
 
 ## 🔧 Scripts Disponibles
 
@@ -166,6 +210,21 @@ npm run test:cov
 # Tests end-to-end
 npm run test:e2e
 ```
+
+&nbsp;
+
+## 📝 Documentación interactiva (Swagger)
+
+La API cuenta con documentación interactiva generada automáticamente con Swagger/OpenAPI.
+
+- Accede a la documentación y prueba los endpoints desde:
+
+  👉 **http://localhost:3000/api/docs**
+
+- Todos los endpoints y modelos están documentados y actualizados automáticamente.
+- Puedes probar peticiones directamente desde la interfaz web.
+
+---
 
 ## 🌐 API Endpoints
 
@@ -261,6 +320,8 @@ Todas las respuestas siguen el formato estándar:
 }
 ```
 
+&nbsp;
+
 ## 🔬 Ejemplos de Uso
 
 ### Crear usuario con validaciones
@@ -310,6 +371,8 @@ curl -X POST http://localhost:3000/api/v1/users \
 }
 ```
 
+&nbsp;
+
 ## 🧪 Testing y Verificación
 
 ### Tests Unitarios
@@ -351,6 +414,8 @@ curl http://localhost:3000/api/v1/users
 curl http://localhost:3000/api/v1
 ```
 
+&nbsp;
+
 ## 🐳 Docker
 
 ### Desarrollo con Docker Compose
@@ -378,6 +443,28 @@ docker run -p 3000:3000 \
   -e DB_PASSWORD=your-password \
   almuerzos-peru-api
 ```
+
+&nbsp;
+
+## 🚀 Despliegue en Fly.io
+
+Para desplegar la aplicación en Fly.io se debe considerar lo siguiente:
+
+- El despliegue utiliza el archivo `fly.toml` para la configuración de la app, puertos y servicios.
+- Las variables sensibles deben gestionarse mediante `fly secrets` y nunca versionarse.
+- El build se realiza usando Docker, por lo que cualquier cambio en dependencias o entorno debe reflejarse en el `Dockerfile`.
+- El entorno de producción puede diferir del local, validar siempre las variables y configuraciones antes de desplegar.
+- Los logs y errores pueden consultarse desde la CLI de Fly.io para diagnóstico.
+- Archivos clave:
+  - `fly.toml`: Configuración principal de la app en Fly.io.
+  - `Dockerfile`: Imagen utilizada para el despliegue.
+  - `.env` (no versionado): Variables de entorno locales.
+
+### Comandos útiles
+
+Consultar el archivo package.json para ver los scripts disponibles para Fly.io.
+
+&nbsp;
 
 ## 📊 Estado del Proyecto v1.0.0
 
@@ -423,6 +510,8 @@ docker run -p 3000:3000 \
 - [ ] Dashboard administrativo
 - [ ] Sistema de reviews
 
+&nbsp;
+
 ## 🛠️ Solución de Problemas
 
 ### Error de crypto
@@ -455,7 +544,7 @@ npm run format
 npm run lint
 ```
 
----
+&nbsp;
 
 ## 📝 Logging centralizado con Winston
 
@@ -474,3 +563,9 @@ logger.verbose('Mensaje verbose', 'ContextoOpcional');
 - En producción, los logs se guardan en archivos en la carpeta `logs/`.
 - En desarrollo, los logs se muestran en consola a color.
 - El logger es compatible con la interfaz de NestJS (`LoggerService`).
+
+&nbsp;
+
+---
+
+© 2025 Almuerzos Perú

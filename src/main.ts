@@ -4,6 +4,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { logger } from './common/logger/logger';
 import { AppModule } from './app.module';
 import { DataSource } from 'typeorm';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   try {
@@ -12,9 +13,14 @@ async function bootstrap() {
       logger: logger
     });
 
+    const allowedOrigins = process.env.FRONTEND_URL?.split(',') || [];
+    logger.log(`process.env.FRONTEND_URL: ${process.env.FRONTEND_URL}`, 'Bootstrap');
+
     app.enableCors({
-      origin: process.env.FRONTEND_URL || 'http://localhost:3001',
-      credentials: true
+      origin: allowedOrigins,
+      credentials: true,
+      allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     });
 
     app.useGlobalPipes(
@@ -35,6 +41,16 @@ async function bootstrap() {
 
     app.setGlobalPrefix('api');
 
+    // Swagger config
+    const config = new DocumentBuilder()
+      .setTitle('Almuerzos Perú API')
+      .setDescription('Documentación de la API REST de Almuerzos Perú')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
+
     const port = process.env.PORT ?? 3000;
     const dataSource = app.get(DataSource);
 
@@ -48,6 +64,7 @@ async function bootstrap() {
 
     logger.log(`🌟 Aplicación corriendo en: http://0.0.0.0:${port}`, 'Bootstrap');
     logger.log(`📚 API disponible en: http://0.0.0.0:${port}/api/v1`, 'Bootstrap');
+    logger.log(`📝 Swagger UI: http://0.0.0.0:${port}/api/docs`, 'Bootstrap');
   } catch (error) {
     logger.error('❌ Error iniciando la aplicación', error.stack || error.message, 'Bootstrap');
     process.exit(1);
