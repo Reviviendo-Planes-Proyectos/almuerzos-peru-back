@@ -1,4 +1,4 @@
-import { User } from '../../infrastructure/database/entities/user/user';
+import { User } from '../user';
 
 describe('User (Domain)', () => {
   it('debería crear un usuario válido', () => {
