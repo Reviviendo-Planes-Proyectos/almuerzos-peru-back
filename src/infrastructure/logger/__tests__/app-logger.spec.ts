@@ -16,7 +16,8 @@ jest.mock('winston', () => {
     format: {
       combine: jest.fn(),
       timestamp: jest.fn(),
-      printf: jest.fn()
+      printf: jest.fn(),
+      colorize: jest.fn()
     },
     transports: {
       Console: jest.fn()
