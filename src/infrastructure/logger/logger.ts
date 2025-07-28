@@ -4,11 +4,15 @@ import { logFormatter } from '../../common/formatters/log-formatter';
 
 const winstonLogger = winston.createLogger({
   level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.printf(logFormatter)
-  ),
-  transports: [new winston.transports.Console()]
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(logFormatter),
+        winston.format.colorize({ all: true })
+      )
+    })
+  ]
 });
 
 export class AppLogger implements LoggerService {
