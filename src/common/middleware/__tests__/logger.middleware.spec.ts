@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express';
 import { LoggerMiddleware } from '../logger.middleware';
 
 jest.mock('../../../infrastructure/logger/logger', () => ({

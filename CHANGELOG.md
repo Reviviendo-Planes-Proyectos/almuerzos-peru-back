@@ -1,5 +1,26 @@
 # 📋 Changelog
 
+## [1.1.2] - 2025-07-27
+
+### ✨ Nuevas funcionalidades
+
+- **Gestión completa de usuarios con arquitectura hexagonal**: Implementación completa del módulo de usuarios siguiendo principios de Clean Architecture.
+- **Casos de uso (Use Cases)**: Lógica de negocio centralizada para operaciones CRUD de usuarios.
+- **Controlador REST**: API endpoints versionados para gestión de usuarios (`/api/v1/users`).
+- **DTOs y validaciones**: Contratos de datos con validaciones automáticas usando class-validator.
+- **Interfaces de dominio**: Definición clara de puertos y contratos para el dominio de usuarios.
+- **Adaptador TypeORM**: Implementación del patrón Repository con TypeORM como adaptador de persistencia.
+- **Suite de tests completa**: Tests unitarios para todas las capas (dominio, aplicación, infraestructura).
+
+#### Detalles técnicos
+
+- Se implementó el patrón Ports & Adapters para el módulo de usuarios.
+- Se agregaron interfaces para abstraer dependencias externas (repositorios).
+- Se crearon DTOs para entrada y salida de datos con validaciones robustas.
+- Se implementaron casos de uso para cada operación: crear, leer, actualizar, eliminar usuarios.
+- Se añadieron tests unitarios con mocks apropiados para cada capa.
+- Se aplicaron principios SOLID y Dependency Inversion en toda la implementación.
+
 ## [1.1.1] - 2025-07-27
 
 ### 🐛 Fixes y Mejoras Técnicas
