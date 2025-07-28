@@ -119,7 +119,7 @@ npm install
 
 ```bash
 # Copiar archivo de ejemplo
-cp .env.example .env
+ .env
 
 # Editar con tus datos de base de datos
 DB_HOST=your-database-host
