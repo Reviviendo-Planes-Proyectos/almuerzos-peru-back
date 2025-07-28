@@ -1,12 +1,86 @@
 # 📋 Changelog
 
+## [1.1.2] - 2025-07-27
+
+### ✨ Nuevas funcionalidades
+
+- **Gestión completa de usuarios con arquitectura hexagonal**: Implementación completa del módulo de usuarios siguiendo principios de Clean Architecture.
+- **Casos de uso (Use Cases)**: Lógica de negocio centralizada para operaciones CRUD de usuarios.
+- **Controlador REST**: API endpoints versionados para gestión de usuarios (`/api/v1/users`).
+- **DTOs y validaciones**: Contratos de datos con validaciones automáticas usando class-validator.
+- **Interfaces de dominio**: Definición clara de puertos y contratos para el dominio de usuarios.
+- **Adaptador TypeORM**: Implementación del patrón Repository con TypeORM como adaptador de persistencia.
+- **Suite de tests completa**: Tests unitarios para todas las capas (dominio, aplicación, infraestructura).
+
+#### Detalles técnicos
+
+- Se implementó el patrón Ports & Adapters para el módulo de usuarios.
+- Se agregaron interfaces para abstraer dependencias externas (repositorios).
+- Se crearon DTOs para entrada y salida de datos con validaciones robustas.
+- Se implementaron casos de uso para cada operación: crear, leer, actualizar, eliminar usuarios.
+- Se añadieron tests unitarios con mocks apropiados para cada capa.
+- Se aplicaron principios SOLID y Dependency Inversion en toda la implementación.
+
+## [1.1.1] - 2025-07-27
+
+### 🐛 Fixes y Mejoras Técnicas
+
+- **Reorganización de estructura de archivos**: `main.ts` movido de `src/app/main.ts` a `src/main.ts` (ubicación estándar de NestJS).
+- **Corrección de importaciones**: Todas las rutas absolutas (`src/...`) cambiadas a rutas relativas para compatibilidad con tests y bundlers.
+- **Tests unitarios completamente funcionales**: 61 tests pasando correctamente en 10 test suites.
+- **Mejoras en configuración de mocks**: Tests de logger middleware optimizados con mocks apropiados.
+- **Estabilidad de la aplicación**: Aplicación corriendo sin errores en `http://localhost:3000` con todos los endpoints funcionales.
+
+#### Detalles técnicos
+
+- Se corrigieron las importaciones en archivos de test: `user.entity.spec.ts`, `user.use-cases.spec.ts`, `user.controller.spec.ts`, `typeorm-user.repository.spec.ts`, `logger.middleware.spec.ts`.
+- Se estandarizó el uso de rutas relativas en toda la base de código para mejor mantenibilidad.
+- Se mejoró la configuración de Jest para el manejo de módulos y mocks.
+
+## [1.1.0] - 2025-07-24
+
+### 🚀 Nuevas funcionalidades y mejoras
+
+- Upgrade a **NestJS 11** y actualización de dependencias principales.
+- Integración de **Swagger/OpenAPI** para documentación interactiva de la API (`/api/docs`).
+- Refactor y mejoras en **Dockerfile** y configuración de despliegue (`fly.toml`).
+- Mejoras en la configuración de **CORS** para soportar múltiples orígenes frontend.
+- Integración y refactor de **Winston** como logger centralizado, con formateo personalizado y soporte para logs en archivos y consola.
+- Mejoras en la estructura y scripts de base de datos.
+- Integración de **SonarCloud** y mejoras en la configuración de calidad de código.
+- Mejoras en los hooks de pre-commit y CI (test:ci, lint-staged, commitlint).
+- Documentación ampliada: detalles de CORS, logging, estructura, ejemplos de uso y despliegue.
+- Fixes y ajustes menores en configuración, scripts y documentación.
+
+#### Detalles técnicos
+
+- Se reorganizó la estructura de test y configuración para mayor claridad y mantenibilidad.
+- Se mejoró la cobertura de tests y el manejo de errores en operaciones de base de datos y usuarios.
+- Se ajustaron los scripts de Docker y CI para mayor robustez y compatibilidad.
+
 ## [1.0.1] - 2025-07-21
 
 ### 🛠️ Mejoras y Ajustes
 
-- Arquitectura actualizada a Hexagonal (Ports & Adapters) en toda la documentación y estructura.
-- Tooling: Biome configurado para lint y formato en todo el proyecto.
-- Scripts de Biome actualizados para compatibilidad total en Windows y Linux.
+- Migración completa a **Arquitectura Hexagonal (Ports & Adapters)** en código y documentación.
+- **Biome** adoptado como herramienta principal de linting y formato, reemplazando ESLint/Prettier en scripts y configuración.
+- Scripts de Biome y tooling actualizados para compatibilidad total en **Windows y Linux**.
+- Documentación de arquitectura y estructura de carpetas mejorada y alineada con la nueva arquitectura.
+- Se mantiene la cobertura de tests y la calidad de código (unitarios, typecheck, validaciones, polyfills).
+- Roadmap y próximas versiones actualizados en la documentación y changelog.
+
+#### Detalles técnicos
+
+- Se refactorizó la estructura de `src/` para reflejar los principios de Ports & Adapters.
+- Se actualizaron los scripts de pre-commit y release para usar Biome y comandos multiplataforma.
+- Se mejoró la documentación de uso de CORS, variables de entorno y despliegue en Docker/Fly.io.
+- Se revisaron y mejoraron los ejemplos de uso, formato de respuesta y manejo de errores en la API.
+
+#### Roadmap actualizado
+
+- Próximos módulos: Restaurantes, Pedidos, Autenticación JWT, Menús, Notificaciones.
+- Mejoras técnicas: CI/CD con GitHub Actions, logging centralizado con Winston, métricas con Prometheus, documentación Swagger/OpenAPI.
+- Futuro: Microservicios, geolocalización, integración con pagos, dashboard administrativo, sistema de reviews.
 
 ## [1.0.0] - 2025-07-21 🎉
 

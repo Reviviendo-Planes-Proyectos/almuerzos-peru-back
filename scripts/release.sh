@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script para crear release de versión 1.0.0
-# Este script automatiza el proceso de versionado y release
+# Automatiza el proceso de release, validaciones y generación de PR
 
 set -e
 
@@ -172,11 +172,11 @@ echo
 echo "Próximos pasos:"
 echo "1. Push del tag: git push origin v1.0.0"
 echo "2. Push de la branch: git push origin feature/mila"
-echo "3. Crear Pull Request para merge a main"
+echo "3. Crear Pull Request para merge a main (usa el template de PR en .github/pull_request_template.md)"
 echo "4. Deploy a producción"
 echo
 echo "🔗 Documentación: ./README.md"
-echo "🔗 Arquitectura: ./ARCHITECTURE.md" 
+echo "🔗 Arquitectura: ./docs/architecture.md" 
 echo "🔗 Changelog: ./CHANGELOG.md"
 echo
 log "¡Release v1.0.0 listo! 🚀"
