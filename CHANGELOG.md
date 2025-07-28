@@ -1,4 +1,41 @@
-#
+# 📋 Changelog
+
+## [1.1.2] - 2025-07-27
+
+### ✨ Nuevas funcionalidades
+
+- **Gestión completa de usuarios con arquitectura hexagonal**: Implementación completa del módulo de usuarios siguiendo principios de Clean Architecture.
+- **Casos de uso (Use Cases)**: Lógica de negocio centralizada para operaciones CRUD de usuarios.
+- **Controlador REST**: API endpoints versionados para gestión de usuarios (`/api/v1/users`).
+- **DTOs y validaciones**: Contratos de datos con validaciones automáticas usando class-validator.
+- **Interfaces de dominio**: Definición clara de puertos y contratos para el dominio de usuarios.
+- **Adaptador TypeORM**: Implementación del patrón Repository con TypeORM como adaptador de persistencia.
+- **Suite de tests completa**: Tests unitarios para todas las capas (dominio, aplicación, infraestructura).
+
+#### Detalles técnicos
+
+- Se implementó el patrón Ports & Adapters para el módulo de usuarios.
+- Se agregaron interfaces para abstraer dependencias externas (repositorios).
+- Se crearon DTOs para entrada y salida de datos con validaciones robustas.
+- Se implementaron casos de uso para cada operación: crear, leer, actualizar, eliminar usuarios.
+- Se añadieron tests unitarios con mocks apropiados para cada capa.
+- Se aplicaron principios SOLID y Dependency Inversion en toda la implementación.
+
+## [1.1.1] - 2025-07-27
+
+### 🐛 Fixes y Mejoras Técnicas
+
+- **Reorganización de estructura de archivos**: `main.ts` movido de `src/app/main.ts` a `src/main.ts` (ubicación estándar de NestJS).
+- **Corrección de importaciones**: Todas las rutas absolutas (`src/...`) cambiadas a rutas relativas para compatibilidad con tests y bundlers.
+- **Tests unitarios completamente funcionales**: 61 tests pasando correctamente en 10 test suites.
+- **Mejoras en configuración de mocks**: Tests de logger middleware optimizados con mocks apropiados.
+- **Estabilidad de la aplicación**: Aplicación corriendo sin errores en `http://localhost:3000` con todos los endpoints funcionales.
+
+#### Detalles técnicos
+
+- Se corrigieron las importaciones en archivos de test: `user.entity.spec.ts`, `user.use-cases.spec.ts`, `user.controller.spec.ts`, `typeorm-user.repository.spec.ts`, `logger.middleware.spec.ts`.
+- Se estandarizó el uso de rutas relativas en toda la base de código para mejor mantenibilidad.
+- Se mejoró la configuración de Jest para el manejo de módulos y mocks.
 
 ## [1.1.0] - 2025-07-24
 
@@ -20,10 +57,6 @@
 - Se reorganizó la estructura de test y configuración para mayor claridad y mantenibilidad.
 - Se mejoró la cobertura de tests y el manejo de errores en operaciones de base de datos y usuarios.
 - Se ajustaron los scripts de Docker y CI para mayor robustez y compatibilidad.
-
----
-
-# 📋 Changelog
 
 ## [1.0.1] - 2025-07-21
 

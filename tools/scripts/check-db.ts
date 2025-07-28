@@ -1,8 +1,8 @@
 import '../../src/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../../src/app.module';
 import { DataSource } from 'typeorm';
 import { Logger } from '@nestjs/common';
+import { AppModule } from 'src/app/app.module';
 
 export async function checkDatabaseConnection(): Promise<boolean> {
   const logger = new Logger('DBCheck');
