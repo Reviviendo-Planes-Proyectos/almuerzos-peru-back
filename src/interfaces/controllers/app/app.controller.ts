@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { HealthService } from '../../../core/services/HealthService.service';
+import { HealthService } from '../../../core/services/health.service';
 
 @Controller({ version: '1' })
 export class AppController {

@@ -2,7 +2,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { HealthService } from '../core/services/HealthService.service';
+import { HealthService } from '../core/services/health.service';
 import { logger } from 'src/infrastructure/logger/logger';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
