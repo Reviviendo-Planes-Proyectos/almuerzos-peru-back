@@ -1,7 +1,5 @@
 ## 📋 Descripción
 
-<!-- Explica brevemente qué hace este PR y por qué es necesario. -->
-
 **Resumen:** _Describe el objetivo del PR, el problema que resuelve o la funcionalidad que implementa._
 
 _Puedes incluir capturas de Postman, logs relevantes, ejemplos de inputs/outputs o cualquier evidencia que facilite la revisión._

@@ -1,4 +1,20 @@
-#
+# 📋 Changelog
+
+## [1.1.1] - 2025-07-27
+
+### 🐛 Fixes y Mejoras Técnicas
+
+- **Reorganización de estructura de archivos**: `main.ts` movido de `src/app/main.ts` a `src/main.ts` (ubicación estándar de NestJS).
+- **Corrección de importaciones**: Todas las rutas absolutas (`src/...`) cambiadas a rutas relativas para compatibilidad con tests y bundlers.
+- **Tests unitarios completamente funcionales**: 61 tests pasando correctamente en 10 test suites.
+- **Mejoras en configuración de mocks**: Tests de logger middleware optimizados con mocks apropiados.
+- **Estabilidad de la aplicación**: Aplicación corriendo sin errores en `http://localhost:3000` con todos los endpoints funcionales.
+
+#### Detalles técnicos
+
+- Se corrigieron las importaciones en archivos de test: `user.entity.spec.ts`, `user.use-cases.spec.ts`, `user.controller.spec.ts`, `typeorm-user.repository.spec.ts`, `logger.middleware.spec.ts`.
+- Se estandarizó el uso de rutas relativas en toda la base de código para mejor mantenibilidad.
+- Se mejoró la configuración de Jest para el manejo de módulos y mocks.
 
 ## [1.1.0] - 2025-07-24
 
@@ -20,10 +36,6 @@
 - Se reorganizó la estructura de test y configuración para mayor claridad y mantenibilidad.
 - Se mejoró la cobertura de tests y el manejo de errores en operaciones de base de datos y usuarios.
 - Se ajustaron los scripts de Docker y CI para mayor robustez y compatibilidad.
-
----
-
-# 📋 Changelog
 
 ## [1.0.1] - 2025-07-21
 

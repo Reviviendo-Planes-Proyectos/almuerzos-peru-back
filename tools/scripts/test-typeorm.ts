@@ -1,8 +1,8 @@
 import '../../src/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../../src/app.module';
-import { UsersUseCases } from '../../src/modules/users/application/users.use-cases';
 import { Logger } from '@nestjs/common';
+import { AppModule } from 'src/app/app.module';
+import { UserUseCases } from 'src/core/use-cases/user/user.use-cases';
 
 const logger = new Logger('TypeORMTest');
 
@@ -11,7 +11,7 @@ export async function runUserTests(): Promise<boolean> {
 
   try {
     const app = await NestFactory.create(AppModule, { logger: false });
-    const usersUseCases = app.get(UsersUseCases);
+    const usersUseCases = app.get(UserUseCases);
 
     logger.log('1️⃣ Verificando usuarios existentes...');
     const existingUsers = await usersUseCases.getAllUsers();

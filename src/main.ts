@@ -1,10 +1,10 @@
-import './crypto-polyfill';
+import './common/polyfills/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { logger } from './common/logger/logger';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { DataSource } from 'typeorm';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { logger } from 'src/infrastructure/logger/logger';
 
 async function bootstrap() {
   try {
