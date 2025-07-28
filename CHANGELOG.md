@@ -1,12 +1,53 @@
+#
+
+## [1.1.0] - 2025-07-24
+
+### 🚀 Nuevas funcionalidades y mejoras
+
+- Upgrade a **NestJS 11** y actualización de dependencias principales.
+- Integración de **Swagger/OpenAPI** para documentación interactiva de la API (`/api/docs`).
+- Refactor y mejoras en **Dockerfile** y configuración de despliegue (`fly.toml`).
+- Mejoras en la configuración de **CORS** para soportar múltiples orígenes frontend.
+- Integración y refactor de **Winston** como logger centralizado, con formateo personalizado y soporte para logs en archivos y consola.
+- Mejoras en la estructura y scripts de base de datos.
+- Integración de **SonarCloud** y mejoras en la configuración de calidad de código.
+- Mejoras en los hooks de pre-commit y CI (test:ci, lint-staged, commitlint).
+- Documentación ampliada: detalles de CORS, logging, estructura, ejemplos de uso y despliegue.
+- Fixes y ajustes menores en configuración, scripts y documentación.
+
+#### Detalles técnicos
+
+- Se reorganizó la estructura de test y configuración para mayor claridad y mantenibilidad.
+- Se mejoró la cobertura de tests y el manejo de errores en operaciones de base de datos y usuarios.
+- Se ajustaron los scripts de Docker y CI para mayor robustez y compatibilidad.
+
+---
+
 # 📋 Changelog
 
 ## [1.0.1] - 2025-07-21
 
 ### 🛠️ Mejoras y Ajustes
 
-- Arquitectura actualizada a Hexagonal (Ports & Adapters) en toda la documentación y estructura.
-- Tooling: Biome configurado para lint y formato en todo el proyecto.
-- Scripts de Biome actualizados para compatibilidad total en Windows y Linux.
+- Migración completa a **Arquitectura Hexagonal (Ports & Adapters)** en código y documentación.
+- **Biome** adoptado como herramienta principal de linting y formato, reemplazando ESLint/Prettier en scripts y configuración.
+- Scripts de Biome y tooling actualizados para compatibilidad total en **Windows y Linux**.
+- Documentación de arquitectura y estructura de carpetas mejorada y alineada con la nueva arquitectura.
+- Se mantiene la cobertura de tests y la calidad de código (unitarios, typecheck, validaciones, polyfills).
+- Roadmap y próximas versiones actualizados en la documentación y changelog.
+
+#### Detalles técnicos
+
+- Se refactorizó la estructura de `src/` para reflejar los principios de Ports & Adapters.
+- Se actualizaron los scripts de pre-commit y release para usar Biome y comandos multiplataforma.
+- Se mejoró la documentación de uso de CORS, variables de entorno y despliegue en Docker/Fly.io.
+- Se revisaron y mejoraron los ejemplos de uso, formato de respuesta y manejo de errores en la API.
+
+#### Roadmap actualizado
+
+- Próximos módulos: Restaurantes, Pedidos, Autenticación JWT, Menús, Notificaciones.
+- Mejoras técnicas: CI/CD con GitHub Actions, logging centralizado con Winston, métricas con Prometheus, documentación Swagger/OpenAPI.
+- Futuro: Microservicios, geolocalización, integración con pagos, dashboard administrativo, sistema de reviews.
 
 ## [1.0.0] - 2025-07-21 🎉
 
