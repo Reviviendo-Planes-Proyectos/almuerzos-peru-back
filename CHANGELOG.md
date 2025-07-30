@@ -9,9 +9,9 @@
 
 #### Detalles técnicos
 
-- Se integró **Firebase Auth** para la validación de tokens de Google.  
-- Se implementó el módulo **JWT de NestJS** para generar tokens de acceso firmados.  
-- Se creó un nuevo caso de uso dedicado a la autenticación con Google y su repositorio correspondiente.  
+- Se integró **Firebase Auth** para la validación de tokens de Google.
+- Se implementó el módulo **JWT de NestJS** para generar tokens de acceso firmados.
+- Se creó un nuevo caso de uso dedicado a la autenticación con Google y su repositorio correspondiente.
 - Se añadieron tests unitarios para la lógica de autenticación y generación de tokens.
 
 ## [1.1.2] - 2025-07-27
