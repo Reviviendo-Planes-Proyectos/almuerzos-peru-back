@@ -1,5 +1,19 @@
 # 📋 Changelog
 
+## [1.1.3] - 2025-07-30
+
+### ✨ Nuevas funcionalidades
+
+- **Autenticación con Google y JWT**: Ahora los usuarios pueden registrarse o iniciar sesión utilizando su cuenta de Google mediante la nueva ruta `POST /auth/google`.  
+  Además, se integró **JWT (NestJS)** para la emisión de tokens seguros tras la autenticación.
+
+#### Detalles técnicos
+
+- Se integró **Firebase Auth** para la validación de tokens de Google.  
+- Se implementó el módulo **JWT de NestJS** para generar tokens de acceso firmados.  
+- Se creó un nuevo caso de uso dedicado a la autenticación con Google y su repositorio correspondiente.  
+- Se añadieron tests unitarios para la lógica de autenticación y generación de tokens.
+
 ## [1.1.2] - 2025-07-27
 
 ### ✨ Nuevas funcionalidades
