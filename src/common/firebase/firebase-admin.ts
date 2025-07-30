@@ -1,15 +1,17 @@
 import * as admin from 'firebase-admin';
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 
 const serviceAccountPath = path.resolve(process.cwd(), 'serviceAccountKey.json');
 
-const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf-8'));
-
-if (!admin.apps.length) {
+if (!admin.apps.length && fs.existsSync(serviceAccountPath)) {
+  const raw = fs.readFileSync(serviceAccountPath, 'utf-8');
+  const credentials = JSON.parse(raw);
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(credentials)
   });
 }
+
+export const firebaseEnabled = admin.apps.length > 0;
 
 export default admin;
