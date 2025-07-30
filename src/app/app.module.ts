@@ -6,8 +6,8 @@ import { HealthService } from '../core/services/health.service';
 import { logger } from 'src/infrastructure/logger/logger';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
-import { UsersModule } from './modules/users/users.module';
 import { AppController } from 'src/interfaces/controllers/app/app.controller';
+import { AuthenticationModule } from 'src/app/modules/authentication/authentication.module';
 
 @Module({
   imports: [
@@ -43,7 +43,7 @@ import { AppController } from 'src/interfaces/controllers/app/app.controller';
       },
       inject: [ConfigService]
     }),
-    UsersModule
+    AuthenticationModule
   ],
   controllers: [AppController],
   providers: [
