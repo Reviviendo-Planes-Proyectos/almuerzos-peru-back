@@ -1,5 +1,27 @@
 # 📋 Changelog
 
+## [Unreleased] - 2025-07-31
+
+### Actualizaciones
+
+- Establecidos los requisitos del motor Node.js a >=20.11.0 y npm a >=10.0.0 en `package.json`.
+- Firebase-admin degradado a la versión ^12.7.0.
+- Reflect-metadata actualizado a la versión ^0.2.2.
+- Actualizadas dependencias de desarrollo, incluyendo:
+  - `@nestjs/cli`
+  - `@nestjs/schematics`
+- ESLint y paquetes relacionados actualizados a versiones recientes.
+- TypeScript actualizado a la versión ^5.8.3.
+
+### Correcciones
+
+- Corregida la ruta de importación para `AuthenticationModule` en `app.module.ts`.
+- Corregida la ruta de importación para `AppModule` en archivo de prueba E2E.
+
+### Mejoras
+
+- Mejoradas las pruebas del middleware del registrador con métodos de simulación adicionales.
+
 ## [1.1.3] - 2025-07-30
 
 ### ✨ Nuevas funcionalidades
