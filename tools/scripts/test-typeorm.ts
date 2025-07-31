@@ -1,34 +1,64 @@
-import '../../src/crypto-polyfill';
-import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
-import { AppModule } from 'src/app/app.module';
-import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
+import './../../src/common/polyfills/crypto-polyfill';
+import { DataSource } from 'typeorm';
+import * as dotenv from 'dotenv';
+import { logger } from '../../src/infrastructure/logger/logger';
 
-const logger = new Logger('TypeORMTest');
+// Cargar variables de entorno
+dotenv.config();
 
 export async function runUserTests(): Promise<boolean> {
-  logger.log('🧪 Iniciando prueba de TypeORM...\n');
+  logger.log('🧪 Iniciando prueba de TypeORM...');
+
+  // Configuración directa de TypeORM sin NestJS
+  const dataSource = new DataSource({
+    type: 'postgres',
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '5432'),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    synchronize: false,
+    logging: false
+  });
 
   try {
-    const app = await NestFactory.create(AppModule, { logger: false });
+    await dataSource.initialize();
+    logger.log('✅ Conexión a base de datos establecida');
 
-    const getAllUsersUseCase = app.get(GetAllUsersUseCase);
+    logger.log('1️⃣ Listando usuarios directamente desde la base de datos...');
+    const allUsers = await dataSource.query(`
+      SELECT id, username, email, "providerId"
+      FROM users
+      ORDER BY id
+    `);
 
-    logger.log('1️⃣ Listando usuarios con GetAllUsersUseCase...');
-    const allUsers = await getAllUsersUseCase.execute();
     logger.log(`   📊 Usuarios encontrados: ${allUsers.length}`);
 
-    allUsers.forEach((user, i) =>
-      logger.log(`   ${i + 1}. ${user.username} - ${user.email} (Provider: ${user.providerId})`)
+    allUsers.forEach((user: any, i: number) =>
+      logger.log(`   ${i + 1}. ${user.username} - ${user.email} (Provider: ${user.providerId || 'N/A'})`)
     );
 
-    await app.close();
-    logger.log('\n✅ Prueba de TypeORM completada exitosamente! 🎉');
+    const tableInfo = await dataSource.query(`
+      SELECT column_name, data_type, is_nullable 
+      FROM information_schema.columns 
+      WHERE table_name = 'users' 
+      ORDER BY ordinal_position
+    `);
+
+    logger.log('📋 Estructura de la tabla users:');
+    tableInfo.forEach((col: any) => {
+      logger.log(`   - ${col.column_name}: ${col.data_type} (${col.is_nullable === 'YES' ? 'nullable' : 'not null'})`);
+    });
+
+    await dataSource.destroy();
+    logger.log('✅ Prueba de TypeORM completada exitosamente! 🎉');
     return true;
   } catch (error: any) {
-    logger.error('\n❌ Error en la prueba:', error.message);
+    logger.error('❌ Error en la prueba:', error.message);
     if (error.code) logger.error(`   🔍 Código de error: ${error.code}`);
     logger.error(`   📝 Detalles: ${error.detail || 'No disponible'}`);
+
     return false;
   }
 }

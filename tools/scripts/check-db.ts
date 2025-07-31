@@ -1,45 +1,49 @@
-// src/tools/scripts/check-db.ts
-import { NestFactory } from '@nestjs/core';
+import '../../src/common/polyfills/crypto-polyfill';
 import { DataSource } from 'typeorm';
-import { Logger } from '@nestjs/common';
-import { AppModule } from 'src/app/app.module';
-import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
+import * as dotenv from 'dotenv';
+import { logger } from '../../src/infrastructure/logger/logger';
+
+// Cargar variables de entorno
+dotenv.config();
+
+logger.log('🚀 Verificación de base de datos iniciada');
 
 export async function checkDatabaseConnection(): Promise<boolean> {
-  const logger = new Logger('DBCheck');
+  logger.log('🔥 Conectando directamente a la base de datos...');
+
+  const dataSource = new DataSource({
+    type: 'postgres',
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || '5432'),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    synchronize: false,
+    logging: false
+  });
 
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log']
-    });
-
-    const dataSource = app.get(DataSource);
-
-    if (!dataSource.isInitialized) {
-      logger.error('❌ Conexión fallida');
-      await app.close();
-      return false;
-    }
-
+    await dataSource.initialize();
     logger.log('✅ Conexión exitosa');
-    logger.log(`📊 Base de datos: ${(dataSource.options as any).database}`);
+    logger.log(`📊 Base de datos: ${String(dataSource.options.database)}`);
     logger.log(`🏠 Host: ${(dataSource.options as any).host}`);
 
     const result = await dataSource.query('SELECT NOW() as current_time');
     logger.log(`⏰ Tiempo servidor: ${result[0].current_time}`);
 
-    // 🔽 Agregado: ejecutar el caso de uso
-    const getAllUsersUseCase = app.get(GetAllUsersUseCase);
-    const allUsers = await getAllUsersUseCase.execute();
+    // Consultar usuarios directamente
+    const users = await dataSource.query('SELECT id, username, email FROM users ORDER BY id');
+    logger.log(`🙋 Usuarios encontrados: ${users.length}`);
+    users.forEach((user: any, index: number) => {
+      logger.log(`   ${index + 1}. ${user.username} - ${user.email}`);
+    });
 
-    logger.log(`🙋 Usuarios encontrados: ${allUsers.length}`);
-    allUsers.forEach((user, index) => logger.log(`   ${index + 1}. ${user.username} - ${user.email}`));
-
-    await app.close();
+    await dataSource.destroy();
     logger.log('✅ Verificación completada');
     return true;
   } catch (error: any) {
-    logger.error('❌ Error: ' + error.message);
+    logger.error('❌ Error:', error.message);
     return false;
   }
 }
