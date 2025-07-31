@@ -7,7 +7,7 @@ import { logger } from 'src/infrastructure/logger/logger';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
 import { AppController } from 'src/interfaces/controllers/app/app.controller';
-import { AuthenticationModule } from 'src/app/modules/authentication/authentication.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 @Module({
   imports: [

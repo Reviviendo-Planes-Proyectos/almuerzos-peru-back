@@ -1,6 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
 npx --no -- commitlint --edit "$1"
 
-# Validación de idioma: prohíbe español y gerundios comunes
+# Validación de idioma (no español ni gerundios)
 if grep -iE '\b(agregar|añadir|arreglar|actualizar|borrar|corregir|crear|eliminar|función|mensaje|modificar|pantalla|vista|botón|usuario|cliente|componente|interfaz|servicio|controlador|ruta|modelo|dato|cambiar|mejorar|mostrar|ocultar|rediseñar|formulario|validar|buscar|respuesta|petición|guardar|cargar|seleccionar|opción|listado|registro|sesión|clave|contraseña|advertencia|éxito|fallo|desplegar|subir|bajar|colapsar|expandir|logrando|usando|haciendo|creando|mostrando|eliminando|editando|probando|dejando|configurando|desarrollando|implementando|refactorizando|optimizando|integrando|mejorando|añadiendo|agregando|actualizando|corrigiendo|validando|visualizando|cambiando|subiendo|bajando|guardando|modificando)\b' "$1"; then
   echo "❌ El mensaje contiene palabras en español o gerundios. Usa inglés en infinitivo y capitalizado."
   exit 1
