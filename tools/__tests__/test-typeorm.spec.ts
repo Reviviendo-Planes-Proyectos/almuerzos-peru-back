@@ -1,6 +1,6 @@
-import { UserUseCases } from 'src/core/use-cases/user/user.use-cases';
 import { runUserTests } from '../scripts/test-typeorm';
 import { NestFactory } from '@nestjs/core';
+import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
 
 jest.mock('@nestjs/core', () => ({
   NestFactory: {
@@ -8,79 +8,53 @@ jest.mock('@nestjs/core', () => ({
   }
 }));
 
-const mockGetAllUsers = jest.fn().mockResolvedValue([]);
-const mockCreateUser = jest.fn().mockResolvedValue({ id: 1, name: 'Mock User', email: 'mock@mail.com' });
-const mockGetUserById = jest.fn().mockResolvedValue({ id: 1, name: 'Mock User', email: 'mock@mail.com' });
-const mockUpdateUser = jest.fn().mockResolvedValue({ id: 1, name: 'Actualizado', email: 'mock@mail.com' });
+const mockExecute = jest.fn().mockResolvedValue([
+  { username: 'user1', email: 'user1@mail.com', providerId: 'google' },
+  { username: 'user2', email: 'user2@mail.com', providerId: 'email' }
+]);
 
-const mockUsersUseCases = {
-  getAllUsers: mockGetAllUsers,
-  createUser: mockCreateUser,
-  getUserById: mockGetUserById,
-  updateUser: mockUpdateUser
+const mockGetAllUsersUseCase = {
+  execute: mockExecute
 };
 
 const mockApp = {
-  get: jest.fn().mockReturnValue(mockUsersUseCases),
+  get: jest.fn().mockReturnValue(mockGetAllUsersUseCase),
   close: jest.fn().mockResolvedValue(undefined)
 };
 
-describe('runUserTests', () => {
+describe('runUserTests con GetAllUsersUseCase', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     (NestFactory.create as jest.Mock).mockResolvedValue(mockApp);
   });
 
-  it('✅ debería ejecutar el flujo correctamente', async () => {
+  it('✅ debería ejecutar correctamente la prueba de TypeORM', async () => {
     const result = await runUserTests();
     expect(result).toBe(true);
-    expect(mockApp.get).toHaveBeenCalledWith(UserUseCases);
-    expect(mockGetAllUsers).toHaveBeenCalledTimes(2);
-    expect(mockCreateUser).toHaveBeenCalled();
-    expect(mockGetUserById).toHaveBeenCalled();
-    expect(mockUpdateUser).toHaveBeenCalled();
+    expect(NestFactory.create).toHaveBeenCalled();
+    expect(mockApp.get).toHaveBeenCalledWith(GetAllUsersUseCase);
+    expect(mockExecute).toHaveBeenCalled();
     expect(mockApp.close).toHaveBeenCalled();
   });
 
-  it('❌ debería retornar false si ocurre un error', async () => {
-    (NestFactory.create as jest.Mock).mockRejectedValueOnce(new Error('DB fail'));
+  it('❌ debería retornar false si ocurre un error en NestFactory.create', async () => {
+    (NestFactory.create as jest.Mock).mockRejectedValueOnce(new Error('Fallo de Nest'));
 
     const result = await runUserTests();
     expect(result).toBe(false);
   });
 
-  it('❌ debería retornar false si falla createUser', async () => {
-    mockCreateUser.mockRejectedValueOnce(new Error('Error al crear usuario'));
+  it('❌ debería retornar false si execute lanza un error', async () => {
+    mockExecute.mockRejectedValueOnce(new Error('Error al ejecutar'));
 
     const result = await runUserTests();
     expect(result).toBe(false);
   });
 
-  it('❌ debería retornar false si falla getUserById', async () => {
-    mockGetUserById.mockRejectedValueOnce(new Error('No se pudo obtener usuario'));
-
-    const result = await runUserTests();
-    expect(result).toBe(false);
-  });
-
-  it('❌ debería retornar false si falla updateUser', async () => {
-    mockUpdateUser.mockRejectedValueOnce(new Error('Error al actualizar usuario'));
-
-    const result = await runUserTests();
-    expect(result).toBe(false);
-  });
-
-  it('❌ debería retornar false si falla getAllUsers en la segunda llamada', async () => {
-    mockGetAllUsers.mockResolvedValueOnce([]).mockRejectedValueOnce(new Error('Error al listar usuarios'));
-
-    const result = await runUserTests();
-    expect(result).toBe(false);
-  });
-
-  it('❌ debería loggear código y detalle de error si existen', async () => {
+  it('❌ debería loggear código y detalle si están disponibles', async () => {
     const error = new Error('Error con código y detalle') as any;
-    error.code = 'ERR123';
-    error.detail = 'Detalle del error';
+    error.code = 'E123';
+    error.detail = 'Detalle de error';
 
     (NestFactory.create as jest.Mock).mockRejectedValueOnce(error);
 
@@ -88,9 +62,9 @@ describe('runUserTests', () => {
     expect(result).toBe(false);
   });
 
-  it('❌ debería loggear "No disponible" si error no tiene detail', async () => {
+  it('❌ debería loggear "No disponible" si el error no tiene detail', async () => {
     const error = new Error('Error sin detalle') as any;
-    error.code = 'ERR456';
+    error.code = 'E456';
 
     (NestFactory.create as jest.Mock).mockRejectedValueOnce(error);
 

@@ -2,7 +2,7 @@ import '../../src/crypto-polyfill';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
-import { UserUseCases } from 'src/core/use-cases/user/user.use-cases';
+import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
 
 const logger = new Logger('TypeORMTest');
 
@@ -11,34 +11,16 @@ export async function runUserTests(): Promise<boolean> {
 
   try {
     const app = await NestFactory.create(AppModule, { logger: false });
-    const usersUseCases = app.get(UserUseCases);
 
-    logger.log('1️⃣ Verificando usuarios existentes...');
-    const existingUsers = await usersUseCases.getAllUsers();
-    logger.log(`   📊 Usuarios encontrados: ${existingUsers.length}`);
+    const getAllUsersUseCase = app.get(GetAllUsersUseCase);
 
-    logger.log('\n2️⃣ Creando usuario de prueba...');
-    const newUser = await usersUseCases.createUser({
-      name: 'Usuario Prueba',
-      email: `test_${Date.now()}@ejemplo.com`,
-      phone: '+51 999 888 777'
-    });
-    logger.log(`   ✅ Usuario creado: ${newUser.name} (ID: ${newUser.id})`);
+    logger.log('1️⃣ Listando usuarios con GetAllUsersUseCase...');
+    const allUsers = await getAllUsersUseCase.execute();
+    logger.log(`   📊 Usuarios encontrados: ${allUsers.length}`);
 
-    logger.log('\n3️⃣ Buscando usuario por ID...');
-    const foundUser = await usersUseCases.getUserById(newUser.id);
-    logger.log(`   🔎 Usuario encontrado: ${foundUser.name} - ${foundUser.email}`);
-
-    logger.log('\n4️⃣ Actualizando usuario...');
-    const updatedUser = await usersUseCases.updateUser(newUser.id, {
-      name: 'Usuario Actualizado',
-      phone: '+51 111 222 333'
-    });
-    logger.log(`   ✏️ Usuario actualizado: ${updatedUser.name}`);
-
-    logger.log('\n5️⃣ Listando todos los usuarios...');
-    const allUsers = await usersUseCases.getAllUsers();
-    allUsers.forEach((user, i) => logger.log(`   ${i + 1}. ${user.name} - ${user.email} (Activo: ${user.isActive})`));
+    allUsers.forEach((user, i) =>
+      logger.log(`   ${i + 1}. ${user.username} - ${user.email} (Provider: ${user.providerId})`)
+    );
 
     await app.close();
     logger.log('\n✅ Prueba de TypeORM completada exitosamente! 🎉');

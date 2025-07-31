@@ -1,5 +1,41 @@
 # 📋 Changelog
 
+## [Unreleased] - 2025-07-31
+
+### Actualizaciones
+
+- Establecidos los requisitos del motor Node.js a >=20.11.0 y npm a >=10.0.0 en `package.json`.
+- Firebase-admin degradado a la versión ^12.7.0.
+- Reflect-metadata actualizado a la versión ^0.2.2.
+- Actualizadas dependencias de desarrollo, incluyendo:
+  - `@nestjs/cli`
+  - `@nestjs/schematics`
+- ESLint y paquetes relacionados actualizados a versiones recientes.
+- TypeScript actualizado a la versión ^5.8.3.
+
+### Correcciones
+
+- Corregida la ruta de importación para `AuthenticationModule` en `app.module.ts`.
+- Corregida la ruta de importación para `AppModule` en archivo de prueba E2E.
+
+### Mejoras
+
+- Mejoradas las pruebas del middleware del registrador con métodos de simulación adicionales.
+
+## [1.1.3] - 2025-07-30
+
+### ✨ Nuevas funcionalidades
+
+- **Autenticación con Google y JWT**: Ahora los usuarios pueden registrarse o iniciar sesión utilizando su cuenta de Google mediante la nueva ruta `POST /auth/google`.  
+  Además, se integró **JWT (NestJS)** para la emisión de tokens seguros tras la autenticación.
+
+#### Detalles técnicos
+
+- Se integró **Firebase Auth** para la validación de tokens de Google.
+- Se implementó el módulo **JWT de NestJS** para generar tokens de acceso firmados.
+- Se creó un nuevo caso de uso dedicado a la autenticación con Google y su repositorio correspondiente.
+- Se añadieron tests unitarios para la lógica de autenticación y generación de tokens.
+
 ## [1.1.2] - 2025-07-27
 
 ### ✨ Nuevas funcionalidades
