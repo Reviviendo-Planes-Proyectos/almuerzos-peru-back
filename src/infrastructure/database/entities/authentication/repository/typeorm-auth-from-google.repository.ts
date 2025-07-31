@@ -43,4 +43,8 @@ export class TypeOrmAuthenticationFromGoogle implements IGoogleAuthRepository {
   generateJWT({ sub, email, username }: IUser): string {
     return this.jwtService.sign({ sub, email, username });
   }
+
+  getAllUsers(): Promise<IUser[]> {
+    return this.userRepository.find();
+  }
 }

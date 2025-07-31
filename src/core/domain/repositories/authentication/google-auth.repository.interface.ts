@@ -5,4 +5,5 @@ export interface IGoogleAuthRepository {
   findUserBySub(sub: string): Promise<IUser | null>;
   generateJWT(user: IUser): string;
   decodedUserFromGoogle(token: string): Promise<Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>>;
+  getAllUsers(): Promise<IUser[]>;
 }

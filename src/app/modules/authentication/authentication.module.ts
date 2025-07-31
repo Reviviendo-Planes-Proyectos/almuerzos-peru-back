@@ -6,7 +6,8 @@ import CreateUserFromGoogleUseCase from '../../../core/use-cases/authentication/
 import { JwtProviderModule } from 'src/common/jwt/jwt.module';
 import { FirebaseService } from 'src/common/firebase/firebase.service';
 import { AuthenticationContrller } from 'src/interfaces/controllers/authentication/authentication.controller';
-const useCases = [CreateUserFromGoogleUseCase];
+import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
+const useCases = [CreateUserFromGoogleUseCase, GetAllUsersUseCase];
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), JwtProviderModule],
   providers: [
