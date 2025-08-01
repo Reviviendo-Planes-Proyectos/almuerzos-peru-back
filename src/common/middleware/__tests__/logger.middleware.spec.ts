@@ -1,13 +1,15 @@
 import { LoggerMiddleware } from '../logger.middleware';
+import { logger as mockLogger } from '../../../infrastructure/logger/logger';
 
 jest.mock('../../../infrastructure/logger/logger', () => ({
   logger: {
+    log: jest.fn(),
     error: jest.fn(),
-    log: jest.fn()
+    warn: jest.fn(),
+    debug: jest.fn(),
+    verbose: jest.fn()
   }
 }));
-
-const mockLogger = require('../../../infrastructure/logger/logger').logger;
 
 describe('LoggerMiddleware', () => {
   let middleware: LoggerMiddleware;

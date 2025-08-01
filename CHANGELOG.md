@@ -1,5 +1,84 @@
 # 📋 Changelog
 
+## [Unreleased] - 2025-07-31
+
+### 🚀 Nuevas funcionalidades
+
+- **Configuración de entornos completa**: Implementación de archivos de configuración específicos para diferentes entornos:
+  - `config/environments/development.env` - Configuración para desarrollo local
+  - `config/environments/development.docker.env` - Configuración para desarrollo con Docker
+  - `config/environments/production.env` - Configuración para producción
+  - `config/environments/test.env` - Configuración para testing
+- **Scripts de gestión Docker avanzados**:
+  - Script multiplataforma `docker-manage.sh` (Linux/Mac) y `docker-manage.bat` (Windows)
+  - Soporte para desarrollo y producción con Docker Compose
+  - Comandos automatizados para build, start, stop, logs y cleanup
+- **Configuración Docker optimizada**:
+  - Separación de `Dockerfile.dev` y `Dockerfile.prod` en `docker/images/`
+  - Docker Compose específicos: `docker-compose.dev.yml` y `docker-compose.prod.yml`
+  - `.dockerignore` mejorado para optimizar el contexto de build
+- **Unificación de autenticación social (Google y Facebook)**:
+  - Lógica unificada para autenticación social usando Firebase como proveedor único
+  - Método renombrado de `createUserFromGoogle` a `createUserFromFirebase`
+  - Nueva ruta única `POST /auth/social` para autenticación con cualquier proveedor social
+  - Controlador reorganizado para reflejar la estrategia social unificada
+
+### 🔧 Actualizaciones
+
+- Establecidos los requisitos del motor Node.js a >=20.11.0 y npm a >=10.0.0 en `package.json`.
+- Firebase-admin degradado a la versión ^12.7.0.
+- Reflect-metadata actualizado a la versión ^0.2.2.
+- Actualizadas dependencias de desarrollo, incluyendo:
+  - `@nestjs/cli`
+  - `@nestjs/schematics`
+- ESLint y paquetes relacionados actualizados a versiones recientes.
+- TypeScript actualizado a la versión ^5.8.3.
+- **Configuración mejorada de Fly.io**: Agregada configuración de build con Dockerfile específico en `fly.toml`
+
+### 🐛 Correcciones
+
+- Corregida la ruta de importación para `AuthenticationModule` en `app.module.ts`.
+- Corregida la ruta de importación para `AppModule` en archivo de prueba E2E.
+- Eliminado código duplicado entre las implementaciones de Google y Facebook.
+- Corregidas validaciones específicas por proveedor en el caso de uso `CreateUserFromSocialProviderUseCase`.
+- **Corregido error en hook de pre-commit**: Cambiado `npx run precommit` por `npm run precommit` en `.husky/pre-commit` para resolver error de módulo no encontrado.
+- **Refactorización de scripts de base de datos**: Simplificada la conexión a la base de datos y testing de TypeORM en herramientas auxiliares.
+
+### 🧪 Mejoras
+
+- Mejoradas las pruebas del middleware del registrador con métodos de simulación adicionales.
+- Simplificada la arquitectura de autenticación social al centralizar la lógica en una única ruta y método.
+- Refactorizados los tests unitarios relacionados con autenticación social para reflejar los cambios en estructura y nombres.
+
+- **Optimizado `.gitignore`**:
+  - Removido `.nyc_output` (no se usa NYC para coverage, se usa Jest)
+  - Removido `*.sublime-workspace` (no se usa Sublime Text)
+  - Removido `.parcel-cache` (no se usa Parcel bundler)
+  - Removido `.vercel` y `.netlify` (se usa Fly.io para deployment)
+  - Agregadas nuevas exclusiones para archivos de configuración local
+- **Documentación completa actualizada**:
+  - **README.md**: Eliminada sección redundante "🚀 Quick Start con Docker", agregadas opciones para desarrollo en tiempo real con Docker, mejorada la estructura y claridad
+  - **docs/architecture.md**: Actualizada para reflejar cambios en la estructura del proyecto y versiones
+  - **docs/technologies.md**: Documentación ampliada con nuevas tecnologías y herramientas integradas
+- **Reorganización de estructura de proyecto**:
+  - Movimiento de archivos Docker a estructura organizada bajo `docker/`
+  - Configuraciones de entorno centralizadas en `config/environments/`
+  - Eliminación de archivos obsoletos como `.env.example` y `docker-compose.yml` raíz
+
+## [1.1.3] - 2025-07-30
+
+### ✨ Nuevas funcionalidades
+
+- **Autenticación con Google y JWT**: Ahora los usuarios pueden registrarse o iniciar sesión utilizando su cuenta de Google mediante la nueva ruta `POST /auth/google`.  
+  Además, se integró **JWT (NestJS)** para la emisión de tokens seguros tras la autenticación.
+
+#### Detalles técnicos
+
+- Se integró **Firebase Auth** para la validación de tokens de Google.
+- Se implementó el módulo **JWT de NestJS** para generar tokens de acceso firmados.
+- Se creó un nuevo caso de uso dedicado a la autenticación con Google y su repositorio correspondiente.
+- Se añadieron tests unitarios para la lógica de autenticación y generación de tokens.
+
 ## [1.1.2] - 2025-07-27
 
 ### ✨ Nuevas funcionalidades

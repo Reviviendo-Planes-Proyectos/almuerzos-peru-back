@@ -1,0 +1,93 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { GetAllUsersUseCase } from '../get-all-users.use-case';
+import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
+
+describe('GetAllUsersUseCase', () => {
+  let useCase: GetAllUsersUseCase;
+
+  const mockFirebaseAuthRepository = {
+    getAllUsers: jest.fn()
+  };
+
+  const usersMock: IUser[] = [
+    {
+      id: 1,
+      username: 'alice',
+      email: 'alice@example.com',
+      sub: 'google-oauth2|1111',
+      emailVerified: true,
+      providerId: 'google',
+      imageUrl: 'https://example.com/alice.jpg',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    {
+      id: 2,
+      username: 'bob',
+      email: 'bob@example.com',
+      sub: 'google-oauth2|2222',
+      emailVerified: true,
+      providerId: 'google',
+      imageUrl: null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ];
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: GetAllUsersUseCase,
+          useFactory: (repo: IFirebaseAuthRepository) => new GetAllUsersUseCase(repo),
+          inject: ['IFirebaseAuthRepository']
+        },
+        {
+          provide: 'IFirebaseAuthRepository',
+          useValue: mockFirebaseAuthRepository
+        }
+      ]
+    }).compile();
+
+    useCase = module.get<GetAllUsersUseCase>(GetAllUsersUseCase);
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('execute', () => {
+    it('should return a list of users formatted as AuthUserDto[]', async () => {
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue(usersMock);
+
+      const result = await useCase.execute();
+
+      expect(result).toEqual([
+        {
+          username: 'alice',
+          email: 'alice@example.com',
+          providerId: 'google',
+          imageUrl: 'https://example.com/alice.jpg'
+        },
+        {
+          username: 'bob',
+          email: 'bob@example.com',
+          providerId: 'google',
+          imageUrl: undefined
+        }
+      ]);
+
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return an empty array when there are no users', async () => {
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue([]);
+
+      const result = await useCase.execute();
+
+      expect(result).toEqual([]);
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+    });
+  });
+});

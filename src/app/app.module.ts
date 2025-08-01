@@ -2,23 +2,31 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { join } from 'path';
 import { HealthService } from '../core/services/health.service';
 import { logger } from 'src/infrastructure/logger/logger';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
-import { UsersModule } from './modules/users/users.module';
 import { AppController } from 'src/interfaces/controllers/app/app.controller';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
+
+// Environment file paths
+const nodeEnv = process.env.NODE_ENV || 'development';
+const envLocalPath = join(process.cwd(), 'config', 'environments', `${nodeEnv}.local.env`);
+const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv}.env`);
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env'
+      envFilePath: [
+        envLocalPath, // Local file with real data
+        envTemplatePath // Template file as fallback
+      ]
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        // Determinar configuración SSL
         const sslEnabled = configService.get('DB_SSL') === 'true';
 
         const config = {
@@ -43,7 +51,7 @@ import { AppController } from 'src/interfaces/controllers/app/app.controller';
       },
       inject: [ConfigService]
     }),
-    UsersModule
+    AuthenticationModule
   ],
   controllers: [AppController],
   providers: [

@@ -1,41 +1,44 @@
-import '../../src/crypto-polyfill';
-import { NestFactory } from '@nestjs/core';
+import '../../src/common/polyfills/crypto-polyfill';
 import { DataSource } from 'typeorm';
-import { Logger } from '@nestjs/common';
-import { AppModule } from 'src/app/app.module';
+import { logger } from '../../src/infrastructure/logger/logger';
+import { loadEnvironment, getDatabaseConfig } from '../utils/env-loader';
+
+// Cargar variables de entorno
+loadEnvironment();
+
+logger.log('🚀 Verificación de base de datos iniciada');
 
 export async function checkDatabaseConnection(): Promise<boolean> {
-  const logger = new Logger('DBCheck');
+  logger.log('🔥 Conectando directamente a la base de datos...');
+
+  const dataSource = new DataSource(getDatabaseConfig());
 
   try {
-    const app = await NestFactory.create(AppModule, {
-      logger: ['error', 'warn', 'log']
-    });
-
-    const dataSource = app.get(DataSource);
-
-    if (!dataSource.isInitialized) {
-      logger.error('❌ Conexión fallida');
-      await app.close();
-      return false;
-    }
-
+    await dataSource.initialize();
     logger.log('✅ Conexión exitosa');
-    logger.log(`📊 Base de datos: ${(dataSource.options as any).database}`);
+    logger.log(`📊 Base de datos: ${String(dataSource.options.database)}`);
     logger.log(`🏠 Host: ${(dataSource.options as any).host}`);
 
     const result = await dataSource.query('SELECT NOW() as current_time');
     logger.log(`⏰ Tiempo servidor: ${result[0].current_time}`);
 
-    await app.close();
+    // Consultar usuarios directamente
+    const users = await dataSource.query('SELECT id, username, email FROM users ORDER BY id');
+    logger.log(`🙋 Usuarios encontrados: ${users.length}`);
+    users.forEach((user: any, index: number) => {
+      logger.log(`   ${index + 1}. ${user.username} - ${user.email}`);
+    });
+
+    await dataSource.destroy();
     logger.log('✅ Verificación completada');
     return true;
   } catch (error: any) {
-    logger.error('❌ Error: ' + error.message);
+    logger.error('❌ Error:', error.message);
     return false;
   }
 }
 
+// Ejecutar directamente si se corre el archivo
 if (require.main === module) {
   checkDatabaseConnection().then((success) => {
     if (!success) process.exit(1);
