@@ -1,18 +1,19 @@
-# 🍽️ Almuerzos Perú - Backend API v1.1.2 🎉
+# 🍽️ Almuerzos Perú - Backend API v1.0.0 🎉
 
-[![Version](https://img.shields.io/badge/version-1.1.2-green.svg)](https://semver.org)
-[![Node.js](https://img.shields.io/badge/node.js-18+-blue.svg)](https://nodejs.org)
-[![NestJS](https://img.shields.io/badge/nestjs-11.x-red.svg)](https://nestjs.com)
-[![TypeScript](https://img.shields.io/badge/typescript-5.x-blue.svg)](https://typescriptlang.org)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://semver.org)
+[![Node.js](https://img.shields.io/badge/node.js-20.11.1-blue.svg)](https://nodejs.org)
+[![NPM](https://img.shields.io/badge/npm-10.2.4-blue.svg)](https://npmjs.com)
+[![NestJS](https://img.shields.io/badge/nestjs-11.1.5-red.svg)](https://nestjs.com)
+[![TypeScript](https://img.shields.io/badge/typescript-5.8.3-blue.svg)](https://typescriptlang.org)
 [![PostgreSQL](https://img.shields.io/badge/postgresql-15+-blue.svg)](https://postgresql.org)
 [![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://docker.com)
-[![Tests](https://img.shields.io/badge/tests-61%20passing-green.svg)](https://jestjs.io)
+[![Tests](https://img.shields.io/badge/tests-jest-green.svg)](https://jestjs.io)
 
 &nbsp;
 
 ## 📋 Descripción
 
-API REST para la plataforma de almuerzos peruanos, desarrollado con **NestJS 11**, **TypeORM** y **PostgreSQL**. Implementa **Arquitectura Hexagonal** para máxima escalabilidad y mantenibilidad.
+API REST para la plataforma de almuerzos peruanos, desarrollado con **NestJS 11.1.5**, **TypeORM 0.3.25** y **PostgreSQL**. Implementa **Arquitectura Hexagonal** para máxima escalabilidad y mantenibilidad.
 
 ### 🌟 Características Principales
 
@@ -21,10 +22,12 @@ API REST para la plataforma de almuerzos peruanos, desarrollado con **NestJS 11*
 - ✅ **Validaciones** automáticas con decoradores
 - ✅ **Documentación** completa de arquitectura
 - ✅ **Docker** ready para deployment
-- ✅ **61 Tests unitarios** implementados y pasando
-- ✅ **Logging avanzado con Winston**: Toda la app usa un logger propio basado en Winston, configurable para consola y archivos, con soporte de contexto y trazas, evitando el uso de `console.log` y permitiendo integración futura con sistemas externos.
+- ✅ **Testing** con Jest y cobertura completa
+- ✅ **Logging avanzado** con Winston integrado
 - ✅ **CORS** configurado para frontend
 - ✅ **TypeScript** con strict mode
+- ✅ **Firebase Admin SDK** para autenticación
+- ✅ **Swagger/OpenAPI** para documentación de API
 
 &nbsp;
 
@@ -36,10 +39,9 @@ API REST para la plataforma de almuerzos peruanos, desarrollado con **NestJS 11*
 - [⚡ Instalación y Configuración](#-instalación-y-configuración)
 - [🔧 Scripts Disponibles](#-scripts-disponibles)
 - [🌐 API Endpoints](#-api-endpoints)
-- [📝 Documentación interactiva (Swagger)](#-documentación-interactiva-swagger)
 - [🧪 Testing y Verificación](#-testing-y-verificación)
 - [🐳 Docker](#-docker)
-- [🚀 Despliegue en Fly.io](#-deploy-flyio)
+- [🚀 Despliegue en Fly.io](#-despliegue-en-flyio)
 - [🛠️ Solución de Problemas](#️-solución-de-problemas)
 
 &nbsp;
@@ -60,144 +62,114 @@ La arquitectura hexagonal permite que el núcleo de negocio sea independiente de
 
 ## 🚀 Tecnologías
 
-- **Framework:** NestJS 11.x
+- **Framework:** NestJS 11.1.5
 - **Base de Datos:** PostgreSQL (AWS RDS)
-- **ORM:** TypeORM 0.3.x
-- **Lenguaje:** TypeScript
-- **Validación:** Class-validator
-- **Testing:** Jest
+- **ORM:** TypeORM 0.3.25
+- **Lenguaje:** TypeScript 5.8.3
+- **Validación:** Class-validator 0.14.2
+- **Testing:** Jest 29.7.0
 - **Linting:** ESLint + Prettier
+- **Logger:** Winston 3.17.0
+- **Autenticación:** Firebase Admin SDK 12.7.0
+- **Documentación:** Swagger/OpenAPI
+- **Contenedores:** Docker
 
 &nbsp;
 
 ## ⚡ Instalación y Configuración
 
-### Configuración de CORS (Frontend-Backend)
+### 🎯 Opción 1: Docker (Recomendado)
 
-Para permitir solicitudes desde el frontend (local y producción), configura los orígenes permitidos en el archivo `.env`:
+**Prerequisitos:**
 
-```env
-FRONTEND_URL=http://localhost:4200,http://localhost:3000,https://almuerzos-peru-front.vercel.app
-```
+- [Docker Desktop](https://docker.com/get-started) instalado
 
-El backend leerá esta variable y habilitará CORS automáticamente para esos orígenes.
-
-**En producción**, asegúrate de incluir la URL de tu frontend desplegado (por ejemplo, Vercel):
-
-```env
-FRONTEND_URL=https://almuerzos-peru-front.vercel.app
-```
-
-No es necesario modificar el código para agregar/quitar orígenes, solo actualiza la variable de entorno y reinicia el backend.
-
-#### Test rápido de CORS desde el frontend
-
-Puedes probar la conexión con el backend usando fetch o axios desde el frontend:
-
-```js
-fetch('https://almuerzos-peru.fly.dev/api/v1/users')
-  .then((res) => res.json())
-  .then((data) => console.log(data));
-```
-
-Si recibes datos correctamente y no hay errores de CORS en la consola del navegador, la configuración es exitosa.
-
-### 1. Clonar repositorio
+**Pasos:**
 
 ```bash
+# 1. Clonar repositorio
 git clone https://github.com/Reviviendo-Planes-Proyectos/almuerzos-peru-back.git
 cd almuerzos-peru-back
+
+# 2. Levantar con Docker
+npm run docker:dev              # Desarrollo normal
+# O para desarrollo en tiempo real:
+npm run docker:dev:build
+
+# 3. Verificar funcionamiento
+curl http://localhost:3000/api/v1/health
 ```
 
-### 2. Instalar dependencias
+### 💻 Opción 2: Desarrollo Local
+
+**Prerequisitos:**
+
+- Node.js 20.11.1 y npm 10.2.4 ([instalar con NVM](https://github.com/nvm-sh/nvm))
+- PostgreSQL 15+ instalado localmente
+
+**Pasos:**
 
 ```bash
-npm install
+# 1. Clonar e instalar dependencias
+git clone https://github.com/Reviviendo-Planes-Proyectos/almuerzos-peru-back.git
+cd almuerzos-peru-back
+npm ci
+
+# 2. Configurar variables de entorno
+cp config/environments/development.env config/environments/development.local.env
+# Editar development.local.env con tu configuración de PostgreSQL local
+
+# 3. Iniciar desarrollo
+npm run start:dev
 ```
-
-### 3. Configurar variables de entorno
-
-```bash
-# Copiar archivo de ejemplo
- .env
-
-# Editar con tus datos de base de datos
-DB_HOST=your-database-host
-DB_PORT=5432
-DB_USERNAME=your-username
-DB_PASSWORD=your-password
-DB_NAME=your-database-name
-DB_SSL=true
-
-NODE_ENV=development
-PORT=3000
-```
-
-### 4. Verificar conexión a base de datos
-
-```bash
-npm run db:check
-```
-
-&nbsp;
 
 ## 🔧 Scripts Disponibles
 
-### Desarrollo
+### 🚀 Desarrollo
 
 ```bash
-# Modo desarrollo con watch
-npm run start:dev
-
-# Modo desarrollo normal
-npm run start
-
-# Modo producción
-npm run start:prod
+npm run start:dev         # Desarrollo local con hot-reload
+npm run start:debug       # Desarrollo con debugging
+npm run build             # Construir para producción
+npm run start:prod        # Iniciar aplicación en producción
 ```
 
-### Base de Datos
+### 🐳 Docker
 
 ```bash
-# Verificar conexión
-npm run db:check
-
-# Probar funcionalidad completa
-npm run db:test
+npm run docker:dev        # Levantar PostgreSQL + API
+npm run docker:dev:build   # Reconstruir y levantar
+npm run docker:dev:logs   # Ver logs en tiempo real
+npm run docker:dev:down   # Parar todos los servicios
 ```
 
-### Calidad de Código
+### 🧪 Testing
 
 ```bash
-# Formatear código
-npm run format
-
-# Linting
-npm run lint
-
-# Construir proyecto
-npm run build
+npm test                  # Ejecutar tests unitarios
+npm run test:watch        # Tests en modo watch
+npm run test:coverage     # Tests con reporte de cobertura
+npm run test:e2e          # Tests end-to-end
 ```
 
-### Testing
+### 🔍 Calidad de Código
 
 ```bash
-# Tests unitarios
-npm run test
+npm run lint              # Verificar y corregir código
+npm run format            # Formatear código con Prettier
+npm run typecheck         # Verificar tipos TypeScript
+```
 
-# Tests en modo watch
-npm run test:watch
+### 🗄️ Base de Datos
 
-# Tests con cobertura
-npm run test:cov
-
-# Tests end-to-end
-npm run test:e2e
+```bash
+npm run db:check          # Verificar conexión a BD
+npm run db:test           # Test completo de TypeORM
 ```
 
 &nbsp;
 
-## 📝 Documentación interactiva (Swagger)
+## Documentación interactiva (Swagger)
 
 La API cuenta con documentación interactiva generada automáticamente con Swagger/OpenAPI.
 
@@ -387,30 +359,162 @@ curl http://localhost:3000/api/v1
 
 ## 🐳 Docker
 
-### Desarrollo con Docker Compose
+### 📋 Estructura de Docker
 
-```bash
-# Levantar toda la aplicación
-docker-compose up -d
-
-# Ver logs
-docker-compose logs -f
-
-# Parar servicios
-docker-compose down
+```
+docker/
+├── compose/
+│   ├── docker-compose.dev.yml     # Desarrollo
+│   └── docker-compose.prod.yml    # Producción
+└── images/
+    ├── Dockerfile.dev             # Imagen desarrollo
+    └── Dockerfile.prod            # Imagen producción
 ```
 
-### Build para producción
+### 🚀 Comandos Docker
+
+#### Usando scripts npm (Recomendado)
 
 ```bash
-# Construir imagen
-docker build -t almuerzos-peru-api .
+npm run docker:dev           # Levantar desarrollo
+npm run docker:dev:build     # Reconstruir y levantar
+npm run docker:dev:logs      # Ver logs en tiempo real
+npm run docker:dev:down      # Parar servicios
+```
 
-# Ejecutar contenedor
-docker run -p 3000:3000 \
-  -e DB_HOST=your-db-host \
-  -e DB_PASSWORD=your-password \
-  almuerzos-peru-api
+#### Comandos Docker directos
+
+```bash
+# Desarrollo
+docker-compose -f docker/compose/docker-compose.dev.yml up -d
+docker-compose -f docker/compose/docker-compose.dev.yml logs -f
+docker-compose -f docker/compose/docker-compose.dev.yml down
+
+# Producción
+docker-compose -f docker/compose/docker-compose.prod.yml up -d
+docker-compose -f docker/compose/docker-compose.prod.yml down
+```
+
+### 📊 Servicios en Desarrollo
+
+| Servicio       | Puerto | URL                                 | Descripción      |
+| -------------- | ------ | ----------------------------------- | ---------------- |
+| **API NestJS** | 3000   | http://localhost:3000/api/v1        | API principal    |
+| **PostgreSQL** | 5432   | localhost:5432                      | Base de datos    |
+| **Swagger**    | 3000   | http://localhost:3000/api/docs      | Documentación    |
+| **Health**     | 3000   | http://localhost:3000/api/v1/health | Estado de la API |
+
+### ✅ Verificación
+
+```bash
+# Ver estado de contenedores
+docker ps
+
+# Probar la API
+curl http://localhost:3000/api/v1/health
+
+# Conectar a PostgreSQL
+docker exec -it almuerzos-postgres psql -U postgres -d db_almuerzos_dev
+```
+
+### 🔧 Solución de Problemas
+
+**Puerto ocupado:**
+
+```bash
+docker stop $(docker ps -q)
+```
+
+**Problemas de permisos:**
+
+```bash
+npm run docker:clean
+npm run docker:dev:build
+```
+
+**Base de datos no conecta:**
+
+```bash
+docker logs almuerzos-postgres
+docker logs almuerzos-api
+```
+
+### 🏭 Producción con Docker
+
+```bash
+# Configurar variables de producción
+cp config/environments/production.env config/environments/production.local.env
+# Editar production.local.env con credenciales reales
+
+# Levantar en producción
+npm run docker:prod
+```
+
+### 📁 Variables de Entorno
+
+```
+config/environments/
+├── development.env         # Desarrollo local
+├── development.docker.env  # Docker (incluido)
+├── production.env          # Template producción
+├── test.env               # Testing
+└── *.local.env            # Archivos personales (no versionados)
+```
+
+**Principales variables:**
+
+- `NODE_ENV`, `PORT` - Configuración de aplicación
+- `DB_*` - Conexión a base de datos
+- `JWT_SECRET` - Clave para autenticación
+- `FRONTEND_URL` - URLs permitidas para CORS
+
+&nbsp;
+
+### ⚡ Verificación Rápida
+
+Una vez levantados los servicios, verifica que todo funcione:
+
+```bash
+# Health check
+curl http://localhost:3000/api/v1/health
+
+# Información de la API
+curl http://localhost:3000/api/v1
+
+# Abrir documentación
+# Windows: start http://localhost:3000/api/docs
+# macOS: open http://localhost:3000/api/docs
+# Linux: xdg-open http://localhost:3000/api/docs
+```
+
+### 🛠️ Solución de Problemas Docker
+
+#### Puerto en uso
+
+```bash
+# Ver qué está usando el puerto 3000
+netstat -tulpn | grep :3000  # Linux
+netstat -ano | findstr :3000 # Windows
+
+# Cambiar puerto en docker-compose.yml si es necesario
+ports:
+  - '3001:3000'  # Host:Container
+```
+
+#### Problemas de permisos (Windows)
+
+```bash
+# Ejecutar PowerShell como administrador
+# O usar Docker Desktop con permisos de administrador
+```
+
+#### Reconstruir tras cambios en dependencias
+
+```bash
+# Parar, limpiar y reconstruir
+docker-compose down
+docker-compose build --no-cache
+docker-compose up -d
 ```
 
 &nbsp;
@@ -421,13 +525,13 @@ Para desplegar la aplicación en Fly.io se debe considerar lo siguiente:
 
 - El despliegue utiliza el archivo `fly.toml` para la configuración de la app, puertos y servicios.
 - Las variables sensibles deben gestionarse mediante `fly secrets` y nunca versionarse.
-- El build se realiza usando Docker, por lo que cualquier cambio en dependencias o entorno debe reflejarse en el `Dockerfile`.
+- El build se realiza usando Docker, por lo que cualquier cambio en dependencias o entorno debe reflejarse en el `Dockerfile.prod`.
 - El entorno de producción puede diferir del local, validar siempre las variables y configuraciones antes de desplegar.
 - Los logs y errores pueden consultarse desde la CLI de Fly.io para diagnóstico.
 - Archivos clave:
   - `fly.toml`: Configuración principal de la app en Fly.io.
-  - `Dockerfile`: Imagen utilizada para el despliegue.
-  - `.env` (no versionado): Variables de entorno locales.
+  - `docker/images/Dockerfile.prod`: Imagen utilizada para el despliegue.
+  - Variables de entorno: Gestionadas mediante `fly secrets`.
 
 ### Comandos útiles
 
