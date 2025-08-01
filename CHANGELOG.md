@@ -12,15 +12,24 @@
   - `@nestjs/schematics`
 - ESLint y paquetes relacionados actualizados a versiones recientes.
 - TypeScript actualizado a la versión ^5.8.3.
+- Unificada la lógica de autenticación social para admitir tanto **Google** como **Facebook**.
+- Renombrado el método `createUserFromGoogle` a `createUserFromFirebase`.
+- Cambiada la ruta de autenticación social de `POST /auth/google` a `POST /auth/social`.
+- Reorganizados los métodos del controlador de autenticación para reflejar la nueva estrategia social única.
 
 ### Correcciones
 
 - Corregida la ruta de importación para `AuthenticationModule` en `app.module.ts`.
 - Corregida la ruta de importación para `AppModule` en archivo de prueba E2E.
+- Eliminado código duplicado entre las implementaciones de Google y Facebook.
+- Corregidas validaciones específicas por proveedor en el caso de uso `CreateUserFromSocialProviderUseCase`.
 
 ### Mejoras
 
 - Mejoradas las pruebas del middleware del registrador con métodos de simulación adicionales.
+- Simplificada la arquitectura de autenticación social al centralizar la lógica en una única ruta y método.
+- Refactorizados los tests unitarios relacionados con autenticación social para reflejar los cambios en estructura y nombres.
+
 
 ## [1.1.3] - 2025-07-30
 
