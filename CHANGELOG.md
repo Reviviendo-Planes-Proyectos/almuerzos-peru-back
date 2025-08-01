@@ -30,7 +30,6 @@
 - Simplificada la arquitectura de autenticación social al centralizar la lógica en una única ruta y método.
 - Refactorizados los tests unitarios relacionados con autenticación social para reflejar los cambios en estructura y nombres.
 
-
 ## [1.1.3] - 2025-07-30
 
 ### ✨ Nuevas funcionalidades

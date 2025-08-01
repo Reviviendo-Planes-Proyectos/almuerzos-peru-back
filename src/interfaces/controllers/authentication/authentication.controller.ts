@@ -6,12 +6,12 @@ import { AuthResponseDto } from 'src/interfaces/dto/authentication/response/resp
 
 @ApiTags('auth')
 @Controller({ path: 'auth', version: '1' })
-export class AuthenticationContrller {
+export class AuthenticationController {
   constructor(private readonly createUserFromFirebaseAuthUseCase: CreateUserFromFirebaseAuthUseCase) {}
 
   @Post('social')
   @ApiOperation({ summary: 'Crear usuario desde cualquier plataforma' })
-  @ApiBody({ type: CreateUserFromFirebaseAuthUseCase })
+  @ApiBody({ type: CreateUserFromFirebaseDto })
   @ApiCreatedResponse({
     description: 'Usuario creado exitosamente',
     type: AuthResponseDto
