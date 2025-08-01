@@ -1,57 +1,79 @@
-# compiled output
+# Dependencies
 /dist
-/node_modules
 /build
+/node_modules
+npm-debug.log*
 
 # Logs
-logs
+logs/
 *.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
-# OS
-.DS_Store
+# Environment files
+*.local.env
+.env.local
+.env.*.local
+config/environments/*.local.env
+config/environments/production.local.env
+config/environments/development.local.env
+config/environments/test.local.env
+config/environments/staging.local.env
 
-# Tests
+# Testing
 /coverage
-/.nyc_output
+/test-results
+/junit.xml
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# Docker
+docker-compose.override.yml
+docker-compose.*.override.yml
+docker/logs/
 
-# IDE - VSCode
+# IDEs
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/.idea
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.c9/
+*.launch
+.settings/
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.stackdump
+
+# Security
+*.pem
+*.key
+*.p12
+*.p8
+*.pfx
 serviceAccountKey.json
+firebase-adminsdk-*.json
+firebase-service-account.json
 
-# temp directory
-.temp
+# Cache
+.eslintcache
+.cache
 .tmp
+.temp
+.sonarlint/
 
-# Runtime data
+# Runtime
 pids
 *.pid
 *.seed
 *.pid.lock
-
-# Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json

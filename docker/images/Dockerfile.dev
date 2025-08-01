@@ -1,0 +1,22 @@
+# Development Dockerfile
+FROM node:20-alpine
+
+# Install development tools
+RUN apk add --no-cache bash git curl
+
+# Setup working directory
+WORKDIR /app
+RUN chown node:node /app
+
+USER node
+
+# Install dependencies
+COPY --chown=node:node package*.json ./
+RUN npm ci && npm cache clean --force
+
+# Copy source code
+COPY --chown=node:node . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:dev"]

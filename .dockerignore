@@ -1,23 +1,98 @@
 # Node.js dependencies
 node_modules
-npm-debug.log
-yarn-debug.log
-yarn-error.log
-pnpm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Build output
 dist
 build
 coverage
+.coverage
+*.lcov
+.nyc_output
 
 # Environment files
 .env
-.env.* # Si usas múltiples entornos como .env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Sistema de control de versiones
 .git
 .gitignore
 .gitattributes
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache
+.cache
+.parcel-cache
+.next
+.nuxt
+.vuepress/dist
+.fusebox/
+
+# Serverless directories
+.serverless
+
+# DynamoDB Local files
+.dynamodb/
+
+# Archivos de Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Archivos de IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test files
+test
+tests
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+jest.config.js
+.jest
+
+# Documentation
+docs
+README.md
+CHANGELOG.md
+*.md
+
+# Scripts de desarrollo
+scripts/
+
+# Archivos temporales
+tmp
+temp
+*.tmp
 
 # Archivos de configuración del sistema operativo o IDE
 .DS_Store
