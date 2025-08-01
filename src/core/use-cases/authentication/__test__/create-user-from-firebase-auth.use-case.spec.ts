@@ -6,11 +6,11 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
   let useCase: CreateUserFromFirebaseAuthUseCase;
 
   const mockFirebaseAuthRepository = {
-    decodedUserFromFirebase: jest.fn(), // 🔄 método correcto
+    decodedUserFromFirebase: jest.fn(),
     findUserBySub: jest.fn(),
     saveUser: jest.fn(),
     generateJWT: jest.fn(),
-    getAllUsers: jest.fn() // por si tu interfaz lo exige
+    getAllUsers: jest.fn()
   };
 
   const buildUser = (overrides?: Partial<IUser>): IUser => {

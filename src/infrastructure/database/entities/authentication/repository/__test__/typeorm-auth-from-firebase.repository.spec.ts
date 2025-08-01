@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../../user.entity';
 import { IUser } from '../../../../../../core/domain/repositories/authentication/user.entity';
 import { FirebaseService } from '../../../../../../common/firebase/firebase.service';
-import { TypeOrmAuthenticationFromFirebase } from '../typeorm-auth-from-google.repository';
+import { TypeOrmAuthenticationFromFirebase } from '../typeorm-auth-from-firebase.repository';
 
 describe('TypeOrmAuthenticationFromGoogle', () => {
   let repo: TypeOrmAuthenticationFromFirebase;

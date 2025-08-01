@@ -3,15 +3,15 @@ import { User } from '../../domain/repositories/authentication/user.entity';
 import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
 
 export class CreateUserFromFirebaseAuthUseCase {
-  constructor(private readonly googleAuthRepository: IFirebaseAuthRepository) {}
+  constructor(private readonly firebaseAuthRepository: IFirebaseAuthRepository) {}
 
   async execute(token: string): Promise<AuthResponseDto> {
-    const decodedUser = await this.googleAuthRepository.decodedUserFromFirebase(token);
-    let user = await this.googleAuthRepository.findUserBySub(decodedUser.sub);
+    const decodedUser = await this.firebaseAuthRepository.decodedUserFromFirebase(token);
+    let user = await this.firebaseAuthRepository.findUserBySub(decodedUser.sub);
     if (!user) {
-      user = await this.googleAuthRepository.saveUser(User.create(decodedUser));
+      user = await this.firebaseAuthRepository.saveUser(User.create(decodedUser));
     }
-    const jwt = this.googleAuthRepository.generateJWT(user);
+    const jwt = this.firebaseAuthRepository.generateJWT(user);
     return {
       token: jwt,
       user: {
