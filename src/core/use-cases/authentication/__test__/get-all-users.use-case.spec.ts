@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetAllUsersUseCase } from '../get-all-users.use-case';
-import { IGoogleAuthRepository } from 'src/core/domain/repositories/authentication/google-auth.repository.interface';
 import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
 
 describe('GetAllUsersUseCase', () => {
   let useCase: GetAllUsersUseCase;
@@ -40,7 +40,7 @@ describe('GetAllUsersUseCase', () => {
       providers: [
         {
           provide: GetAllUsersUseCase,
-          useFactory: (repo: IGoogleAuthRepository) => new GetAllUsersUseCase(repo),
+          useFactory: (repo: IFirebaseAuthRepository) => new GetAllUsersUseCase(repo),
           inject: ['IGoogleAuthRepository']
         },
         {

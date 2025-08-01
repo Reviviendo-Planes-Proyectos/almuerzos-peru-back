@@ -1,12 +1,12 @@
-import { IGoogleAuthRepository } from '../../domain/repositories/authentication/google-auth.repository.interface';
 import { AuthResponseDto } from '../../../interfaces/dto/authentication/response/response-auth-user.dto';
-import { User } from '../../../core/domain/repositories/authentication/user.entity';
+import { User } from '../../domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
 
-export default class CreateUserFromGoogleUseCase {
-  constructor(private readonly googleAuthRepository: IGoogleAuthRepository) {}
+export class CreateUserFromFirebaseAuthUseCase {
+  constructor(private readonly googleAuthRepository: IFirebaseAuthRepository) {}
 
   async execute(token: string): Promise<AuthResponseDto> {
-    const decodedUser = await this.googleAuthRepository.decodedUserFromGoogle(token);
+    const decodedUser = await this.googleAuthRepository.decodedUserFromFirebase(token);
     let user = await this.googleAuthRepository.findUserBySub(decodedUser.sub);
     if (!user) {
       user = await this.googleAuthRepository.saveUser(User.create(decodedUser));
