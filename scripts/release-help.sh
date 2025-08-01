@@ -10,37 +10,19 @@ echo "🚀 COMANDO PRINCIPAL:"
 echo "./scripts/release.sh [version] [branch]"
 echo
 
-echo "📝 PARÁMETROS:"
+echo "📝 EJEMPLOS COMUNES:"
 echo
-echo "version (opcional):"
-echo "  - patch     → Incrementa versión patch (1.0.0 → 1.0.1)"
-echo "  - minor     → Incrementa versión minor (1.0.0 → 1.1.0)"
-echo "  - major     → Incrementa versión major (1.0.0 → 2.0.0)"
-echo "  - X.Y.Z     → Versión específica (ej: 2.1.5)"
-echo "  - (vacío)   → Por defecto usa 'patch'"
+echo "# Release automático (patch: 1.0.0 → 1.0.1)"
+echo "./scripts/release.sh"
 echo
-echo "branch (opcional):"
-echo "  - Especifica la branch objetivo"
-echo "  - Por defecto: feature/mila"
+echo "# Nuevas características (minor: 1.0.0 → 1.1.0)"
+echo "./scripts/release.sh minor"
 echo
-
-echo "💡 EJEMPLOS DE USO:"
+echo "# Cambios breaking (major: 1.0.0 → 2.0.0)"
+echo "./scripts/release.sh major"
 echo
-echo "1. Release patch automático:"
-echo "   ./scripts/release.sh"
-echo "   ./scripts/release.sh patch"
-echo
-echo "2. Release minor (nuevas características):"
-echo "   ./scripts/release.sh minor"
-echo
-echo "3. Release major (cambios breaking):"
-echo "   ./scripts/release.sh major"
-echo
-echo "4. Versión específica:"
-echo "   ./scripts/release.sh 2.0.0"
-echo
-echo "5. En branch diferente:"
-echo "   ./scripts/release.sh minor feature/nueva-feature"
+echo "# Versión específica"
+echo "./scripts/release.sh 2.1.3"
 echo
 
 echo "🔍 QUÉ HACE EL SCRIPT:"

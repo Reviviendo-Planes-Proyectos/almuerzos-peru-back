@@ -10,6 +10,7 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
+    "setup": "bash scripts/setup-env.sh",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",

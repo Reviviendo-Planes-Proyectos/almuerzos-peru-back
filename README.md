@@ -91,12 +91,18 @@ La arquitectura hexagonal permite que el núcleo de negocio sea independiente de
 git clone https://github.com/Reviviendo-Planes-Proyectos/almuerzos-peru-back.git
 cd almuerzos-peru-back
 
-# 2. Levantar con Docker
+# 2. Configurar entornos (automático)
+npm run setup
+
+# 3. Configurar credenciales Docker
+code config/environments/development.docker.local.env
+
+# 4. Levantar con Docker
 npm run docker:dev              # Desarrollo normal
 # O para desarrollo en tiempo real:
 npm run docker:dev:build
 
-# 3. Verificar funcionamiento
+# 5. Verificar funcionamiento
 curl http://localhost:3000/api/v1/health
 ```
 
@@ -115,11 +121,16 @@ git clone https://github.com/Reviviendo-Planes-Proyectos/almuerzos-peru-back.git
 cd almuerzos-peru-back
 npm ci
 
-# 2. Configurar variables de entorno
-cp config/environments/development.env config/environments/development.local.env
-# Editar development.local.env con tu configuración de PostgreSQL local
+# 2. Configurar entornos (automático)
+npm run setup
 
-# 3. Iniciar desarrollo
+# 3. Configurar credenciales locales
+code config/environments/development.local.env
+
+# 4. Verificar conexión a BD
+npm run db:check
+
+# 5. Iniciar desarrollo
 npm run start:dev
 ```
 
@@ -128,6 +139,7 @@ npm run start:dev
 ### 🚀 Desarrollo
 
 ```bash
+npm run setup             # Configurar entornos (crear archivos .local.env)
 npm run start:dev         # Desarrollo local con hot-reload
 npm run start:debug       # Desarrollo con debugging
 npm run build             # Construir para producción
@@ -143,6 +155,20 @@ npm run docker:dev:logs   # Ver logs en tiempo real
 npm run docker:dev:down   # Parar todos los servicios
 ```
 
+### 🔧 Utilidades
+
+```bash
+npm run db:check          # Verificar conexión a base de datos
+npm run db:test           # Probar TypeORM y estructura
+npm run typecheck         # Verificar tipos TypeScript
+```
+
+npm run docker:dev:build # Reconstruir y levantar
+npm run docker:dev:logs # Ver logs en tiempo real
+npm run docker:dev:down # Parar todos los servicios
+
+````
+
 ### 🧪 Testing
 
 ```bash
@@ -150,7 +176,7 @@ npm test                  # Ejecutar tests unitarios
 npm run test:watch        # Tests en modo watch
 npm run test:coverage     # Tests con reporte de cobertura
 npm run test:e2e          # Tests end-to-end
-```
+````
 
 ### 🔍 Calidad de Código
 
@@ -452,16 +478,25 @@ npm run docker:prod
 
 ### 📁 Variables de Entorno
 
+El proyecto usa un sistema de configuración por entornos. Los archivos `.local.env` contienen credenciales reales y están protegidos por `.gitignore`.
+
 ```
 config/environments/
-├── development.env         # Desarrollo local
-├── development.docker.env  # Docker (incluido)
-├── production.env          # Template producción
-├── test.env               # Testing
-└── *.local.env            # Archivos personales (no versionados)
+├── development.env              # Template desarrollo
+├── development.local.env        # Credenciales desarrollo (auto-generado)
+├── development.docker.env       # Template Docker
+├── development.docker.local.env # Credenciales Docker (auto-generado)
+├── production.env               # Template producción
+└── *.local.env                  # Archivos personales (protegidos)
 ```
 
-**Principales variables:**
+**Configuración automática:**
+
+```bash
+npm run setup                    # Crea archivos .local.env desde templates
+```
+
+**Variables principales:**
 
 - `NODE_ENV`, `PORT` - Configuración de aplicación
 - `DB_*` - Conexión a base de datos
