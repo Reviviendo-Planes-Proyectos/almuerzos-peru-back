@@ -6,7 +6,7 @@ import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentica
 describe('GetAllUsersUseCase', () => {
   let useCase: GetAllUsersUseCase;
 
-  const mockGoogleAuthRepository = {
+  const mockFirebaseAuthRepository = {
     getAllUsers: jest.fn()
   };
 
@@ -41,11 +41,11 @@ describe('GetAllUsersUseCase', () => {
         {
           provide: GetAllUsersUseCase,
           useFactory: (repo: IFirebaseAuthRepository) => new GetAllUsersUseCase(repo),
-          inject: ['IGoogleAuthRepository']
+          inject: ['IFirebaseAuthRepository']
         },
         {
-          provide: 'IGoogleAuthRepository',
-          useValue: mockGoogleAuthRepository
+          provide: 'IFirebaseAuthRepository',
+          useValue: mockFirebaseAuthRepository
         }
       ]
     }).compile();
@@ -59,7 +59,7 @@ describe('GetAllUsersUseCase', () => {
 
   describe('execute', () => {
     it('should return a list of users formatted as AuthUserDto[]', async () => {
-      mockGoogleAuthRepository.getAllUsers.mockResolvedValue(usersMock);
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue(usersMock);
 
       const result = await useCase.execute();
 
@@ -78,16 +78,16 @@ describe('GetAllUsersUseCase', () => {
         }
       ]);
 
-      expect(mockGoogleAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
     });
 
     it('should return an empty array when there are no users', async () => {
-      mockGoogleAuthRepository.getAllUsers.mockResolvedValue([]);
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue([]);
 
       const result = await useCase.execute();
 
       expect(result).toEqual([]);
-      expect(mockGoogleAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
     });
   });
 });
