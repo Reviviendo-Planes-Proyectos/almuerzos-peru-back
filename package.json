@@ -10,6 +10,7 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
+    "setup": "bash scripts/setup-env.sh",
     "build": "nest build",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -30,6 +31,14 @@
     "typecheck": "tsc --noEmit",
     "db:check": "ts-node tools/scripts/check-db.ts",
     "db:test": "ts-node tools/scripts/test-typeorm.ts",
+    "docker:dev": "docker-compose -f docker/compose/docker-compose.dev.yml up -d",
+    "docker:dev:build": "docker-compose -f docker/compose/docker-compose.dev.yml up --build -d",
+    "docker:dev:logs": "docker-compose -f docker/compose/docker-compose.dev.yml logs -f",
+    "docker:dev:down": "docker-compose -f docker/compose/docker-compose.dev.yml down",
+    "docker:prod": "docker-compose -f docker/compose/docker-compose.prod.yml up -d",
+    "docker:prod:build": "docker-compose -f docker/compose/docker-compose.prod.yml up --build -d",
+    "docker:prod:down": "docker-compose -f docker/compose/docker-compose.prod.yml down",
+    "docker:clean": "docker-compose -f docker/compose/docker-compose.dev.yml down -v && docker system prune -f",
     "prepare": "husky install",
     "precommit": "lint-staged",
     "version": "npm run format && npm run lint && git add -A"

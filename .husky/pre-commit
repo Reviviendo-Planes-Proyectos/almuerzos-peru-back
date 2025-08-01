@@ -12,6 +12,6 @@ fi
 echo "✅ Nombre de rama válido: $branch_name"
 
 npm run format
-npx precommit
+npm run precommit
 npm run lint
 npm run test:ci
