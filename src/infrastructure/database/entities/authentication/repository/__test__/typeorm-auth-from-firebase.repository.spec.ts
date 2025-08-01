@@ -2,13 +2,13 @@ import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { TypeOrmAuthenticationFromGoogle } from '../typeorm-auth-from-google.repository';
 import { UserEntity } from '../../user.entity';
 import { IUser } from '../../../../../../core/domain/repositories/authentication/user.entity';
 import { FirebaseService } from '../../../../../../common/firebase/firebase.service';
+import { TypeOrmAuthenticationFromFirebase } from '../typeorm-auth-from-firebase.repository';
 
 describe('TypeOrmAuthenticationFromGoogle', () => {
-  let repo: TypeOrmAuthenticationFromGoogle;
+  let repo: TypeOrmAuthenticationFromFirebase;
 
   let mockRepo: jest.Mocked<Repository<UserEntity>>;
   let mockFirebase: { verifyToken: jest.Mock };
@@ -25,7 +25,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        TypeOrmAuthenticationFromGoogle,
+        TypeOrmAuthenticationFromFirebase,
         {
           provide: getRepositoryToken(UserEntity),
           useValue: {
@@ -38,7 +38,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
       ]
     }).compile();
 
-    repo = module.get(TypeOrmAuthenticationFromGoogle);
+    repo = module.get(TypeOrmAuthenticationFromFirebase);
     mockRepo = module.get(getRepositoryToken(UserEntity));
   });
 
@@ -56,7 +56,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
 
       mockFirebase.verifyToken.mockResolvedValue(decoded);
 
-      const result = await repo.decodedUserFromGoogle(token);
+      const result = await repo.decodedUserFromFirebase(token);
 
       expect(mockFirebase.verifyToken).toHaveBeenCalledWith(token);
       expect(result).toEqual({
@@ -74,7 +74,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
       const error = new Error('invalid token');
       mockFirebase.verifyToken.mockRejectedValue(error);
 
-      await expect(repo.decodedUserFromGoogle(token)).rejects.toThrow(error);
+      await expect(repo.decodedUserFromFirebase(token)).rejects.toThrow(error);
       expect(mockFirebase.verifyToken).toHaveBeenCalledWith(token);
     });
   });

@@ -1,24 +1,25 @@
 import { Module } from '@nestjs/common';
 import { UserEntity } from '../../../infrastructure/database/entities/authentication/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmAuthenticationFromGoogle } from '../../../infrastructure/database/entities/authentication/repository/typeorm-auth-from-google.repository';
-import CreateUserFromGoogleUseCase from '../../../core/use-cases/authentication/create-user-from-google.use-case';
 import { JwtProviderModule } from 'src/common/jwt/jwt.module';
 import { FirebaseService } from 'src/common/firebase/firebase.service';
-import { AuthenticationContrller } from 'src/interfaces/controllers/authentication/authentication.controller';
+import { AuthenticationController } from 'src/interfaces/controllers/authentication/authentication.controller';
 import { GetAllUsersUseCase } from 'src/core/use-cases/authentication/get-all-users.use-case';
-const useCases = [CreateUserFromGoogleUseCase, GetAllUsersUseCase];
+import { TypeOrmAuthenticationFromFirebase } from 'src/infrastructure/database/entities/authentication/repository/typeorm-auth-from-firebase.repository';
+import { CreateUserFromFirebaseAuthUseCase } from 'src/core/use-cases/authentication/create-user-from-firebase-auth.use-case';
+
+const useCases = [CreateUserFromFirebaseAuthUseCase, GetAllUsersUseCase];
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), JwtProviderModule],
   providers: [
     FirebaseService,
-    TypeOrmAuthenticationFromGoogle,
+    TypeOrmAuthenticationFromFirebase,
     ...useCases.map((useCase) => ({
       provide: useCase,
-      useFactory: (authRepo: TypeOrmAuthenticationFromGoogle) => new useCase(authRepo),
-      inject: [TypeOrmAuthenticationFromGoogle]
+      useFactory: (authRepo: TypeOrmAuthenticationFromFirebase) => new useCase(authRepo),
+      inject: [TypeOrmAuthenticationFromFirebase]
     }))
   ],
-  controllers: [AuthenticationContrller]
+  controllers: [AuthenticationController]
 })
 export class AuthenticationModule {}

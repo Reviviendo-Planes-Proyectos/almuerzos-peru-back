@@ -17,8 +17,13 @@
   - Separación de `Dockerfile.dev` y `Dockerfile.prod` en `docker/images/`
   - Docker Compose específicos: `docker-compose.dev.yml` y `docker-compose.prod.yml`
   - `.dockerignore` mejorado para optimizar el contexto de build
+- **Unificación de autenticación social (Google y Facebook)**:
+  - Lógica unificada para autenticación social usando Firebase como proveedor único
+  - Método renombrado de `createUserFromGoogle` a `createUserFromFirebase`
+  - Nueva ruta única `POST /auth/social` para autenticación con cualquier proveedor social
+  - Controlador reorganizado para reflejar la estrategia social unificada
 
-### Actualizaciones
+### 🔧 Actualizaciones
 
 - Establecidos los requisitos del motor Node.js a >=20.11.0 y npm a >=10.0.0 en `package.json`.
 - Firebase-admin degradado a la versión ^12.7.0.
@@ -30,17 +35,22 @@
 - TypeScript actualizado a la versión ^5.8.3.
 - **Configuración mejorada de Fly.io**: Agregada configuración de build con Dockerfile específico en `fly.toml`
 
-### Correcciones
+### 🐛 Correcciones
 
 - Corregida la ruta de importación para `AuthenticationModule` en `app.module.ts`.
 - Corregida la ruta de importación para `AppModule` en archivo de prueba E2E.
+- Eliminado código duplicado entre las implementaciones de Google y Facebook.
+- Corregidas validaciones específicas por proveedor en el caso de uso `CreateUserFromSocialProviderUseCase`.
 - **Corregido error en hook de pre-commit**: Cambiado `npx run precommit` por `npm run precommit` en `.husky/pre-commit` para resolver error de módulo no encontrado.
 - **Refactorización de scripts de base de datos**: Simplificada la conexión a la base de datos y testing de TypeORM en herramientas auxiliares.
 
-### Mejoras
+### 🧪 Mejoras
 
 - Mejoradas las pruebas del middleware del registrador con métodos de simulación adicionales.
-- **Optimizado `.gitignore`**: Eliminadas entradas innecesarias para el stack tecnológico actual:
+- Simplificada la arquitectura de autenticación social al centralizar la lógica en una única ruta y método.
+- Refactorizados los tests unitarios relacionados con autenticación social para reflejar los cambios en estructura y nombres.
+
+- **Optimizado `.gitignore`**:
   - Removido `.nyc_output` (no se usa NYC para coverage, se usa Jest)
   - Removido `*.sublime-workspace` (no se usa Sublime Text)
   - Removido `.parcel-cache` (no se usa Parcel bundler)

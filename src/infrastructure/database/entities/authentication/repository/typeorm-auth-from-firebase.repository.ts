@@ -2,13 +2,13 @@ import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../user.entity';
-import { IGoogleAuthRepository } from '../../../../../core/domain/repositories/authentication/google-auth.repository.interface';
 import { JwtService } from '@nestjs/jwt';
 import { FirebaseService } from '../../../../../common/firebase/firebase.service';
 import { IUser } from '../../../../../core/domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
 
 @Injectable()
-export class TypeOrmAuthenticationFromGoogle implements IGoogleAuthRepository {
+export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepository {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -16,7 +16,7 @@ export class TypeOrmAuthenticationFromGoogle implements IGoogleAuthRepository {
     private readonly jwtService: JwtService
   ) {}
 
-  async decodedUserFromGoogle(token: string): Promise<Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>> {
+  async decodedUserFromFirebase(token: string): Promise<Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>> {
     const decodedToken = await this.firebaseService.verifyToken(token);
     return {
       username: decodedToken.name,

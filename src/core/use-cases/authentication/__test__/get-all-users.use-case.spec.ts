@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetAllUsersUseCase } from '../get-all-users.use-case';
-import { IGoogleAuthRepository } from 'src/core/domain/repositories/authentication/google-auth.repository.interface';
 import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
 
 describe('GetAllUsersUseCase', () => {
   let useCase: GetAllUsersUseCase;
 
-  const mockGoogleAuthRepository = {
+  const mockFirebaseAuthRepository = {
     getAllUsers: jest.fn()
   };
 
@@ -40,12 +40,12 @@ describe('GetAllUsersUseCase', () => {
       providers: [
         {
           provide: GetAllUsersUseCase,
-          useFactory: (repo: IGoogleAuthRepository) => new GetAllUsersUseCase(repo),
-          inject: ['IGoogleAuthRepository']
+          useFactory: (repo: IFirebaseAuthRepository) => new GetAllUsersUseCase(repo),
+          inject: ['IFirebaseAuthRepository']
         },
         {
-          provide: 'IGoogleAuthRepository',
-          useValue: mockGoogleAuthRepository
+          provide: 'IFirebaseAuthRepository',
+          useValue: mockFirebaseAuthRepository
         }
       ]
     }).compile();
@@ -59,7 +59,7 @@ describe('GetAllUsersUseCase', () => {
 
   describe('execute', () => {
     it('should return a list of users formatted as AuthUserDto[]', async () => {
-      mockGoogleAuthRepository.getAllUsers.mockResolvedValue(usersMock);
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue(usersMock);
 
       const result = await useCase.execute();
 
@@ -78,16 +78,16 @@ describe('GetAllUsersUseCase', () => {
         }
       ]);
 
-      expect(mockGoogleAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
     });
 
     it('should return an empty array when there are no users', async () => {
-      mockGoogleAuthRepository.getAllUsers.mockResolvedValue([]);
+      mockFirebaseAuthRepository.getAllUsers.mockResolvedValue([]);
 
       const result = await useCase.execute();
 
       expect(result).toEqual([]);
-      expect(mockGoogleAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
+      expect(mockFirebaseAuthRepository.getAllUsers).toHaveBeenCalledTimes(1);
     });
   });
 });
