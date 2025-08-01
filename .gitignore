@@ -15,6 +15,7 @@ logs/
 config/environments/*.local.env
 config/environments/production.local.env
 config/environments/development.local.env
+config/environments/development.docker.local.env
 config/environments/test.local.env
 config/environments/staging.local.env
 

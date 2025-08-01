@@ -4,16 +4,28 @@ import { existsSync } from 'fs';
 /**
  * Carga las variables de entorno de forma inteligente
  * Prioridad: .env.local > .env.{NODE_ENV} > .env
+ * Soporta configuración específica para Docker
  */
 export function loadEnvironment(): void {
   const nodeEnv = process.env.NODE_ENV || 'development';
 
+  // Detectar si estamos en Docker
+  const isDocker = process.env.DOCKER_ENV === 'true' || process.env.DB_HOST === 'postgres' || existsSync('/.dockerenv');
+
   // Orden de prioridad para archivos de configuración
   const envFiles = [
-    `./config/environments/${nodeEnv}.local.env`, // Más específico
-    `./config/environments/${nodeEnv}.env`, // Por entorno
-    './.env' // Fallback
+    // Archivos locales (con credenciales reales) - MÁXIMA PRIORIDAD
+    `./config/environments/${nodeEnv}.local.env`,
+    ...(isDocker ? [`./config/environments/${nodeEnv}.docker.local.env`] : []),
+
+    // Templates (fallback)
+    `./config/environments/${nodeEnv}.env`,
+    ...(isDocker ? [`./config/environments/${nodeEnv}.docker.env`] : []),
+
+    './.env' // Fallback final
   ];
+
+  console.log(`🔍 Entorno detectado: ${nodeEnv}${isDocker ? ' (Docker)' : ''}`);
 
   // Buscar y cargar el primer archivo que exista
   for (const envFile of envFiles) {
