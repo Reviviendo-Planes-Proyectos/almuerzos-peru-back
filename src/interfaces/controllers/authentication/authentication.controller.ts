@@ -9,7 +9,7 @@ import { AuthResponseDto } from 'src/interfaces/dto/authentication/response/resp
 export class AuthenticationContrller {
   constructor(private readonly createUserFromGoogleUseCase: CreateUserFromFirebaseAuthUseCase) {}
 
-  @Post('google')
+  @Post('social')
   @ApiOperation({ summary: 'Crear usuario desde Google' })
   @ApiBody({ type: CreateUserFromGoogleDto })
   @ApiCreatedResponse({
