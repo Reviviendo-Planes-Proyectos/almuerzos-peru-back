@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: almuerzos-postgres-prod
+    environment:
+      POSTGRES_DB: ${DB_NAME:-db_almuerzos_prod}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-production_password_change_me}
+    ports:
+      - '5433:5432' # Puerto diferente para no conflicto con desarrollo
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    networks:
+      - almuerzos-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_NAME:-db_almuerzos_prod}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  app:
+    build:
+      context: ../../
+      dockerfile: docker/images/Dockerfile.prod
+    container_name: almuerzos-api-prod
+    env_file:
+      - ../../config/environments/production.local.env
+    ports:
+      - "3001:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - almuerzos-network
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/v1/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  postgres_prod_data:
+    driver: local
+    name: almuerzos_postgres_prod_data
+
+networks:
+  almuerzos-network:
+    driver: bridge
+    name: almuerzos_prod_network
