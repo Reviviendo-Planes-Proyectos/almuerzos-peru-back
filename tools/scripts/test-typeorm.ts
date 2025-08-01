@@ -1,26 +1,16 @@
 import './../../src/common/polyfills/crypto-polyfill';
 import { DataSource } from 'typeorm';
-import * as dotenv from 'dotenv';
 import { logger } from '../../src/infrastructure/logger/logger';
+import { loadEnvironment, getDatabaseConfig } from '../utils/env-loader';
 
 // Cargar variables de entorno
-dotenv.config();
+loadEnvironment();
 
 export async function runUserTests(): Promise<boolean> {
   logger.log('🧪 Iniciando prueba de TypeORM...');
 
   // Configuración directa de TypeORM sin NestJS
-  const dataSource = new DataSource({
-    type: 'postgres',
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT || '5432'),
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-    synchronize: false,
-    logging: false
-  });
+  const dataSource = new DataSource(getDatabaseConfig());
 
   try {
     await dataSource.initialize();
