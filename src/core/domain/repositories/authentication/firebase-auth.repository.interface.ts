@@ -1,9 +1,9 @@
-import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
+import { UserAuthentication } from '../../dto/authentication/user.authentication.dto';
 
 export interface IFirebaseAuthRepository {
-  saveUser(user: Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>): Promise<IUser>;
-  findUserBySub(sub: string): Promise<IUser | null>;
-  generateJWT(user: IUser): string;
-  decodedUserFromFirebase(token: string): Promise<Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>>;
-  getAllUsers(): Promise<IUser[]>;
+  saveUser(user: UserAuthentication): Promise<UserAuthentication>;
+  findUserBySub(sub: string): Promise<UserAuthentication | null>;
+  generateJWT(user: UserAuthentication): string;
+  decodedUserFromFirebase(token: string): Promise<UserAuthentication>;
+  getAllUsers(): Promise<UserAuthentication[]>;
 }

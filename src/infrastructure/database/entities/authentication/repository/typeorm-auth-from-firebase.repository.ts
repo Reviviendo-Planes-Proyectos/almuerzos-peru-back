@@ -4,8 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { FirebaseService } from '../../../../../common/firebase/firebase.service';
-import { IUser } from '../../../../../core/domain/repositories/authentication/user.entity';
 import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
+import { UserAuthentication } from 'src/core/domain/dto/authentication/user.authentication.dto';
+import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
 
 @Injectable()
 export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepository {
@@ -16,7 +17,7 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     private readonly jwtService: JwtService
   ) {}
 
-  async decodedUserFromFirebase(token: string): Promise<Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>> {
+  async decodedUserFromFirebase(token: string): Promise<UserAuthentication> {
     const decodedToken = await this.firebaseService.verifyToken(token);
     return {
       username: decodedToken.name,
@@ -28,12 +29,12 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     };
   }
 
-  async saveUser(user: Omit<IUser, 'id' | 'createdAt' | 'updatedAt'>): Promise<IUser> {
+  async saveUser(user: UserAuthentication): Promise<IUser> {
     const savedUser = await this.userRepository.save(user);
     return savedUser;
   }
 
-  findUserBySub(sub: string): Promise<IUser | null> {
+  findUserBySub(sub: string): Promise<UserAuthentication | null> {
     const user = this.userRepository.findOneBy({
       sub: sub
     });
@@ -44,7 +45,7 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     return this.jwtService.sign({ sub, email, username });
   }
 
-  getAllUsers(): Promise<IUser[]> {
+  getAllUsers(): Promise<UserAuthentication[]> {
     return this.userRepository.find();
   }
 }

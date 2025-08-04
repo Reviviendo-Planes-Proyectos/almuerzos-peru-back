@@ -87,7 +87,17 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         sub: 'google-oauth2|1234567890',
         emailVerified: true,
         providerId: 'google.com',
-        imageUrl: 'https://example.com/avatar.png'
+        dni: '12345678',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '987654321',
+        imageUrl: 'https://example.com/avatar.png',
+        district: 'Lima',
+        province: 'Lima',
+        description: 'Usuario de prueba',
+        role: 'consumer',
+        isDeleted: false,
+        deleteAt: new Date('2100-01-01T00:00:00Z')
       };
 
       const saved: IUser = {
@@ -117,8 +127,18 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         emailVerified: true,
         providerId: 'google.com',
         imageUrl: 'https://example.com/avatar.png',
+        dni: '12345678',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '987654321',
+        district: 'Lima',
+        province: 'Lima',
+        role: 'consumer',
+        description: 'usuario de prueba',
+        isDeleted: false,
         createdAt: new Date('2025-01-01T00:00:00Z'),
-        updatedAt: new Date('2025-01-01T00:00:00Z')
+        updatedAt: new Date('2025-01-01T00:00:00Z'),
+        deleteAt: new Date('2100-01-01T00:00:00Z')
       };
 
       (mockRepo.findOneBy as jest.Mock).mockResolvedValue(found);
@@ -149,9 +169,19 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         sub: 'google-oauth2|1234567890',
         emailVerified: true,
         providerId: 'google.com',
+        dni: '12345678',
+        firstName: 'John',
+        lastName: 'Doe',
+        phone: '987654321',
         imageUrl: 'https://example.com/avatar.png',
+        district: 'Lima',
+        province: 'Lima',
+        description: 'Usuario de prueba',
+        role: 'consumer',
+        isDeleted: false,
         createdAt: new Date('2025-01-01T00:00:00Z'),
-        updatedAt: new Date('2025-01-01T00:00:00Z')
+        updatedAt: new Date('2025-01-01T00:00:00Z'),
+        deleteAt: new Date('2100-01-01T00:00:00Z')
       };
 
       mockJwt.sign.mockReturnValue('jwt-token');
