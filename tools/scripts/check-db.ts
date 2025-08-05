@@ -34,6 +34,13 @@ export async function checkDatabaseConnection(): Promise<boolean> {
     return true;
   } catch (error: any) {
     logger.error('❌ Error:', error.message);
+    logger.error('🔍 Código de error:', error.code);
+    logger.error('🔧 Configuración intentada:');
+    logger.error(`   Host: ${(dataSource.options as any).host}`);
+    logger.error(`   Puerto: ${(dataSource.options as any).port}`);
+    logger.error(`   Usuario: ${(dataSource.options as any).username}`);
+    logger.error(`   Base de datos: ${String(dataSource.options.database)}`);
+    logger.error(`   SSL: ${JSON.stringify((dataSource.options as any).ssl)}`);
     return false;
   }
 }

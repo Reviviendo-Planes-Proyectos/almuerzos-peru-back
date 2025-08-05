@@ -39,11 +39,10 @@ const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv
           database: configService.get('DB_NAME'),
           ssl: sslEnabled
             ? {
-                rejectUnauthorized: false,
-                require: true
+                rejectUnauthorized: false
               }
             : false,
-          synchronize: configService.get('NODE_ENV') !== 'production',
+          synchronize: false, // Cambiar a false para producción
           autoLoadEntities: true
         };
 
