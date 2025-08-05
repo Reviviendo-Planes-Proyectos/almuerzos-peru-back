@@ -1,7 +1,7 @@
-import { User } from 'src/core/domain/repositories/authentication/user.entity';
-import { IUserProfileRepository } from 'src/core/domain/repositories/user/user.repository.interface';
-import { RegisterUserProfileDto } from 'src/interfaces/dto/user/request/create-user-profile.dto';
-import { UserRegisterProfileDTO } from 'src/interfaces/dto/user/response/user-profile.dto';
+import { User } from '../../domain/repositories/authentication/user.entity';
+import { IUserProfileRepository } from '../../domain/repositories/user/user.repository.interface';
+import { RegisterUserProfileDto } from '../../../interfaces/dto/user/request/create-user-profile.dto';
+import { UserRegisterProfileDTO } from '../../../interfaces/dto/user/response/user-profile.dto';
 
 export class UserCreateProfileUseCase {
   constructor(private readonly userProfileRepository: IUserProfileRepository) {}

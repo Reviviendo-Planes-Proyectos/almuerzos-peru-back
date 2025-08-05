@@ -3,7 +3,7 @@ import { UserEntity } from '../../../infrastructure/database/entities/authentica
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserServiceCommon } from '../user.service';
 
-describe.skip('UserServiceCommon', () => {
+describe('UserServiceCommon', () => {
   let service: UserServiceCommon;
 
   const mockUserRepository = {
