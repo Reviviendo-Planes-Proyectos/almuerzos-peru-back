@@ -1,5 +1,8 @@
-import { UserAuthentication } from '../../dto/authentication/user.authentication.dto';
-import { UserProfile } from '../../dto/user/user.profile.dto';
+import { UserAuthenticationDTO } from '../../dto/authentication/user.authentication.dto';
+import { UserProfileDTO } from '../../dto/user/user-profile.dto';
+import { IAdmin } from '../admin/admin.entity';
+import { IConsumer } from '../consumer/consumer.entity';
+import { IRestaurant } from '../restaurant/restaurant.enity';
 
 export interface IUser {
   id: number;
@@ -16,7 +19,10 @@ export interface IUser {
   district: string;
   province: string;
   description?: string;
-  role: 'admin' | 'consumer';
+  role: 'admin' | 'consumer' | 'restaurant';
+  restaurant?: IRestaurant;
+  admin?: IAdmin;
+  consumer?: IConsumer;
   isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -38,7 +44,10 @@ export class User implements IUser {
     public district: string,
     public province: string,
     public description: string | undefined,
-    public role: 'admin' | 'consumer',
+    public role: 'admin' | 'consumer' | 'restaurant',
+    public restaurant: IRestaurant | undefined,
+    public admin: IAdmin | undefined,
+    public consumer: IConsumer | undefined,
     public isDeleted: boolean,
     public createdAt: Date,
     public updatedAt: Date,
@@ -52,7 +61,7 @@ export class User implements IUser {
     emailVerified?: boolean;
     providerId: string;
     imageUrl?: string;
-  }): UserAuthentication {
+  }): UserAuthenticationDTO {
     if (!data.email?.includes('@')) {
       throw new Error('Email must be valid');
     }
@@ -76,16 +85,7 @@ export class User implements IUser {
     };
   }
 
-  static createUserProfile(data: {
-    dni: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-    district: string;
-    province: string;
-    role: 'admin' | 'consumer';
-    description?: string;
-  }): UserProfile {
+  static createUserProfile(data: UserProfileDTO): UserProfileDTO {
     if (!data.dni?.trim()) {
       throw new Error('DNI is required');
     }
@@ -104,10 +104,9 @@ export class User implements IUser {
     if (!data.province?.trim()) {
       throw new Error('Province is required');
     }
-    if (!['admin', 'consumer'].includes(data.role)) {
+    if (!['admin', 'consumer', 'restaurant'].includes(data.role)) {
       throw new Error('Invalid role');
     }
-
     return {
       dni: data.dni.trim(),
       firstName: data.firstName.trim(),
@@ -116,7 +115,11 @@ export class User implements IUser {
       district: data.district.trim(),
       province: data.province.trim(),
       role: data.role,
-      description: data.description?.trim()
+      description: data.description?.trim() || '',
+      imageUrl: data.imageUrl?.trim(),
+      restaurant: data.restaurant,
+      admin: data.admin,
+      consumer: data.consumer
     };
   }
 }

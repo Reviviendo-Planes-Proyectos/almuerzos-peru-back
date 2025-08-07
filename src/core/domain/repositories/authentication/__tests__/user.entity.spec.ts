@@ -19,12 +19,16 @@ describe('User (Domain)', () => {
       'Lima',
       'Descripción del usuario',
       'consumer',
+      undefined,
+      undefined,
+      {
+        isDeleted: false
+      },
       false,
       now,
       now,
       null
     );
-
     expect(user.id).toBe(1);
     expect(user.username).toBe('usuario_test');
     expect(user.email).toBe('test@correo.com');

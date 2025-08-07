@@ -1,9 +1,29 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
+import { RestaurantEntity } from '../restaurant/restaurant.entity';
+import { AdminEntity } from '../admin/admin.entity';
+import { ConsumerEntity } from '../consumer/consumer.entity';
 
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @OneToOne(() => RestaurantEntity, (restaurant) => restaurant.user, { cascade: true })
+  restaurant?: RestaurantEntity;
+
+  @OneToOne(() => AdminEntity, (admin) => admin.user)
+  admin?: AdminEntity;
+
+  @OneToOne(() => ConsumerEntity, (consumer) => consumer.user)
+  consumer?: ConsumerEntity;
 
   @Column()
   username: string;
@@ -41,13 +61,13 @@ export class UserEntity {
   @Column({ nullable: true })
   province: string;
 
-  @Column({ type: 'enum', enum: ['admin', 'consumer'], nullable: true })
-  role: 'admin' | 'consumer';
+  @Column({ type: 'enum', enum: ['admin', 'consumer', 'restaurant'], nullable: true })
+  role: 'admin' | 'consumer' | 'restaurant';
 
   @Column({ nullable: true, type: 'text' })
   description: string;
 
-  @Column({ default: false })
+  @Column({ default: false, name: 'is_deleted' })
   isDeleted: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
