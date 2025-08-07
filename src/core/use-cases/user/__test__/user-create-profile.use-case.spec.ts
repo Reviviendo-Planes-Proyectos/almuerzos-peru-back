@@ -1,8 +1,8 @@
 import { IUserProfileRepository } from '../../../domain/repositories/user/user.repository.interface';
 import { UserCreateProfileUseCase } from '../user-create-profile.use-case';
 import { RegisterUserProfileDto } from '../../../../interfaces/dto/user/request/create-user-profile.dto';
-import { User } from '../../../domain/repositories/authentication/user.entity';
 import { UserRegisterProfileDTO } from '../../../../interfaces/dto/user/response/user-profile.dto';
+import { User } from '../../../domain/repositories/authentication/user.entity';
 
 describe('UserCreateProfileUseCase', () => {
   let useCase: UserCreateProfileUseCase;

@@ -1,5 +1,5 @@
-import { UserProfile } from '../../dto/user/user.profile.dto';
+import { UserProfileDTO } from '../../dto/user/user-profile.dto';
 
 export interface IUserProfileRepository {
-  registerInfoUser(sub: string, user: Omit<UserProfile, 'imageUrl'>): Promise<UserProfile>;
+  registerInfoUser(sub: string, user: Omit<UserProfileDTO, 'imageUrl'>): Promise<UserProfileDTO>;
 }
