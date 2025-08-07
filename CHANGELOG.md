@@ -1,5 +1,37 @@
 # 📋 Changelog
 
+## [v1.2.0] - 2025-08-07
+
+### ✨ Nuevas funcionalidades
+
+- **Registro de perfil de usuario**:
+  - Se implementó el endpoint **`POST /api/v1/profile/register`** para registrar el perfil del usuario tras autenticarse.
+  - El perfil incluye datos básicos como indica el swagger.
+
+- **Asignación dinámica de roles**:
+  - El usuario puede seleccionar su rol al registrar su perfil: `consumer`, `admin` o `restaurant`.
+  - Según el rol elegido, se crea automáticamente un registro adicional:
+    - `consumer`: Se crea una entrada en la entidad `consumers` asociada al `user_id`.
+    - `admin`: Se crea una entrada en la entidad `admins`.
+    - `restaurant`: 
+      - Se crea una entrada en la entidad `restaurants` asociada al `user_id`.
+      - 🔶 Este rol requiere campos adicionales como: `restaurant_name`, `address`, `ruc`, `phone`, entre otros como indica el swagger.
+      - 📌 Los campos obligatorios y su estructura están documentados en **Swagger** para facilitar la integración frontend/backend.
+
+- **Validaciones**:
+  - Se valida que el rol seleccionado sea uno de los permitidos (`consumer`, `admin`, `restaurant`).
+  - Se impide que un mismo usuario registre múltiples perfiles con diferentes roles.
+  - Se manejan errores personalizados en caso de entradas inválidas o repetidas.
+
+### 🛠️ Cambios técnicos
+
+- Se agregó lógica condicional en el `ProfileService` para crear entidades asociadas según el rol.
+- Se refactorizó el payload de entrada para incluir el campo `role` y, en caso de `restaurant`, sus datos específicos.
+- Se actualizó la documentación Swagger para reflejar los campos requeridos por rol, especialmente para `restaurant`.
+
+### Ruta para registrar
+**`POST /api/v1/users/profile`**
+
 ## [Unreleased] - 2025-07-31
 
 ### 🚀 Nuevas funcionalidades
@@ -69,7 +101,7 @@
 
 ### ✨ Nuevas funcionalidades
 
-- **Autenticación con Google y JWT**: Ahora los usuarios pueden registrarse o iniciar sesión utilizando su cuenta de Google mediante la nueva ruta `POST /auth/google`.  
+- **Autenticación con Google y JWT**: Ahora los usuarios pueden registrarse o iniciar sesión utilizando su cuenta de Google mediante la nueva ruta `POST /auth/google`.
   Además, se integró **JWT (NestJS)** para la emisión de tokens seguros tras la autenticación.
 
 #### Detalles técnicos
@@ -267,3 +299,4 @@
 - [ ] Sistema de Reviews y Rating
 - [ ] Dashboard de administración
 - [ ] Microservicios architecture
+```
