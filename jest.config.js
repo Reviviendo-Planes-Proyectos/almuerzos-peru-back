@@ -26,5 +26,6 @@ module.exports = {
       lines: 80,
       statements: 80
     }
-  }
+  },
+  coveragePathIgnorePatterns: ['<rootDir>/infrastructure/database/.*/.*\\.entity\\.ts']
 };
