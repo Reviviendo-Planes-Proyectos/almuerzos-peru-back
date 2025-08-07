@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IUser, User } from '../../../domain/repositories/authentication/user.entity';
 import { CreateUserFromFirebaseAuthUseCase } from '../create-user-from-firebase-auth.use-case';
-import { UserAuthentication } from 'src/core/domain/dto/authentication/user.authentication.dto';
+import { UserAuthenticationDTO } from 'src/core/domain/dto/authentication/user.authentication.dto';
 
 describe('CreateUserFromFirebaseAuthUseCase', () => {
   let useCase: CreateUserFromFirebaseAuthUseCase;
@@ -14,7 +14,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
     getAllUsers: jest.fn()
   };
 
-  const buildUser = (overrides?: Partial<IUser>): UserAuthentication => {
+  const buildUser = (overrides?: Partial<IUser>): UserAuthenticationDTO => {
     const base = User.createAuthentication({
       username: 'john_doe',
       email: 'john@example.com',

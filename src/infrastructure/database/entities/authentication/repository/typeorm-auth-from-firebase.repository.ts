@@ -5,7 +5,7 @@ import { UserEntity } from '../user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { FirebaseService } from '../../../../../common/firebase/firebase.service';
 import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
-import { UserAuthentication } from 'src/core/domain/dto/authentication/user.authentication.dto';
+import { UserAuthenticationDTO } from 'src/core/domain/dto/authentication/user.authentication.dto';
 import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     private readonly jwtService: JwtService
   ) {}
 
-  async decodedUserFromFirebase(token: string): Promise<UserAuthentication> {
+  async decodedUserFromFirebase(token: string): Promise<UserAuthenticationDTO> {
     const decodedToken = await this.firebaseService.verifyToken(token);
     return {
       username: decodedToken.name,
@@ -29,12 +29,12 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     };
   }
 
-  async saveUser(user: UserAuthentication): Promise<IUser> {
+  async saveUser(user: UserAuthenticationDTO): Promise<IUser> {
     const savedUser = await this.userRepository.save(user);
     return savedUser;
   }
 
-  findUserBySub(sub: string): Promise<UserAuthentication | null> {
+  findUserBySub(sub: string): Promise<UserAuthenticationDTO | null> {
     const user = this.userRepository.findOneBy({
       sub: sub
     });
@@ -45,7 +45,7 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
     return this.jwtService.sign({ sub, email, username });
   }
 
-  getAllUsers(): Promise<UserAuthentication[]> {
+  getAllUsers(): Promise<UserAuthenticationDTO[]> {
     return this.userRepository.find();
   }
 }

@@ -1,4 +1,4 @@
-export interface UserAuthentication {
+export interface UserAuthenticationDTO {
   username: string;
   email: string;
   sub: string;
