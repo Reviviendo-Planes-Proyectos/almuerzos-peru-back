@@ -13,7 +13,7 @@
   - Según el rol elegido, se crea automáticamente un registro adicional:
     - `consumer`: Se crea una entrada en la entidad `consumers` asociada al `user_id`.
     - `admin`: Se crea una entrada en la entidad `admins`.
-    - `restaurant`: 
+    - `restaurant`:
       - Se crea una entrada en la entidad `restaurants` asociada al `user_id`.
       - 🔶 Este rol requiere campos adicionales como: `restaurant_name`, `address`, `ruc`, `phone`, entre otros como indica el swagger.
       - 📌 Los campos obligatorios y su estructura están documentados en **Swagger** para facilitar la integración frontend/backend.
@@ -30,6 +30,7 @@
 - Se actualizó la documentación Swagger para reflejar los campos requeridos por rol, especialmente para `restaurant`.
 
 ### Ruta para registrar
+
 **`POST /api/v1/users/profile`**
 
 ## [Unreleased] - 2025-07-31
@@ -299,4 +300,7 @@
 - [ ] Sistema de Reviews y Rating
 - [ ] Dashboard de administración
 - [ ] Microservicios architecture
+
+```
+
 ```

@@ -16,7 +16,6 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
     private readonly userRepository: Repository<UserEntity>
   ) {}
   async registerInfoUser(sub: string, userData: UserProfileDTO): Promise<UserProfileDTO> {
-    console.log('restaurant:', userData.restaurant);
     return this.userRepository.manager.transaction(async (manager) => {
       const user = await manager.findOne(UserEntity, {
         where: { sub }
@@ -34,7 +33,6 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
         description
       });
       let relations: string[] = [];
-      console.log(userData);
       if (userData.role === 'restaurant' && userData.restaurant) {
         const savedRestaurant = await manager.save(RestaurantEntity, userData.restaurant);
         if (userData.restaurant.openingHour?.length) {
