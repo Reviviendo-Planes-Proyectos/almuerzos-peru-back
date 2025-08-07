@@ -1,17 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtProviderModule } from 'src/common/jwt/jwt.module';
-import { JwtStrategy } from 'src/common/jwt/jwt.strategy';
-import { UserCommonModule } from 'src/common/user-common/user-common.module';
-import { UserCreateProfileUseCase } from 'src/core/use-cases/user/user-create-profile.use-case';
-import { UserEntity } from 'src/infrastructure/database/entities/authentication/user.entity';
-import { TypeOrmUserProfile } from 'src/infrastructure/database/entities/user/repository/typeorm-user-profile.repository';
-import { UserController } from 'src/interfaces/controllers/user/user.controller';
+import { JwtProviderModule } from '../../../common/jwt/jwt.module';
+import { JwtStrategy } from '../../../common/jwt/jwt.strategy';
+import { UserCommonModule } from '../../../common/user-common/user-common.module';
+import { UserEntity } from '../../../infrastructure/database/entities/authentication/user.entity';
+import { RestaurantEntity } from '../../../infrastructure/database/entities/restaurant/restaurant.entity';
+import { OpeningHourEntity } from '../../../infrastructure/database/entities/opening-hour/openings-hours.entity';
+import { AdminEntity } from '../../../infrastructure/database/entities/admin/admin.entity';
+import { ConsumerEntity } from '../../../infrastructure/database/entities/consumer/consumer.entity';
+import { TypeOrmUserProfile } from '../../../infrastructure/database/entities/user/repository/typeorm-user-profile.repository';
+import { UserController } from '../../../interfaces/controllers/user/user.controller';
+import { UserCreateProfileUseCase } from '../../../core/use-cases/user/user-create-profile.use-case';
 
 const useCases = [UserCreateProfileUseCase];
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), UserCommonModule, JwtProviderModule],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, RestaurantEntity, OpeningHourEntity, AdminEntity, ConsumerEntity]),
+    UserCommonModule,
+    JwtProviderModule
+  ],
   providers: [
     JwtStrategy,
     TypeOrmUserProfile,

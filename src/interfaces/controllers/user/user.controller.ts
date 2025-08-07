@@ -1,11 +1,12 @@
 import { Body, Controller, HttpException, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { UserExistGuad } from 'src/common/guards/user-exists.guard';
-import { UserCreateProfileUseCase } from 'src/core/use-cases/user/user-create-profile.use-case';
-import { RegisterUserProfileDto } from 'src/interfaces/dto/user/request/create-user-profile.dto';
 import { Request } from 'express';
-import { UserRegisterProfileDTO } from 'src/interfaces/dto/user/response/user-profile.dto';
+import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
+import { UserExistGuad } from '../../../common/guards/user-exists.guard';
+import { UserCreateProfileUseCase } from '../../../core/use-cases/user/user-create-profile.use-case';
+import { RegisterUserProfileDto } from '../../dto/user/request/create-user-profile.dto';
+import { UserRegisterProfileDTO } from '../../dto/user/response/user-profile.dto';
 
 @UseGuards(JwtAuthGuard, UserExistGuad)
 @ApiTags('users')
@@ -23,7 +24,8 @@ export class UserController {
   async createProfileUser(@Req() req: Request, @Body() profile: RegisterUserProfileDto) {
     try {
       const user = req.user as { sub: string };
-      return await this.userCreateProfileUseCase.execute(user.sub, profile);
+      const profileRegister = await this.userCreateProfileUseCase.execute(user.sub, profile);
+      return plainToInstance(UserRegisterProfileDTO, profileRegister);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

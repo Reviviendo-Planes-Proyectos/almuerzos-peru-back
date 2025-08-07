@@ -1,6 +1,6 @@
 import './common/polyfills/crypto-polyfill';
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app/app.module';
 import { DataSource } from 'typeorm';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -22,6 +22,12 @@ async function bootstrap() {
       allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
     });
+
+    app.useGlobalInterceptors(
+      new ClassSerializerInterceptor(app.get(Reflector), {
+        excludeExtraneousValues: true
+      })
+    );
 
     app.useGlobalPipes(
       new ValidationPipe({
