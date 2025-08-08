@@ -56,7 +56,7 @@ describe('Restaurant', () => {
     });
 
     it('should handle service type combinations', () => {
-      const dineInOnly = new Restaurant(
+      const dinerInOnly = new Restaurant(
         'Dine-In',
         'Address',
         -12.0464,
@@ -85,8 +85,8 @@ describe('Restaurant', () => {
         true
       );
 
-      expect(dineInOnly.dinerIn).toBe(true);
-      expect(dineInOnly.delivery).toBe(false);
+      expect(dinerInOnly.dinerIn).toBe(true);
+      expect(dinerInOnly.delivery).toBe(false);
       expect(deliveryOnly.dinerIn).toBe(false);
       expect(deliveryOnly.delivery).toBe(true);
     });
