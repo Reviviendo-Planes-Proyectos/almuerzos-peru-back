@@ -16,7 +16,8 @@ module.exports = {
     '!**/dto/**',
     '!**/__mocks__/**',
     '!**/config/**',
-    '!**/constants/**'
+    '!**/constants/**',
+    '!infrastructure/database/**/*.entity.ts'
   ],
   coverageReporters: ['text', 'lcov', 'json-summary', 'text-summary'],
   coverageThreshold: {
@@ -26,6 +27,5 @@ module.exports = {
       lines: 80,
       statements: 80
     }
-  },
-  coveragePathIgnorePatterns: ['<rootDir>/infrastructure/database/.*/.*\\.entity\\.ts']
+  }
 };

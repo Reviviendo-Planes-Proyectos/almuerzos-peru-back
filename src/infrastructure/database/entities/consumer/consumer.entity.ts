@@ -19,6 +19,9 @@ export class ConsumerEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
+  @Column({ name: 'user_name' })
+  userName: string;
+
   @Column({ default: false, name: 'is_deleted' })
   isDeleted: boolean;
 

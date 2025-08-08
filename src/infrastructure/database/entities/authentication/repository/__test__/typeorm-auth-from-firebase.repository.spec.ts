@@ -65,7 +65,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         sub: decoded.sub,
         emailVerified: decoded.email_verified,
         providerId: decoded.firebase.sign_in_provider,
-        imageUrl: decoded.picture
+        profilePicture: decoded.picture
       });
     });
 
@@ -91,7 +91,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         firstName: 'John',
         lastName: 'Doe',
         phone: '987654321',
-        imageUrl: 'https://example.com/avatar.png',
+        profilePicture: 'https://example.com/avatar.png',
         district: 'Lima',
         province: 'Lima',
         description: 'Usuario de prueba',
@@ -126,7 +126,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         sub,
         emailVerified: true,
         providerId: 'google.com',
-        imageUrl: 'https://example.com/avatar.png',
+        profilePicture: 'https://example.com/avatar.png',
         dni: '12345678',
         firstName: 'John',
         lastName: 'Doe',
@@ -173,7 +173,7 @@ describe('TypeOrmAuthenticationFromGoogle', () => {
         firstName: 'John',
         lastName: 'Doe',
         phone: '987654321',
-        imageUrl: 'https://example.com/avatar.png',
+        profilePicture: 'https://example.com/avatar.png',
         district: 'Lima',
         province: 'Lima',
         description: 'Usuario de prueba',

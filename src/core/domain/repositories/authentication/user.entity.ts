@@ -15,7 +15,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   phone: string;
-  imageUrl?: string;
+  profilePicture?: string;
   district: string;
   province: string;
   description?: string;
@@ -40,7 +40,7 @@ export class User implements IUser {
     public firstName: string,
     public lastName: string,
     public phone: string,
-    public imageUrl: string | undefined,
+    public profilePicture: string | undefined,
     public district: string,
     public province: string,
     public description: string | undefined,
@@ -60,7 +60,7 @@ export class User implements IUser {
     sub: string;
     emailVerified?: boolean;
     providerId: string;
-    imageUrl?: string;
+    profilePicture?: string;
   }): UserAuthenticationDTO {
     if (!data.email?.includes('@')) {
       throw new Error('Email must be valid');
@@ -81,7 +81,7 @@ export class User implements IUser {
       sub: data.sub.trim(),
       emailVerified: data.emailVerified ?? false,
       providerId: data.providerId.trim(),
-      imageUrl: data.imageUrl?.trim()
+      profilePicture: data.profilePicture?.trim()
     };
   }
 
@@ -116,7 +116,7 @@ export class User implements IUser {
       province: data.province.trim(),
       role: data.role,
       description: data.description?.trim() || '',
-      imageUrl: data.imageUrl?.trim(),
+      profilePicture: data.profilePicture?.trim(),
       restaurant: data.restaurant,
       admin: data.admin,
       consumer: data.consumer

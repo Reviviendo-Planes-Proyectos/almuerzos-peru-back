@@ -45,8 +45,8 @@ export class RestaurantEntity {
   @Column({ name: 'legal_name', nullable: true })
   legalName: string;
 
-  @Column({ length: 9, nullable: true })
-  whatsapp: string;
+  @Column({ length: 9, nullable: true, name: 'whatsapp_orders' })
+  whatsappOrders: string;
 
   @Column({ length: 9, name: 'yape_phone', nullable: true })
   yapePhone: string;
@@ -57,8 +57,8 @@ export class RestaurantEntity {
   @Column({ name: 'banner_url', nullable: true })
   bannerUrl: string;
 
-  @Column({ name: 'dine_in' })
-  dineIn: boolean;
+  @Column({ name: 'diner_in' })
+  dinerIn: boolean;
 
   @Column()
   delivery: boolean;

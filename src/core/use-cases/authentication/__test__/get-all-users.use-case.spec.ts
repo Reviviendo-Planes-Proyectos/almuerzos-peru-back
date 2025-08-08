@@ -18,7 +18,7 @@ describe('GetAllUsersUseCase', () => {
       sub: 'google-oauth2|1111',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: 'https://example.com/alice.jpg',
+      profilePicture: 'https://example.com/alice.jpg',
       dni: '12345678',
       firstName: 'Alice',
       lastName: 'Smith',
@@ -39,7 +39,7 @@ describe('GetAllUsersUseCase', () => {
       sub: 'google-oauth2|2222',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: null,
+      profilePicture: null,
       dni: '87654321',
       firstName: 'Bob',
       lastName: 'Johnson',
@@ -88,13 +88,13 @@ describe('GetAllUsersUseCase', () => {
           username: 'alice',
           email: 'alice@example.com',
           providerId: 'google',
-          imageUrl: 'https://example.com/alice.jpg'
+          profilePicture: 'https://example.com/alice.jpg'
         },
         {
           username: 'bob',
           email: 'bob@example.com',
           providerId: 'google',
-          imageUrl: undefined
+          profilePicture: undefined
         }
       ]);
 

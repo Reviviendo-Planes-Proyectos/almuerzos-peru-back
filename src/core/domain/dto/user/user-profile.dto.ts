@@ -9,7 +9,7 @@ export interface UserProfileDTO {
   province: string;
   role: 'admin' | 'consumer' | 'restaurant';
   description?: string;
-  imageUrl?: string;
+  profilePicture?: string;
   restaurant?: RestaurantDTO;
   admin?: any;
   consumer?: any;

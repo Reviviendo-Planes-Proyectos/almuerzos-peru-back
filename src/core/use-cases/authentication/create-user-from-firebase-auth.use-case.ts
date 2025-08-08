@@ -18,7 +18,7 @@ export class CreateUserFromFirebaseAuthUseCase {
         username: user.username,
         email: user.email,
         providerId: user.providerId,
-        imageUrl: user.imageUrl
+        profilePicture: user.profilePicture
       }
     };
   }

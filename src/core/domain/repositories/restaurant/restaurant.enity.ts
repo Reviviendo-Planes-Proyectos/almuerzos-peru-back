@@ -7,11 +7,11 @@ export interface IRestaurant {
   longitude: number;
   ruc?: string;
   legalName?: string;
-  whatsapp?: string;
+  whatsappOrders?: string;
   yapePhone?: string;
   logoUrl?: string;
   bannerUrl?: string;
-  dineIn: boolean;
+  dinerIn: boolean;
   delivery: boolean;
   openingHour?: OpeningHour[];
 }
@@ -24,11 +24,11 @@ export class Restaurant implements IRestaurant {
     public longitude: number,
     public ruc?: string,
     public legalName?: string,
-    public whatsapp?: string,
+    public whatsappOrders?: string,
     public yapePhone?: string,
     public logoUrl?: string,
     public bannerUrl?: string,
-    public dineIn: boolean = false,
+    public dinerIn: boolean = false,
     public delivery: boolean = false,
     public openingHour?: OpeningHour[]
   ) {}

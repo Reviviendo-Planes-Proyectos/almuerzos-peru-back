@@ -3,15 +3,15 @@ import { Expose } from 'class-transformer';
 
 export class OpeningHourDTO {
   @ApiProperty({ example: 1, description: 'Día de la semana (1 = Lunes, ..., 7 = Domingo)' })
-  @Expose({ name: 'week_day' })
+  @Expose()
   weekDay: number;
 
   @ApiProperty({ example: '08:00', required: false })
-  @Expose({ name: 'start_time' })
+  @Expose()
   startTime?: string;
 
   @ApiProperty({ example: '18:00', required: false })
-  @Expose({ name: 'end_time' })
+  @Expose()
   endTime?: string;
 
   @ApiProperty({ example: true })

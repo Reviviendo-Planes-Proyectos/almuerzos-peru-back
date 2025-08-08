@@ -7,11 +7,11 @@ export interface RestaurantDTO {
   longitude: number;
   ruc?: string;
   legalName?: string;
-  whatsapp?: string;
+  whatsappOrders?: string;
   yapePhone?: string;
   logoUrl?: string;
   bannerUrl?: string;
-  dineIn: boolean;
+  dinerIn: boolean;
   delivery: boolean;
   openingHour?: OpeningHourDTO[];
 }

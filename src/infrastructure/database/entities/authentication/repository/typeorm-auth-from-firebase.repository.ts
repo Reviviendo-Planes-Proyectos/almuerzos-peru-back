@@ -25,7 +25,7 @@ export class TypeOrmAuthenticationFromFirebase implements IFirebaseAuthRepositor
       sub: decodedToken.sub,
       emailVerified: decodedToken.email_verified,
       providerId: decodedToken.firebase.sign_in_provider,
-      imageUrl: decodedToken.picture
+      profilePicture: decodedToken.picture
     };
   }
 

@@ -31,11 +31,11 @@ describe('Restaurant', () => {
       expect(restaurant.longitude).toBe(-77.0292);
       expect(restaurant.ruc).toBe('20123456789');
       expect(restaurant.legalName).toBe('Restaurante La Casa del Sabor S.A.C.');
-      expect(restaurant.whatsapp).toBe('+51987654321');
+      expect(restaurant.whatsappOrders).toBe('+51987654321');
       expect(restaurant.yapePhone).toBe('987654321');
       expect(restaurant.logoUrl).toBe('https://example.com/logo.png');
       expect(restaurant.bannerUrl).toBe('https://example.com/banner.jpg');
-      expect(restaurant.dineIn).toBe(true);
+      expect(restaurant.dinerIn).toBe(true);
       expect(restaurant.delivery).toBe(true);
       expect(restaurant.openingHour).toEqual(mockOpeningHours);
     });
@@ -49,7 +49,7 @@ describe('Restaurant', () => {
       expect(restaurant.mapsAddress).toBe('Calle Lima 456');
       expect(restaurant.latitude).toBe(-12.0464);
       expect(restaurant.longitude).toBe(-77.0428);
-      expect(restaurant.dineIn).toBe(false); // default
+      expect(restaurant.dinerIn).toBe(false); // default
       expect(restaurant.delivery).toBe(false); // default
       expect(restaurant.ruc).toBeUndefined();
       expect(restaurant.openingHour).toBeUndefined();
@@ -85,9 +85,9 @@ describe('Restaurant', () => {
         true
       );
 
-      expect(dineInOnly.dineIn).toBe(true);
+      expect(dineInOnly.dinerIn).toBe(true);
       expect(dineInOnly.delivery).toBe(false);
-      expect(deliveryOnly.dineIn).toBe(false);
+      expect(deliveryOnly.dinerIn).toBe(false);
       expect(deliveryOnly.delivery).toBe(true);
     });
   });
@@ -125,7 +125,7 @@ describe('Restaurant', () => {
       expect(typeof restaurant.name).toBe('string');
       expect(typeof restaurant.latitude).toBe('number');
       expect(typeof restaurant.longitude).toBe('number');
-      expect(typeof restaurant.dineIn).toBe('boolean');
+      expect(typeof restaurant.dinerIn).toBe('boolean');
       expect(typeof restaurant.delivery).toBe('boolean');
       expect(Array.isArray(restaurant.openingHour)).toBe(true);
     });

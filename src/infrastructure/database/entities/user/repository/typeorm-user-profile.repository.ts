@@ -52,7 +52,7 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
         relations = ['admin'];
       }
       if (userData.role === 'consumer') {
-        await manager.save(ConsumerEntity, { user });
+        await manager.save(ConsumerEntity, { user, userName: user.username });
         relations = ['consumer'];
       }
       await manager.save(UserEntity, user);

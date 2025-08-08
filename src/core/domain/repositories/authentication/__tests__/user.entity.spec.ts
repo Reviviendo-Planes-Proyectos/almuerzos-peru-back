@@ -22,6 +22,7 @@ describe('User (Domain)', () => {
       undefined,
       undefined,
       {
+        userName: 'Luis',
         isDeleted: false
       },
       false,
@@ -35,7 +36,7 @@ describe('User (Domain)', () => {
     expect(user.sub).toBe('sub_123');
     expect(user.emailVerified).toBe(true);
     expect(user.providerId).toBe('google');
-    expect(user.imageUrl).toBe('http://image.com/avatar.png');
+    expect(user.profilePicture).toBe('http://image.com/avatar.png');
     expect(user.createdAt).toBe(now);
     expect(user.updatedAt).toBe(now);
   });
@@ -46,7 +47,7 @@ describe('User (Domain)', () => {
       email: 'TEST@correo.com',
       sub: 'sub_123',
       providerId: 'google',
-      imageUrl: '   http://image.com/avatar.png   '
+      profilePicture: '   http://image.com/avatar.png   '
     });
 
     expect(data.username).toBe('usuario_test');
@@ -54,7 +55,7 @@ describe('User (Domain)', () => {
     expect(data.sub).toBe('sub_123');
     expect(data.emailVerified).toBe(false); // valor por defecto
     expect(data.providerId).toBe('google');
-    expect(data.imageUrl).toBe('http://image.com/avatar.png');
+    expect(data.profilePicture).toBe('http://image.com/avatar.png');
   });
 
   it('debería lanzar error si el email no es válido', () => {

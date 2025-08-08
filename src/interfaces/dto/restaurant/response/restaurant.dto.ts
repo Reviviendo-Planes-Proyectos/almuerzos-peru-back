@@ -8,7 +8,7 @@ export class RestaurantDTO {
   name: string;
 
   @ApiProperty({ example: 'Av. Siempre Viva 123, Lima' })
-  @Expose({ name: 'maps_address' })
+  @Expose()
   mapsAddress: string;
 
   @ApiProperty({ example: -12.04318 })
@@ -24,28 +24,28 @@ export class RestaurantDTO {
   ruc?: string;
 
   @ApiProperty({ example: 'Mi Empresa S.A.C.', required: false })
-  @Expose({ name: 'legal_name' })
+  @Expose()
   legalName?: string;
 
   @ApiProperty({ example: '987654321', required: false })
   @Expose()
-  whatsapp?: string;
+  whatsappOrders?: string;
 
   @ApiProperty({ example: '987654321', required: false })
-  @Expose({ name: 'yape_phone' })
+  @Expose()
   yapePhone?: string;
 
   @ApiProperty({ example: 'https://example.com/logo.png', required: false })
-  @Expose({ name: 'logo_url' })
+  @Expose()
   logoUrl?: string;
 
   @ApiProperty({ example: 'https://example.com/banner.jpg', required: false })
-  @Expose({ name: 'banner_url' })
+  @Expose()
   bannerUrl?: string;
 
   @ApiProperty({ example: true })
-  @Expose({ name: 'dine_in' })
-  dineIn: boolean;
+  @Expose()
+  dinerIn: boolean;
 
   @ApiProperty({ example: true })
   @Expose()
@@ -53,6 +53,6 @@ export class RestaurantDTO {
 
   @ApiProperty({ type: [OpeningHourDTO], required: false })
   @Type(() => OpeningHourDTO)
-  @Expose({ name: 'opening_hour' })
+  @Expose()
   openingHour?: OpeningHourDTO[];
 }

@@ -11,7 +11,7 @@ export class AuthUserDto {
   providerId: string;
 
   @ApiProperty({ example: 'https://example.com/avatar.png', required: false })
-  imageUrl?: string;
+  profilePicture?: string;
 }
 
 export class AuthResponseDto {

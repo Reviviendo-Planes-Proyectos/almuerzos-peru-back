@@ -21,7 +21,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
       sub: 'google-oauth2|12345',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: 'https://example.com/avatar.png'
+      profilePicture: 'https://example.com/avatar.png'
     });
     const now = new Date();
     return {
@@ -75,7 +75,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
         email: decodedFirebaseUser.email,
         username: decodedFirebaseUser.username,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl,
+        profilePicture: decodedFirebaseUser.imageUrl,
         emailVerified: decodedFirebaseUser.emailVerified
       });
 
@@ -91,7 +91,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
           username: existingUser.username,
           email: existingUser.email,
           providerId: existingUser.providerId,
-          imageUrl: existingUser.imageUrl
+          profilePicture: existingUser.profilePicture
         }
       });
 
@@ -112,7 +112,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
         email: decodedFirebaseUser.email,
         username: decodedFirebaseUser.username,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl,
+        profilePicture: decodedFirebaseUser.imageUrl,
         emailVerified: decodedFirebaseUser.emailVerified
       });
 
@@ -122,7 +122,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
         sub: decodedFirebaseUser.sub,
         emailVerified: decodedFirebaseUser.emailVerified,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl
+        profilePicture: decodedFirebaseUser.imageUrl
       } as any;
 
       const createSpy = jest.spyOn(User, 'createAuthentication').mockReturnValue(domainUserToPersist);
@@ -140,7 +140,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
           username: createdUser.username,
           email: createdUser.email,
           providerId: createdUser.providerId,
-          imageUrl: createdUser.imageUrl
+          profilePicture: createdUser.profilePicture
         }
       });
 

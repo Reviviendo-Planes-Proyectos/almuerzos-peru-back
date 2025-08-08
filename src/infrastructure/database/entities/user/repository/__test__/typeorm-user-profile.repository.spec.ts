@@ -91,6 +91,7 @@ describe('TypeOrmUserProfile', () => {
         consumer: {
           id: 1,
           user: baseUser,
+          userName: 'Luis',
           isDeleted: false,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -117,7 +118,13 @@ describe('TypeOrmUserProfile', () => {
 
       expect(mockRepo.manager.transaction).toHaveBeenCalledTimes(1);
       expect(mockManager.findOne).toHaveBeenCalledWith(UserEntity, { where: { sub } });
-      expect(mockManager.save).toHaveBeenCalledWith(ConsumerEntity, { user: expect.any(Object) });
+      expect(mockManager.save).toHaveBeenCalledWith(
+        ConsumerEntity,
+        expect.objectContaining({
+          user: expect.any(Object),
+          userName: 'John Doe'
+        })
+      );
       expect(mockManager.save).toHaveBeenCalledWith(UserEntity, expect.any(Object));
       expect(mockManager.findOne).toHaveBeenCalledWith(UserEntity, {
         where: { sub },
@@ -199,11 +206,11 @@ describe('TypeOrmUserProfile', () => {
           longitude: -77.5678,
           ruc: '12345678901',
           legalName: 'Mi Restaurante SAC',
-          whatsapp: '987654321',
+          whatsappOrders: '987654321',
           yapePhone: '987654321',
           logoUrl: 'https://example.com/logo.png',
           bannerUrl: 'https://example.com/banner.png',
-          dineIn: true,
+          dinerIn: true,
           delivery: true,
           openingHour: [
             {
@@ -231,11 +238,11 @@ describe('TypeOrmUserProfile', () => {
         longitude: -77.5678,
         ruc: '12345678901',
         legalName: 'Mi Restaurante SAC',
-        whatsapp: '987654321',
+        whatsappOrders: '987654321',
         yapePhone: '987654321',
         logoUrl: 'https://example.com/logo.png',
         bannerUrl: 'https://example.com/banner.png',
-        dineIn: true,
+        dinerIn: true,
         delivery: true,
         averageRating: 0,
         isDeleted: false,
@@ -318,7 +325,7 @@ describe('TypeOrmUserProfile', () => {
           mapsAddress: 'Av. República 456',
           latitude: -12.5678,
           longitude: -77.1234,
-          dineIn: false,
+          dinerIn: false,
           delivery: true
         }
       };
@@ -332,11 +339,11 @@ describe('TypeOrmUserProfile', () => {
         longitude: -77.1234,
         ruc: null,
         legalName: null,
-        whatsapp: null,
+        whatsappOrders: null,
         yapePhone: null,
         logoUrl: null,
         bannerUrl: null,
-        dineIn: false,
+        dinerIn: false,
         delivery: true,
         averageRating: 0,
         isDeleted: false,

@@ -44,7 +44,8 @@ export class CreateRestaurantDto {
   @ApiProperty({ example: '987654321', description: 'Número de WhatsApp', required: false })
   @IsOptional()
   @IsString()
-  whatsapp?: string;
+  @Expose({ name: 'whatsapp_orders' })
+  whatsappOrders?: string;
 
   @ApiProperty({
     example: '987654321',
@@ -82,11 +83,11 @@ export class CreateRestaurantDto {
   @ApiProperty({
     example: true,
     description: '¿Atiende en el local?',
-    name: 'dine_in'
+    name: 'diner_in'
   })
   @IsBoolean()
-  @Expose({ name: 'dine_in' })
-  dineIn: boolean;
+  @Expose({ name: 'diner_in' })
+  dinerIn: boolean;
 
   @ApiProperty({ example: true, description: '¿Ofrece delivery?' })
   @IsBoolean()

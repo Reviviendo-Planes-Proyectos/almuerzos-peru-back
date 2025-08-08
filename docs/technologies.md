@@ -27,6 +27,8 @@ Este documento detalla las tecnologías utilizadas en el proyecto **Almuerzos Pe
 - **JWT**: 11.0.0 - Manejo de tokens JSON Web Token
 - **Class-validator**: 0.14.2 - Biblioteca para validaciones automáticas en DTOs
 - **Class-transformer**: 0.5.1 - Transformación de objetos y DTOs
+- **Passport: 0.7.0**: Middleware flexible de autenticación.
+- **Passport-JWT**: 4.0.1 – Estrategia Passport para autenticar mediante JWT.
 
 ### 📝 Documentación y API
 
@@ -49,6 +51,7 @@ Este documento detalla las tecnologías utilizadas en el proyecto **Almuerzos Pe
 - **Prettier**: 3.4.2 - Formateador de código automático
 - **Nodemon**: 3.1.12 - Utilidad para reinicio automático durante desarrollo
 - **ts-node**: 10.10.0 - Ejecutor de TypeScript para desarrollo
+- **eslint-scope**: 5.1.1 – Módulo que analiza el alcance de variables para ESLint.
 
 ### 🐳 Contenedores y DevOps
 

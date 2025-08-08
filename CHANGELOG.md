@@ -5,7 +5,7 @@
 ### ✨ Nuevas funcionalidades
 
 - **Registro de perfil de usuario**:
-  - Se implementó el endpoint **`POST /api/v1/profile/register`** para registrar el perfil del usuario tras autenticarse.
+  - Se implementó el endpoint **`POST /api/v1/users/profile`** para registrar el perfil del usuario tras autenticarse.
   - El perfil incluye datos básicos como indica el swagger.
 
 - **Asignación dinámica de roles**:
@@ -300,7 +300,3 @@
 - [ ] Sistema de Reviews y Rating
 - [ ] Dashboard de administración
 - [ ] Microservicios architecture
-
-```
-
-```

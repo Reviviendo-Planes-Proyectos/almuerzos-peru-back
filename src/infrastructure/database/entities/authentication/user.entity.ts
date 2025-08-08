@@ -10,6 +10,7 @@ import {
 import { RestaurantEntity } from '../restaurant/restaurant.entity';
 import { AdminEntity } from '../admin/admin.entity';
 import { ConsumerEntity } from '../consumer/consumer.entity';
+import { IsBoolean } from 'class-validator';
 
 @Entity('users')
 export class UserEntity {
@@ -32,6 +33,7 @@ export class UserEntity {
   sub: string;
 
   @Column({ default: true, name: 'email_verified' })
+  @IsBoolean()
   emailVerified: boolean;
 
   @Column({ name: 'provider_id' })
@@ -52,8 +54,8 @@ export class UserEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true, name: 'image_url' })
-  imageUrl?: string;
+  @Column({ nullable: true, name: 'profile_picture' })
+  profilePicture?: string;
 
   @Column({ nullable: true })
   district: string;

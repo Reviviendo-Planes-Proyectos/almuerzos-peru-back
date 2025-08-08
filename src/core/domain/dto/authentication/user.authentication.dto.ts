@@ -4,5 +4,5 @@ export interface UserAuthenticationDTO {
   sub: string;
   emailVerified: boolean;
   providerId: string;
-  imageUrl?: string;
+  profilePicture?: string;
 }
