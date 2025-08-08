@@ -9,7 +9,7 @@ export class CreateUserFromFirebaseAuthUseCase {
     const decodedUser = await this.firebaseAuthRepository.decodedUserFromFirebase(token);
     let user = await this.firebaseAuthRepository.findUserBySub(decodedUser.sub);
     if (!user) {
-      user = await this.firebaseAuthRepository.saveUser(User.create(decodedUser));
+      user = await this.firebaseAuthRepository.saveUser(User.createAuthentication(decodedUser));
     }
     const jwt = this.firebaseAuthRepository.generateJWT(user);
     return {
@@ -18,7 +18,7 @@ export class CreateUserFromFirebaseAuthUseCase {
         username: user.username,
         email: user.email,
         providerId: user.providerId,
-        imageUrl: user.imageUrl
+        profilePicture: user.profilePicture
       }
     };
   }

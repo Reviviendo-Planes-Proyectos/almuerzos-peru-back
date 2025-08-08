@@ -25,7 +25,7 @@ services:
       dockerfile: docker/images/Dockerfile.dev
     container_name: almuerzos-api
     env_file:
-      - ../../config/environments/development.docker.env
+      - ../../config/environments/development.docker.local.env
     ports:
       - '3000:3000'
     depends_on:

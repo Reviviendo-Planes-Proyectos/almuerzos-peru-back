@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IUser, User } from '../../../domain/repositories/authentication/user.entity';
 import { CreateUserFromFirebaseAuthUseCase } from '../create-user-from-firebase-auth.use-case';
+import { UserAuthenticationDTO } from 'src/core/domain/dto/authentication/user.authentication.dto';
 
 describe('CreateUserFromFirebaseAuthUseCase', () => {
   let useCase: CreateUserFromFirebaseAuthUseCase;
@@ -13,18 +14,19 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
     getAllUsers: jest.fn()
   };
 
-  const buildUser = (overrides?: Partial<IUser>): IUser => {
-    const base = User.create({
+  const buildUser = (overrides?: Partial<IUser>): UserAuthenticationDTO => {
+    const base = User.createAuthentication({
       username: 'john_doe',
       email: 'john@example.com',
       sub: 'google-oauth2|12345',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: 'https://example.com/avatar.png'
+      profilePicture: 'https://example.com/avatar.png'
     });
     const now = new Date();
     return {
       id: 1,
+      isDeleted: false,
       createdAt: now,
       updatedAt: now,
       ...base,
@@ -66,14 +68,14 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
       imageUrl: 'https://example.com/avatar.png'
     };
 
-    it('should return token and existing user without creating a new one', async () => {
+    test('should return token and existing user without creating a new one', async () => {
       const existingUser = buildUser({
         id: 10,
         sub: decodedFirebaseUser.sub,
         email: decodedFirebaseUser.email,
         username: decodedFirebaseUser.username,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl,
+        profilePicture: decodedFirebaseUser.imageUrl,
         emailVerified: decodedFirebaseUser.emailVerified
       });
 
@@ -89,7 +91,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
           username: existingUser.username,
           email: existingUser.email,
           providerId: existingUser.providerId,
-          imageUrl: existingUser.imageUrl
+          profilePicture: existingUser.profilePicture
         }
       });
 
@@ -103,14 +105,14 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
       expect(mockFirebaseAuthRepository.generateJWT).toHaveBeenCalledWith(existingUser);
     });
 
-    it('should create user when not found, then return token and created user', async () => {
+    test('should create user when not found, then return token and created user', async () => {
       const createdUser = buildUser({
         id: 11,
         sub: decodedFirebaseUser.sub,
         email: decodedFirebaseUser.email,
         username: decodedFirebaseUser.username,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl,
+        profilePicture: decodedFirebaseUser.imageUrl,
         emailVerified: decodedFirebaseUser.emailVerified
       });
 
@@ -120,10 +122,10 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
         sub: decodedFirebaseUser.sub,
         emailVerified: decodedFirebaseUser.emailVerified,
         providerId: decodedFirebaseUser.providerId,
-        imageUrl: decodedFirebaseUser.imageUrl
+        profilePicture: decodedFirebaseUser.imageUrl
       } as any;
 
-      const createSpy = jest.spyOn(User, 'create').mockReturnValue(domainUserToPersist);
+      const createSpy = jest.spyOn(User, 'createAuthentication').mockReturnValue(domainUserToPersist);
 
       mockFirebaseAuthRepository.decodedUserFromFirebase.mockResolvedValue(decodedFirebaseUser);
       mockFirebaseAuthRepository.findUserBySub.mockResolvedValue(null);
@@ -138,7 +140,7 @@ describe('CreateUserFromFirebaseAuthUseCase', () => {
           username: createdUser.username,
           email: createdUser.email,
           providerId: createdUser.providerId,
-          imageUrl: createdUser.imageUrl
+          profilePicture: createdUser.profilePicture
         }
       });
 

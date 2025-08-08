@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetAllUsersUseCase } from '../get-all-users.use-case';
-import { IUser } from 'src/core/domain/repositories/authentication/user.entity';
-import { IFirebaseAuthRepository } from 'src/core/domain/repositories/authentication/firebase-auth.repository.interface';
+import { IUser } from '../../../domain/repositories/authentication/user.entity';
+import { IFirebaseAuthRepository } from '../../../../core/domain/repositories/authentication/firebase-auth.repository.interface';
 
 describe('GetAllUsersUseCase', () => {
   let useCase: GetAllUsersUseCase;
@@ -18,9 +18,19 @@ describe('GetAllUsersUseCase', () => {
       sub: 'google-oauth2|1111',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: 'https://example.com/alice.jpg',
+      profilePicture: 'https://example.com/alice.jpg',
+      dni: '12345678',
+      firstName: 'Alice',
+      lastName: 'Smith',
+      phone: '987654321',
+      district: 'Miraflores',
+      province: 'Lima',
+      description: 'Usuaria activa',
+      role: 'consumer',
+      isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      deleteAt: null
     },
     {
       id: 2,
@@ -29,9 +39,19 @@ describe('GetAllUsersUseCase', () => {
       sub: 'google-oauth2|2222',
       emailVerified: true,
       providerId: 'google',
-      imageUrl: null,
+      profilePicture: null,
+      dni: '87654321',
+      firstName: 'Bob',
+      lastName: 'Johnson',
+      phone: '912345678',
+      district: 'San Isidro',
+      province: 'Lima',
+      description: null,
+      role: 'admin',
+      isDeleted: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      deleteAt: null
     }
   ];
 
@@ -68,13 +88,13 @@ describe('GetAllUsersUseCase', () => {
           username: 'alice',
           email: 'alice@example.com',
           providerId: 'google',
-          imageUrl: 'https://example.com/alice.jpg'
+          profilePicture: 'https://example.com/alice.jpg'
         },
         {
           username: 'bob',
           email: 'bob@example.com',
           providerId: 'google',
-          imageUrl: undefined
+          profilePicture: undefined
         }
       ]);
 

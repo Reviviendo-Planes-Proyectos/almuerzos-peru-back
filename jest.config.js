@@ -16,7 +16,8 @@ module.exports = {
     '!**/dto/**',
     '!**/__mocks__/**',
     '!**/config/**',
-    '!**/constants/**'
+    '!**/constants/**',
+    '!infrastructure/database/**/*.entity.ts'
   ],
   coverageReporters: ['text', 'lcov', 'json-summary', 'text-summary'],
   coverageThreshold: {

@@ -9,6 +9,7 @@ import { ResponseInterceptor } from 'src/common/interceptors/response.intercepto
 import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
 import { AppController } from 'src/interfaces/controllers/app/app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { UserModule } from './modules/user/user.module';
 
 // Environment file paths
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -38,11 +39,10 @@ const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv
           database: configService.get('DB_NAME'),
           ssl: sslEnabled
             ? {
-                rejectUnauthorized: false,
-                require: true
+                rejectUnauthorized: false
               }
             : false,
-          synchronize: configService.get('NODE_ENV') !== 'production',
+          synchronize: false, // Cambiar a false para producción
           autoLoadEntities: true
         };
 
@@ -51,7 +51,8 @@ const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv
       },
       inject: [ConfigService]
     }),
-    AuthenticationModule
+    AuthenticationModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [

@@ -10,7 +10,7 @@ export class GetAllUsersUseCase {
       username: user.username,
       email: user.email,
       providerId: user.providerId,
-      imageUrl: user.imageUrl || undefined
+      profilePicture: user.profilePicture || undefined
     }));
   }
 }
