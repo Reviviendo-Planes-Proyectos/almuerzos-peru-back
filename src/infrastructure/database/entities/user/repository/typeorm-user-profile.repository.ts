@@ -8,6 +8,11 @@ import { OpeningHourEntity } from '../../opening-hour/openings-hours.entity';
 import { AdminEntity } from '../../admin/admin.entity';
 import { ConsumerEntity } from '../../consumer/consumer.entity';
 import { UserProfileDTO } from '../../../../../core/domain/dto/user/user-profile.dto';
+import { PaginationResult } from '../../../../../core/domain/dto/pagination/pagination.result.dto';
+import { PaginationQueryParamDTO } from '../../../../../core/domain/dto/pagination/pagintion-query-param.dto';
+import { SearchParams } from '../../../../../core/domain/dto/search/search-param';
+import { paginateWithFilters } from '../../../../../common/utils/pagination/pagination-with-filters';
+import { UserDTO } from '../../../../../core/domain/dto/user/user.dto';
 
 @Injectable()
 export class TypeOrmUserProfile implements IUserProfileRepository {
@@ -62,5 +67,11 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
       });
       return userUpdated;
     });
+  }
+
+  async getAllUsers(params: PaginationQueryParamDTO, filters: SearchParams): Promise<PaginationResult<UserDTO>> {
+    console.log(filters);
+    const users = await paginateWithFilters(this.userRepository, { ...params, ...filters });
+    return users;
   }
 }
