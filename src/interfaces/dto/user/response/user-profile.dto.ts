@@ -2,14 +2,17 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { RestaurantResponseDTO } from '../../restaurant/response/restaurant.dto';
 export class AdminResponseDTO {
+  @ApiProperty({ example: false })
   @Expose()
   isDeleted?: boolean;
 }
 
 export class ConsumerResponseDTO {
+  @ApiProperty({ example: 'Luis' })
   @Expose()
   userName: string;
 
+  @ApiProperty({ example: false })
   @Expose()
   isDeleted?: boolean;
 }
@@ -51,14 +54,17 @@ export class UserRegisterProfileDTO {
   @Expose()
   profilePicture?: string;
 
+  @ApiProperty({ type: [AdminResponseDTO] })
   @Expose()
   @Type(() => AdminResponseDTO)
   admin?: AdminResponseDTO;
 
+  @ApiProperty({ type: [ConsumerResponseDTO] })
   @Expose()
   @Type(() => ConsumerResponseDTO)
   consumer?: ConsumerResponseDTO;
 
+  @ApiProperty({ type: [RestaurantResponseDTO] })
   @Expose()
   @Type(() => RestaurantResponseDTO)
   restaurant?: RestaurantResponseDTO;
