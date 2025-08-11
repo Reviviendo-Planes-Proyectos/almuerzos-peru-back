@@ -1,5 +1,27 @@
 # 📋 Changelog
 
+## [v1.3.0] - 2025-08-11
+
+### ✨ Nuevas funcionalidades
+
+- **Listado de usuarios con paginación, filtros y carga dinámica de relaciones**:
+  - Se implementó el endpoint **`POST /api/v1/users/search?page={page}&limit={limit}`** para obtener usuarios con soporte de paginación mediante _query params_.
+  - **Selección de campos**: Permite indicar en `select` qué columnas devolver de la entidad principal.
+  - **Relaciones dinámicas**: Soporta incluir relaciones simples (`['restaurant', 'admin', 'consumer]`) o anidadas (`{ restaurant: ['id', 'name'], admin: ['isDeleted'] }`).
+  - **Filtros avanzados**: En el cuerpo (`where`) se pueden definir condiciones con operadores (`eq`, `like`, `gte`, `lte`) o valores exactos.
+  - **Ordenamiento**: Permite ordenar ascendente o descendente por uno o varios campos mediante `order`.
+  - Optimiza la consulta devolviendo únicamente la información necesaria para el cliente.
+
+### 🛠️ Cambios técnicos
+
+- Se creó el DTO **`SearchUserDto`** con validaciones para `select`, `relations`, `where` y `order`.
+- Se añadió lógica en el servicio para interpretar filtros y relaciones anidadas.
+- Se actualizó la documentación **Swagger** con ejemplos para cada campo y estructura soportada.
+
+### 📌 Ruta para buscar usuarios
+
+**`GET /api/v1/users/search?page={page}&limit={limit}`**
+
 ## [v1.2.0] - 2025-08-07
 
 ### ✨ Nuevas funcionalidades

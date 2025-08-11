@@ -1,23 +1,29 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { RestaurantResponseDTO } from '../../restaurant/response/restaurant.dto';
-export class AdminResponseDTO {
-  @ApiProperty({ example: false })
-  @Expose()
-  isDeleted?: boolean;
-}
+import { AdminResponseDTO, ConsumerResponseDTO } from './user-profile.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class ConsumerResponseDTO {
-  @ApiProperty({ example: 'Luis' })
+export class UserResponseDto {
+  @ApiProperty({ example: 1 })
   @Expose()
-  userName: string;
+  id: number;
 
-  @ApiProperty({ example: false })
+  @ApiProperty({ example: 'Luis Fernando' })
   @Expose()
-  isDeleted?: boolean;
-}
+  username: string;
 
-export class UserRegisterProfileDTO {
+  @ApiProperty({ example: '12nbb1io2o' })
+  @Expose()
+  sub: string;
+
+  @ApiProperty({ example: true })
+  @Expose()
+  emailVerified: boolean;
+
+  @ApiProperty({ example: 'google.com' })
+  @Expose()
+  providerId: string;
+
   @ApiProperty({ example: '12345678' })
   @Expose()
   dni: string;
@@ -34,7 +40,15 @@ export class UserRegisterProfileDTO {
   @Expose()
   phone: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'email@gmail.com' })
+  @Expose()
+  email: string;
+
+  @ApiProperty({ example: 'https://example.com/avatar.png' })
+  @Expose()
+  profilePicture?: string;
+
+  @ApiProperty({ example: 'Los Olivos' })
   @Expose()
   district: string;
 
@@ -50,22 +64,15 @@ export class UserRegisterProfileDTO {
   @Expose()
   description?: string;
 
-  @ApiProperty({ example: 'https://example.com/avatar.png', required: false })
   @Expose()
-  profilePicture?: string;
+  @Type(() => RestaurantResponseDTO)
+  restaurant?: RestaurantResponseDTO;
 
-  @ApiProperty({ type: [AdminResponseDTO] })
   @Expose()
   @Type(() => AdminResponseDTO)
   admin?: AdminResponseDTO;
 
-  @ApiProperty({ type: [ConsumerResponseDTO] })
   @Expose()
   @Type(() => ConsumerResponseDTO)
   consumer?: ConsumerResponseDTO;
-
-  @ApiProperty({ type: [RestaurantResponseDTO] })
-  @Expose()
-  @Type(() => RestaurantResponseDTO)
-  restaurant?: RestaurantResponseDTO;
 }

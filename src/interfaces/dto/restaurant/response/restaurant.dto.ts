@@ -2,7 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { OpeningHourDTO } from '../../opening-hour/response/opening-hour.dto';
 
-export class RestaurantDTO {
+export class RestaurantResponseDTO {
+  @ApiProperty({ example: 1 })
+  @Expose()
+  id?: number;
+
   @ApiProperty({ example: 'Mi Restaurante Saludable' })
   @Expose()
   name: string;
