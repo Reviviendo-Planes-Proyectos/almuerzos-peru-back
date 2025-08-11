@@ -15,9 +15,12 @@ export class SearchUserDto {
   @ApiPropertyOptional({
     description: 'Relaciones a cargar. Puede ser un array simple o un objeto anidado',
     example: {
-      restaurant: ['id', 'name', 'address'],
-      admin: ['isDeleted'],
-      consumer: ['userName', 'isDeleted']
+      object: {
+        restaurant: ['id', 'name', 'address'],
+        admin: ['isDeleted'],
+        consumer: ['userName', 'isDeleted']
+      },
+      array: ['consumer', 'restaurant', 'admin']
     }
   })
   @IsOptional()

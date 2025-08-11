@@ -13,16 +13,24 @@ export async function paginateWithFilters<T>(repository: Repository<T>, searchPa
   }
 
   // RELATIONS con campos seleccionados
-  if (relations && typeof relations === 'object') {
-    Object.entries(relations).forEach(([relation, fields]) => {
-      const relationAlias = `${relation}`;
-      qb.leftJoin(`${alias}.${relation}`, relationAlias);
-      if (Array.isArray(fields) && fields.length) {
-        fields.forEach((field) => {
-          qb.addSelect(`${relationAlias}.${field}`);
-        });
-      }
-    });
+  if (relations) {
+    if (Array.isArray(relations)) {
+      // Array simple de relaciones
+      relations.forEach((relation) => {
+        qb.leftJoinAndSelect(`${alias}.${relation}`, relation);
+      });
+    } else if (typeof relations === 'object') {
+      // Objeto con relaciones y campos seleccionados
+      Object.entries(relations).forEach(([relation, fields]) => {
+        const relationAlias = `${relation}`;
+        qb.leftJoin(`${alias}.${relation}`, relationAlias);
+        if (Array.isArray(fields) && fields.length) {
+          fields.forEach((field) => {
+            qb.addSelect(`${relationAlias}.${field}`);
+          });
+        }
+      });
+    }
   }
 
   // WHERE simple y anidado
