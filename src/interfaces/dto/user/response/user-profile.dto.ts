@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { RestaurantDTO } from '../../restaurant/response/restaurant.dto';
+import { RestaurantResponseDTO } from '../../restaurant/response/restaurant.dto';
 export class AdminResponseDTO {
   @Expose()
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 export class ConsumerResponseDTO {
@@ -11,7 +11,7 @@ export class ConsumerResponseDTO {
   userName: string;
 
   @Expose()
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 export class UserRegisterProfileDTO {
@@ -60,6 +60,6 @@ export class UserRegisterProfileDTO {
   consumer?: ConsumerResponseDTO;
 
   @Expose()
-  @Type(() => RestaurantDTO)
-  restaurant?: RestaurantDTO;
+  @Type(() => RestaurantResponseDTO)
+  restaurant?: RestaurantResponseDTO;
 }
