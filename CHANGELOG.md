@@ -1,11 +1,28 @@
 # 📋 Changelog
 
-## [v1.3.0] - 2025-08-11
+## [v1.1.5] - 2025-08-11
+
+### ✨ Nuevas funcionalidades
+
+- **Función para eliminar usuarios por ID**:
+  - Se implementó el endpoint **`DELETE /api/v1/users/{id}`** para eliminar un usuario específico mediante su identificador.
+  - Verificación previa para confirmar que el usuario exista antes de proceder con la eliminación.
+  - Respuesta clara en caso de éxito o cuando el usuario no se encuentra.
+  - Manejo adecuado de errores con mensajes descriptivos para facilitar el debugging.
+  - Soporte para soft delete (eliminación lógica) o eliminación física, según configuración.
+
+### 🛠️ Cambios técnicos
+
+- Se añadió método `deleteUserById` en el servicio de usuarios.
+- Actualización de DTOs y validaciones para manejar correctamente el parámetro `id`.
+- Documentación Swagger actualizada para el nuevo endpoint con ejemplos y posibles respuestas.
+
+## [v1.1.4] - 2025-08-11
 
 ### ✨ Nuevas funcionalidades
 
 - **Listado de usuarios con paginación, filtros y carga dinámica de relaciones**:
-  - Se implementó el endpoint **`POST /api/v1/users/search?page={page}&limit={limit}`** para obtener usuarios con soporte de paginación mediante _query params_.
+  - Se implementó el endpoint **`POST /api/v1/users?page={page}&limit={limit}`** para obtener usuarios con soporte de paginación mediante _query params_.
   - **Selección de campos**: Permite indicar en `select` qué columnas devolver de la entidad principal.
   - **Relaciones dinámicas**: Soporta incluir relaciones simples (`['restaurant', 'admin', 'consumer]`) o anidadas (`{ restaurant: ['id', 'name'], admin: ['isDeleted'] }`).
   - **Filtros avanzados**: En el cuerpo (`where`) se pueden definir condiciones con operadores (`eq`, `like`, `gte`, `lte`) o valores exactos.
@@ -20,7 +37,7 @@
 
 ### 📌 Ruta para buscar usuarios
 
-**`GET /api/v1/users/search?page={page}&limit={limit}`**
+**`GET /api/v1/userspage={page}&limit={limit}`**
 
 ## [v1.2.0] - 2025-08-07
 
