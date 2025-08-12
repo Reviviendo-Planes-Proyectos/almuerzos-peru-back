@@ -26,7 +26,10 @@ describe('TypeOrmUserProfile', () => {
         transaction: jest.fn().mockImplementation(async (callback) => {
           return await callback(mockManager);
         })
-      }
+      },
+      findOne: jest.fn(),
+      save: jest.fn(),
+      softDelete: jest.fn()
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -394,6 +397,87 @@ describe('TypeOrmUserProfile', () => {
       mockManager.findOne.mockResolvedValueOnce(null);
 
       await expect(service.registerInfoUser(sub, input)).rejects.toThrow();
+    });
+  });
+  describe('deleteUser', () => {
+    const userId = 1;
+    const existingUser: UserEntity = {
+      id: userId,
+      sub: 'google-oauth2|1234567890',
+      email: 'john@example.com',
+      username: 'John Doe',
+      emailVerified: true,
+      providerId: 'google.com',
+      isDeleted: false,
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+      updatedAt: new Date('2025-01-01T00:00:00Z'),
+      deleteAt: new Date('2100-01-01T00:00:00Z'),
+      dni: '12345678',
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '987654321',
+      district: 'Lima',
+      province: 'Lima',
+      role: 'consumer',
+      description: 'Usuario test'
+    };
+
+    it('debe eliminar un usuario exitosamente', async () => {
+      const userToUpdate = { ...existingUser };
+
+      mockRepo.findOne.mockResolvedValueOnce(existingUser);
+      mockRepo.save.mockResolvedValueOnce({ ...userToUpdate, isDeleted: true });
+      mockRepo.softDelete.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalledWith({
+        ...existingUser,
+        isDeleted: true
+      });
+      expect(mockRepo.softDelete).toHaveBeenCalledWith(userId);
+      expect(result).toBe(true);
+    });
+
+    it('debe retornar false cuando el usuario no existe', async () => {
+      mockRepo.findOne.mockResolvedValueOnce(null);
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).not.toHaveBeenCalled();
+      expect(mockRepo.softDelete).not.toHaveBeenCalled();
+      expect(result).toBe(false);
+    });
+
+    it('debe retornar false cuando el usuario ya está eliminado', async () => {
+      const deletedUser = { ...existingUser, isDeleted: true };
+
+      mockRepo.findOne.mockResolvedValueOnce(deletedUser);
+      mockRepo.save.mockResolvedValueOnce(deletedUser);
+      mockRepo.softDelete.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalledWith({
+        ...deletedUser,
+        isDeleted: true
+      });
+      expect(mockRepo.softDelete).toHaveBeenCalledWith(userId);
+      expect(result).toBe(true);
+    });
+
+    it('debe manejar errores durante el proceso de eliminación', async () => {
+      mockRepo.findOne.mockResolvedValueOnce(existingUser);
+      mockRepo.save.mockRejectedValueOnce(new Error('Database error'));
+
+      await expect(service.deleteUser(userId)).rejects.toThrow('Database error');
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalled();
+      expect(mockRepo.softDelete).not.toHaveBeenCalled();
     });
   });
 });

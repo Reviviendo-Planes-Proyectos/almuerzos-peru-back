@@ -13,4 +13,12 @@ export class UserServiceCommon {
     const user = await this.userRepository.findOne({ where: { sub: sub } });
     return !!user;
   }
+
+  async findRoleByUserSub(sub: string): Promise<string | null> {
+    const user = await this.userRepository.findOne({ where: { sub } });
+
+    if (!user) return null;
+
+    return user.role;
+  }
 }
