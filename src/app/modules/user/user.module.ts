@@ -14,8 +14,9 @@ import { UserCreateProfileUseCase } from '../../../core/use-cases/user/user-crea
 import { RoleGuard } from '../../../common/guards/roles.guard';
 import { GetAllUsersUseCase } from '../../../core/use-cases/user/get-all-users.use-case';
 import { DeleteUserUseCase } from '../../../core/use-cases/user/delete-user.use-case';
+import { UpdateUserProfileUseCase } from '../../../core/use-cases/user/update-user-profile.use-case';
 
-const useCases = [UserCreateProfileUseCase, GetAllUsersUseCase, DeleteUserUseCase];
+const useCases = [UserCreateProfileUseCase, GetAllUsersUseCase, DeleteUserUseCase, UpdateUserProfileUseCase];
 
 @Module({
   imports: [

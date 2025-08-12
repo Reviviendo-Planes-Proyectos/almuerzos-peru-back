@@ -13,6 +13,7 @@ import { PaginationQueryParamDTO } from '../../../../../core/domain/dto/paginati
 import { SearchParams } from '../../../../../core/domain/dto/search/search-param';
 import { paginateWithFilters } from '../../../../../common/utils/pagination/pagination-with-filters';
 import { UserDTO } from '../../../../../core/domain/dto/user/user.dto';
+import { UpdateUserProfileDTO } from '../../../../../core/domain/dto/user/update-user-profile.dto';
 
 @Injectable()
 export class TypeOrmUserProfile implements IUserProfileRepository {
@@ -85,5 +86,44 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
 
     await this.userRepository.softDelete(id);
     return true;
+  }
+  async updateUserProfile(sub: string, userData: UpdateUserProfileDTO): Promise<UpdateUserProfileDTO> {
+    return this.userRepository.manager.transaction(async (manager) => {
+      const user = await manager.findOne(UserEntity, {
+        where: { sub },
+        relations: ['restaurant', 'consumer', 'admin']
+      });
+      const { restaurant, consumer, ...primitiveFields } = userData;
+      Object.assign(user, primitiveFields);
+
+      let relations: string[] = [];
+      if (user.role === 'restaurant' && userData.restaurant) {
+        const { openingHour, ...restaurantFields } = restaurant;
+        await manager.update(RestaurantEntity, { id: user.restaurant.id }, restaurantFields);
+
+        if (openingHour && openingHour.length > 0) {
+          await manager.delete(OpeningHourEntity, { restaurant: { id: user.restaurant.id } });
+          const newHours = openingHour.map((hour) => ({
+            ...hour,
+            restaurant: { id: user.restaurant.id }
+          }));
+          await manager.insert(OpeningHourEntity, newHours);
+        }
+        relations = ['restaurant', 'restaurant.openingHour'];
+      }
+      if (user.role === 'admin') {
+        relations = ['admin'];
+      }
+      if (user.role === 'consumer' && userData.consumer) {
+        await manager.update(ConsumerEntity, { id: user.consumer.id }, consumer);
+        relations = ['consumer'];
+      }
+      await manager.save(UserEntity, user);
+      const userUpdated = await manager.findOne(UserEntity, {
+        where: { sub },
+        relations: relations
+      });
+      return userUpdated;
+    });
   }
 }

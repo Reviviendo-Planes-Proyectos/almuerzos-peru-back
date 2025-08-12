@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
   Req,
   UseGuards
@@ -25,6 +26,9 @@ import { PaginationResponseUsers } from '../../dto/user/response/pagination-user
 import { PaginationQueryParamDTO } from '../../dto/pagination/request/pagination-query-param.dto';
 import { SearchUserDto } from '../../dto/search/search-filters.dto';
 import { DeleteUserUseCase } from '../../../core/use-cases/user/delete-user.use-case';
+import { UpdateUserProfileUseCase } from '../../../core/use-cases/user/update-user-profile.use-case';
+import { UpdateUserProfileDTO } from '../../dto/user/request/update-user-profile.dto';
+import { UserUpdateProfileDTO } from '../../dto/user/response/user-update-profile.dto';
 
 @UseGuards(JwtAuthGuard, UserExistGuad)
 @ApiTags('users')
@@ -33,7 +37,8 @@ export class UserController {
   constructor(
     private readonly userCreateProfileUseCase: UserCreateProfileUseCase,
     private readonly getAllUsersUseCase: GetAllUsersUseCase,
-    private readonly deleteUserUseCase: DeleteUserUseCase
+    private readonly deleteUserUseCase: DeleteUserUseCase,
+    private readonly updateUserUseCase: UpdateUserProfileUseCase
   ) {}
 
   @Post('profile')
@@ -90,6 +95,22 @@ export class UserController {
       };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  @Put('')
+  @ApiOperation({ summary: 'Actualizar el perfil del usuario' })
+  @ApiBody({ type: UpdateUserProfileDTO })
+  @ApiCreatedResponse({
+    description: 'Perfil del usuario actualizado',
+    type: UserUpdateProfileDTO
+  })
+  async updateUser(@Req() req: Request, @Body() userData: UpdateUserProfileDTO) {
+    try {
+      const user = req.user as { sub: string };
+      const updateUser = await this.updateUserUseCase.execute(user.sub, userData);
+      return plainToInstance(UserUpdateProfileDTO, updateUser);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
