@@ -1,5 +1,35 @@
 # 📋 Changelog
 
+## [v1.1.6] - 2025-08-12
+
+### ✨ Nuevas funcionalidades
+
+- **Actualización de datos de usuario autenticado**:
+  - Se implementó el endpoint **`PUT /api/v1/users`** para que el usuario autenticado pueda actualizar su información personal.
+  - Soporte para modificar datos primitivos como teléfono, dirección, descripción y foto de perfil.
+  - Manejo seguro de datos relacionados (por ejemplo, información de restaurante o administrador) sin afectar otros registros asociados.
+  - Validaciones estrictas en el DTO para garantizar integridad y formato correcto de la información recibida.
+  - Respuestas claras y consistentes ante actualizaciones exitosas o fallidas.
+
+#### 📌 Campos que se pueden actualizar
+
+- **Campos primitivos**:
+  - `phone` → Número de teléfono.
+  - `district` → Distrito de residencia.
+  - `province` → Provincia de residencia.
+  - `description` → Descripción o bio del usuario (opcional).
+  - `profilePicture` → URL o base64 de la foto de perfil (opcional).
+
+- **Datos relacionados** (opcional, actualizando solo lo enviado):
+  - `restaurant` → Datos del restaurante asociado (ej. nombre, dirección, horarios).
+  - `admin` → Datos del perfil administrador (ej. username).
+
+### 🛠️ Cambios técnicos
+
+- Implementación de lógica para diferenciar campos primitivos de relaciones antes de persistir cambios.
+- Actualización de Swagger para documentar el nuevo endpoint con ejemplos de peticiones y respuestas.
+- Refactor de validaciones para optimizar la verificación de datos opcionales.
+
 ## [v1.1.5] - 2025-08-11
 
 ### ✨ Nuevas funcionalidades
