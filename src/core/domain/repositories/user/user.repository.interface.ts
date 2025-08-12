@@ -7,4 +7,5 @@ import { UserDTO } from '../../dto/user/user.dto';
 export interface IUserProfileRepository {
   registerInfoUser(sub: string, user: Omit<UserProfileDTO, 'imageUrl'>): Promise<UserProfileDTO>;
   getAllUsers(params: PaginationQueryParamDTO, filters: SearchParams): Promise<PaginationResult<UserDTO>>;
+  deleteUser(id: number): Promise<boolean>;
 }

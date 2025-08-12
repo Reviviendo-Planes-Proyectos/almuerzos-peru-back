@@ -74,4 +74,16 @@ export class TypeOrmUserProfile implements IUserProfileRepository {
     const users = await paginateWithFilters(this.userRepository, { ...params, ...filters });
     return users;
   }
+
+  async deleteUser(id: number): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { id: id } });
+
+    if (!user) return false;
+
+    user.isDeleted = true;
+    await this.userRepository.save(user);
+
+    await this.userRepository.softDelete(id);
+    return true;
+  }
 }

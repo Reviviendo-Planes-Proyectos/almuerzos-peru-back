@@ -106,7 +106,6 @@ export async function paginateWithFilters<T>(repository: Repository<T>, searchPa
 
   const lastPage = Math.ceil(total / limit);
   const nextPage = page < lastPage ? page + 1 : null;
-  console.log(data);
   return {
     data,
     paginationData: {

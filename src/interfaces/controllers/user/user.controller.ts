@@ -1,5 +1,18 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Req, UseGuards } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common';
+import { ApiBody, ApiCreatedResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from '../../../common/guards/jwt-auth.guard';
@@ -11,6 +24,7 @@ import { GetAllUsersUseCase } from '../../../core/use-cases/user/get-all-users.u
 import { PaginationResponseUsers } from '../../dto/user/response/pagination-users.dto';
 import { PaginationQueryParamDTO } from '../../dto/pagination/request/pagination-query-param.dto';
 import { SearchUserDto } from '../../dto/search/search-filters.dto';
+import { DeleteUserUseCase } from '../../../core/use-cases/user/delete-user.use-case';
 
 @UseGuards(JwtAuthGuard, UserExistGuad)
 @ApiTags('users')
@@ -18,7 +32,8 @@ import { SearchUserDto } from '../../dto/search/search-filters.dto';
 export class UserController {
   constructor(
     private readonly userCreateProfileUseCase: UserCreateProfileUseCase,
-    private readonly getAllUsersUseCase: GetAllUsersUseCase
+    private readonly getAllUsersUseCase: GetAllUsersUseCase,
+    private readonly deleteUserUseCase: DeleteUserUseCase
   ) {}
 
   @Post('profile')
@@ -52,6 +67,29 @@ export class UserController {
       return data;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Delete(':id')
+  @ApiParam({
+    name: 'id',
+    type: Number,
+    description: 'Id del usuario',
+    example: 1
+  })
+  @ApiCreatedResponse({
+    example: {
+      message: 'Usuario eliminado'
+    }
+  })
+  async deleteUser(@Param('id', ParseIntPipe) id: number) {
+    try {
+      await this.deleteUserUseCase.excute(id);
+      return {
+        message: 'Usuario eliminado'
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
 }

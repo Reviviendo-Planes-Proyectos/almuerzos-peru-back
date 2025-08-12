@@ -13,8 +13,9 @@ import { UserController } from '../../../interfaces/controllers/user/user.contro
 import { UserCreateProfileUseCase } from '../../../core/use-cases/user/user-create-profile.use-case';
 import { RoleGuard } from '../../../common/guards/roles.guard';
 import { GetAllUsersUseCase } from '../../../core/use-cases/user/get-all-users.use-case';
+import { DeleteUserUseCase } from '../../../core/use-cases/user/delete-user.use-case';
 
-const useCases = [UserCreateProfileUseCase, GetAllUsersUseCase];
+const useCases = [UserCreateProfileUseCase, GetAllUsersUseCase, DeleteUserUseCase];
 
 @Module({
   imports: [
