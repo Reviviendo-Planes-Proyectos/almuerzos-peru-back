@@ -11,8 +11,12 @@ import { ConsumerEntity } from '../../../infrastructure/database/entities/consum
 import { TypeOrmUserProfile } from '../../../infrastructure/database/entities/user/repository/typeorm-user-profile.repository';
 import { UserController } from '../../../interfaces/controllers/user/user.controller';
 import { UserCreateProfileUseCase } from '../../../core/use-cases/user/user-create-profile.use-case';
+import { RoleGuard } from '../../../common/guards/roles.guard';
+import { GetAllUsersUseCase } from '../../../core/use-cases/user/get-all-users.use-case';
+import { DeleteUserUseCase } from '../../../core/use-cases/user/delete-user.use-case';
+import { UpdateUserProfileUseCase } from '../../../core/use-cases/user/update-user-profile.use-case';
 
-const useCases = [UserCreateProfileUseCase];
+const useCases = [UserCreateProfileUseCase, GetAllUsersUseCase, DeleteUserUseCase, UpdateUserProfileUseCase];
 
 @Module({
   imports: [
@@ -23,6 +27,7 @@ const useCases = [UserCreateProfileUseCase];
   providers: [
     JwtStrategy,
     TypeOrmUserProfile,
+    RoleGuard,
     ...useCases.map((useCase) => ({
       provide: useCase,
       useFactory: (userRepo: TypeOrmUserProfile) => new useCase(userRepo),

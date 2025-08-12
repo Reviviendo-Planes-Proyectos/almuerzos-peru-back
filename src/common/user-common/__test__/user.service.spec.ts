@@ -28,22 +28,45 @@ describe('UserServiceCommon', () => {
     jest.clearAllMocks();
   });
 
-  it('should return true if user exists by sub', async () => {
-    const fakeUser = { id: 1, sub: 'abc123' } as UserEntity;
-    mockUserRepository.findOne.mockResolvedValue(fakeUser);
+  describe('userExistBySub', () => {
+    it('should return true if user exists by sub', async () => {
+      const fakeUser = { id: 1, sub: 'abc123' } as UserEntity;
+      mockUserRepository.findOne.mockResolvedValue(fakeUser);
 
-    const result = await service.userExistBySub('abc123');
+      const result = await service.userExistBySub('abc123');
 
-    expect(result).toBe(true);
-    expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'abc123' } });
+      expect(result).toBe(true);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'abc123' } });
+    });
+
+    it('should return false if user does not exist by sub', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+
+      const result = await service.userExistBySub('nonexistent');
+
+      expect(result).toBe(false);
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'nonexistent' } });
+    });
   });
 
-  it('should return false if user does not exist by sub', async () => {
-    mockUserRepository.findOne.mockResolvedValue(null);
+  describe('findRoleByUserSub', () => {
+    it('should return role if user exists', async () => {
+      const fakeUser = { id: 1, sub: 'abc123', role: 'admin' } as UserEntity;
+      mockUserRepository.findOne.mockResolvedValue(fakeUser);
 
-    const result = await service.userExistBySub('nonexistent');
+      const result = await service.findRoleByUserSub('abc123');
 
-    expect(result).toBe(false);
-    expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'nonexistent' } });
+      expect(result).toBe('admin');
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'abc123' } });
+    });
+
+    it('should return null if user does not exist', async () => {
+      mockUserRepository.findOne.mockResolvedValue(null);
+
+      const result = await service.findRoleByUserSub('nonexistent');
+
+      expect(result).toBeNull();
+      expect(mockUserRepository.findOne).toHaveBeenCalledWith({ where: { sub: 'nonexistent' } });
+    });
   });
 });

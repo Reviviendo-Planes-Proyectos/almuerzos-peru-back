@@ -8,6 +8,7 @@ import { AdminEntity } from '../../../admin/admin.entity';
 import { RestaurantEntity } from '../../../restaurant/restaurant.entity';
 import { OpeningHourEntity } from '../../../opening-hour/openings-hours.entity';
 import { UserProfileDTO } from '../../../../../../core/domain/dto/user/user-profile.dto';
+import { UpdateUserProfileDTO } from '../../../../../../core/domain/dto/user/update-user-profile.dto';
 
 describe('TypeOrmUserProfile', () => {
   let service: TypeOrmUserProfile;
@@ -26,7 +27,10 @@ describe('TypeOrmUserProfile', () => {
         transaction: jest.fn().mockImplementation(async (callback) => {
           return await callback(mockManager);
         })
-      }
+      },
+      findOne: jest.fn(),
+      save: jest.fn(),
+      softDelete: jest.fn()
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -394,6 +398,231 @@ describe('TypeOrmUserProfile', () => {
       mockManager.findOne.mockResolvedValueOnce(null);
 
       await expect(service.registerInfoUser(sub, input)).rejects.toThrow();
+    });
+  });
+  describe('deleteUser', () => {
+    const userId = 1;
+    const existingUser: UserEntity = {
+      id: userId,
+      sub: 'google-oauth2|1234567890',
+      email: 'john@example.com',
+      username: 'John Doe',
+      emailVerified: true,
+      providerId: 'google.com',
+      isDeleted: false,
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+      updatedAt: new Date('2025-01-01T00:00:00Z'),
+      deleteAt: new Date('2100-01-01T00:00:00Z'),
+      dni: '12345678',
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '987654321',
+      district: 'Lima',
+      province: 'Lima',
+      role: 'consumer',
+      description: 'Usuario test'
+    };
+
+    it('debe eliminar un usuario exitosamente', async () => {
+      const userToUpdate = { ...existingUser };
+
+      mockRepo.findOne.mockResolvedValueOnce(existingUser);
+      mockRepo.save.mockResolvedValueOnce({ ...userToUpdate, isDeleted: true });
+      mockRepo.softDelete.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalledWith({
+        ...existingUser,
+        isDeleted: true
+      });
+      expect(mockRepo.softDelete).toHaveBeenCalledWith(userId);
+      expect(result).toBe(true);
+    });
+
+    it('debe retornar false cuando el usuario no existe', async () => {
+      mockRepo.findOne.mockResolvedValueOnce(null);
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).not.toHaveBeenCalled();
+      expect(mockRepo.softDelete).not.toHaveBeenCalled();
+      expect(result).toBe(false);
+    });
+
+    it('debe retornar false cuando el usuario ya está eliminado', async () => {
+      const deletedUser = { ...existingUser, isDeleted: true };
+
+      mockRepo.findOne.mockResolvedValueOnce(deletedUser);
+      mockRepo.save.mockResolvedValueOnce(deletedUser);
+      mockRepo.softDelete.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+
+      const result = await service.deleteUser(userId);
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalledWith({
+        ...deletedUser,
+        isDeleted: true
+      });
+      expect(mockRepo.softDelete).toHaveBeenCalledWith(userId);
+      expect(result).toBe(true);
+    });
+
+    it('debe manejar errores durante el proceso de eliminación', async () => {
+      mockRepo.findOne.mockResolvedValueOnce(existingUser);
+      mockRepo.save.mockRejectedValueOnce(new Error('Database error'));
+
+      await expect(service.deleteUser(userId)).rejects.toThrow('Database error');
+
+      expect(mockRepo.findOne).toHaveBeenCalledWith({ where: { id: userId } });
+      expect(mockRepo.save).toHaveBeenCalled();
+      expect(mockRepo.softDelete).not.toHaveBeenCalled();
+    });
+  });
+  describe('updateUserProfile', () => {
+    const sub = 'google-oauth2|1234567890';
+    const baseUser: UserEntity = {
+      id: 1,
+      sub,
+      email: 'john@example.com',
+      username: 'John Doe',
+      emailVerified: true,
+      providerId: 'google.com',
+      isDeleted: false,
+      createdAt: new Date('2025-01-01T00:00:00Z'),
+      updatedAt: new Date('2025-01-01T00:00:00Z'),
+      deleteAt: new Date('2100-01-01T00:00:00Z'),
+      dni: '12345678',
+      firstName: 'John',
+      lastName: 'Doe',
+      phone: '987654321',
+      district: 'Lima',
+      province: 'Lima',
+      role: 'consumer',
+      description: 'Usuario test'
+    };
+
+    // Agregar al beforeEach existente
+    beforeEach(() => {
+      // ... código existente ...
+      mockManager.update = jest.fn();
+      mockManager.delete = jest.fn();
+      mockManager.insert = jest.fn();
+    });
+
+    it('debe actualizar un usuario consumer correctamente', async () => {
+      const userWithConsumer = {
+        ...baseUser,
+        role: 'consumer' as const,
+        consumer: { id: 1, userName: 'OldName' }
+      };
+
+      const input: UpdateUserProfileDTO = {
+        phone: '999888777',
+        district: 'San Isidro',
+        province: 'Lima',
+        consumer: { userName: 'NewName' }
+      };
+
+      mockManager.findOne
+        .mockResolvedValueOnce(userWithConsumer)
+        .mockResolvedValueOnce({ ...userWithConsumer, ...input });
+      mockManager.update.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+      mockManager.save.mockResolvedValueOnce({ ...userWithConsumer, ...input });
+
+      const result = await service.updateUserProfile(sub, input);
+
+      expect(mockManager.update).toHaveBeenCalledWith(ConsumerEntity, { id: 1 }, { userName: 'NewName' });
+      expect(mockManager.findOne).toHaveBeenLastCalledWith(UserEntity, {
+        where: { sub },
+        relations: ['consumer']
+      });
+      expect(result).toBeDefined();
+    });
+
+    it('debe actualizar un usuario restaurant con horarios correctamente', async () => {
+      const userWithRestaurant = {
+        ...baseUser,
+        role: 'restaurant' as const,
+        restaurant: { id: 1, name: 'Old Restaurant' }
+      };
+
+      const input: UpdateUserProfileDTO = {
+        phone: '555444333',
+        district: 'Miraflores',
+        province: 'Lima',
+        restaurant: {
+          name: 'New Restaurant',
+          mapsAddress: 'Nueva dirección',
+          latitude: -12.1234,
+          longitude: -77.5678,
+          dinerIn: true,
+          delivery: true,
+          openingHour: [{ weekDay: 1, startTime: '10:00', endTime: '22:00', enabled: true }]
+        }
+      };
+
+      mockManager.findOne
+        .mockResolvedValueOnce(userWithRestaurant)
+        .mockResolvedValueOnce({ ...userWithRestaurant, ...input });
+      mockManager.update.mockResolvedValueOnce({ affected: 1, raw: {}, generatedMaps: [] });
+      mockManager.delete.mockResolvedValueOnce({ affected: 1, raw: {} });
+      mockManager.insert.mockResolvedValueOnce({ identifiers: [], generatedMaps: [], raw: {} });
+      mockManager.save.mockResolvedValueOnce({ ...userWithRestaurant, ...input });
+
+      await service.updateUserProfile(sub, input);
+
+      expect(mockManager.update).toHaveBeenCalledWith(
+        RestaurantEntity,
+        { id: 1 },
+        expect.objectContaining({
+          name: 'New Restaurant',
+          mapsAddress: 'Nueva dirección',
+          latitude: -12.1234,
+          longitude: -77.5678,
+          dinerIn: true,
+          delivery: true
+        })
+      );
+      expect(mockManager.delete).toHaveBeenCalledWith(OpeningHourEntity, {
+        restaurant: { id: 1 }
+      });
+      expect(mockManager.insert).toHaveBeenCalledWith(OpeningHourEntity, [
+        expect.objectContaining({
+          weekDay: 1,
+          restaurant: { id: 1 }
+        })
+      ]);
+    });
+
+    it('debe actualizar campos básicos sin relaciones', async () => {
+      const input: UpdateUserProfileDTO = {
+        phone: '666555444',
+        district: 'Surco',
+        province: 'Lima'
+      };
+
+      mockManager.findOne.mockResolvedValueOnce(baseUser).mockResolvedValueOnce({ ...baseUser, ...input });
+      mockManager.save.mockResolvedValueOnce({ ...baseUser, ...input });
+
+      await service.updateUserProfile(sub, input);
+
+      expect(mockManager.save).toHaveBeenCalledWith(UserEntity, expect.objectContaining(input));
+      expect(mockManager.update).not.toHaveBeenCalled();
+    });
+
+    it('debe fallar cuando el usuario no existe', async () => {
+      mockManager.findOne.mockResolvedValueOnce(null);
+
+      await expect(
+        service.updateUserProfile(sub, {
+          phone: '123',
+          district: 'Test',
+          province: 'Test'
+        } as UpdateUserProfileDTO)
+      ).rejects.toThrow();
     });
   });
 });
