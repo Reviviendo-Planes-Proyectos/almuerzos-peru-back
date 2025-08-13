@@ -33,6 +33,9 @@ export class RestaurantEntity {
   @Column({ name: 'maps_address' })
   mapsAddress: string;
 
+  @Column({ name: 'referential_address', nullable: true })
+  referentialAddress: string;
+
   @Column({ type: 'double precision' })
   latitude: number;
 

@@ -39,4 +39,15 @@ describe('JwtStrategy', () => {
       username: 'testuser'
     });
   });
+
+  it('should use default secret when JWT_SECRET is not provided', () => {
+    const mockConfigServiceNoSecret: Partial<ConfigService> = {
+      get: jest.fn().mockReturnValue(undefined)
+    };
+
+    const strategyWithDefaultSecret = new JwtStrategy(mockConfigServiceNoSecret as ConfigService);
+
+    expect(mockConfigServiceNoSecret.get).toHaveBeenCalledWith('JWT_SECRET');
+    expect(strategyWithDefaultSecret).toBeDefined();
+  });
 });

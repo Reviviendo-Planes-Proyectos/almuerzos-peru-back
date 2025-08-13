@@ -11,6 +11,7 @@ describe('Restaurant', () => {
       const restaurant = new Restaurant(
         'La Casa del Sabor',
         'Av. José Larco 123, Miraflores',
+        'Frente al parque central, al lado del banco',
         -12.1191,
         -77.0292,
         '20123456789',
@@ -42,7 +43,13 @@ describe('Restaurant', () => {
 
     it('should create instance with required parameters only', () => {
       // Act
-      const restaurant = new Restaurant('Restaurante Básico', 'Calle Lima 456', -12.0464, -77.0428);
+      const restaurant = new Restaurant(
+        'Restaurante Básico',
+        'Calle Lima 456',
+        'Cerca al mercado central',
+        -12.0464,
+        -77.0428
+      );
 
       // Assert
       expect(restaurant.name).toBe('Restaurante Básico');
@@ -59,6 +66,7 @@ describe('Restaurant', () => {
       const dinerInOnly = new Restaurant(
         'Dine-In',
         'Address',
+        'Referencia para solo comer en local',
         -12.0464,
         -77.0428,
         undefined,
@@ -73,6 +81,7 @@ describe('Restaurant', () => {
       const deliveryOnly = new Restaurant(
         'Delivery',
         'Address',
+        'Referencia para solo delivery',
         -12.0464,
         -77.0428,
         undefined,
@@ -94,7 +103,7 @@ describe('Restaurant', () => {
 
   describe('Interface compliance', () => {
     it('should implement IRestaurant interface', () => {
-      const restaurant = new Restaurant('Test', 'Address', -12.0464, -77.0428);
+      const restaurant = new Restaurant('Test', 'Address', 'Referencia de prueba', -12.0464, -77.0428);
       const interfaceObj: IRestaurant = restaurant;
 
       expect(interfaceObj.name).toBeDefined();
@@ -109,6 +118,7 @@ describe('Restaurant', () => {
       const restaurant = new Restaurant(
         'Test',
         'Address',
+        'Referencia para validación de tipos',
         -12.0464,
         -77.0428,
         '20123456789',

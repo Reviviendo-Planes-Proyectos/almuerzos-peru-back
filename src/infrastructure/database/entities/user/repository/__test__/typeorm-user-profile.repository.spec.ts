@@ -202,6 +202,7 @@ describe('TypeOrmUserProfile', () => {
         restaurant: {
           name: 'Mi Restaurante',
           mapsAddress: 'Av. Larco 123',
+          referentialAddress: 'Al lado del centro comercial',
           latitude: -12.1234,
           longitude: -77.5678,
           ruc: '12345678901',
@@ -234,6 +235,7 @@ describe('TypeOrmUserProfile', () => {
         user: baseUser,
         name: 'Mi Restaurante',
         mapsAddress: 'Av. Larco 123',
+        referentialAddress: 'Al lado del centro comercial',
         latitude: -12.1234,
         longitude: -77.5678,
         ruc: '12345678901',
@@ -323,6 +325,7 @@ describe('TypeOrmUserProfile', () => {
         restaurant: {
           name: 'Restaurante Simple',
           mapsAddress: 'Av. República 456',
+          referentialAddress: 'Esquina con Av. Principal',
           latitude: -12.5678,
           longitude: -77.1234,
           dinerIn: false,
@@ -335,6 +338,7 @@ describe('TypeOrmUserProfile', () => {
         user: baseUser,
         name: 'Restaurante Simple',
         mapsAddress: 'Av. República 456',
+        referentialAddress: 'Esquina con Av. Principal',
         latitude: -12.5678,
         longitude: -77.1234,
         ruc: null,
