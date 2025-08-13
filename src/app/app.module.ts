@@ -42,7 +42,7 @@ const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv
                 rejectUnauthorized: false
               }
             : false,
-          synchronize: false, // Cambiar a false para producción
+          synchronize: true, // Cambiar a false para producción
           autoLoadEntities: true
         };
 

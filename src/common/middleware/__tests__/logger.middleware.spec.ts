@@ -81,4 +81,49 @@ describe('LoggerMiddleware', () => {
     res._cb();
     expect(next).toHaveBeenCalled();
   });
+
+  it('debe manejar correctamente cuando no hay User-Agent', () => {
+    req.get = jest.fn().mockReturnValue(undefined);
+    res.statusCode = 200;
+    middleware.use(req, res, next);
+    res._cb();
+    expect(mockLogger.log).toHaveBeenCalledWith(expect.stringContaining('GET /test 200'), 'HTTP');
+    expect(next).toHaveBeenCalled();
+  });
+
+  it('debe manejar correctamente cuando no hay Content-Length', () => {
+    res.get = jest.fn().mockReturnValue(undefined);
+    res.statusCode = 200;
+    middleware.use(req, res, next);
+    res._cb();
+    expect(mockLogger.log).toHaveBeenCalledWith(expect.stringContaining('0b'), 'HTTP');
+    expect(next).toHaveBeenCalled();
+  });
+
+  it('debe calcular correctamente el tiempo de respuesta', () => {
+    const startTime = Date.now();
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(startTime)
+      .mockReturnValueOnce(startTime + 100);
+
+    res.statusCode = 200;
+    middleware.use(req, res, next);
+    res._cb();
+
+    expect(mockLogger.log).toHaveBeenCalledWith(expect.stringContaining('100ms'), 'HTTP');
+    expect(next).toHaveBeenCalled();
+  });
+
+  it('debe incluir IP y User-Agent en el mensaje de log', () => {
+    req.ip = '192.168.1.1';
+    req.get = jest.fn().mockReturnValue('Custom-Agent/1.0');
+    res.statusCode = 200;
+
+    middleware.use(req, res, next);
+    res._cb();
+
+    expect(mockLogger.log).toHaveBeenCalledWith(expect.stringContaining('192.168.1.1 Custom-Agent/1.0'), 'HTTP');
+    expect(next).toHaveBeenCalled();
+  });
 });

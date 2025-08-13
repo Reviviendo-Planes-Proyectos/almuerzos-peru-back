@@ -3,6 +3,7 @@ import { OpeningHour } from '../opening-hour/opening-hour.entity';
 export interface IRestaurant {
   name: string;
   mapsAddress: string;
+  referentialAddress: string;
   latitude: number;
   longitude: number;
   ruc?: string;
@@ -20,6 +21,7 @@ export class Restaurant implements IRestaurant {
   constructor(
     public name: string,
     public mapsAddress: string,
+    public referentialAddress: string,
     public latitude: number,
     public longitude: number,
     public ruc?: string,

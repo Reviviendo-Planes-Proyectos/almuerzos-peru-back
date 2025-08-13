@@ -11,6 +11,10 @@ export class RestaurantDTO {
   @Expose()
   mapsAddress: string;
 
+  @ApiProperty({ example: 'Frente al parque central', required: false })
+  @Expose()
+  referentialAddress?: string;
+
   @ApiProperty({ example: -12.04318 })
   @Expose()
   latitude: number;

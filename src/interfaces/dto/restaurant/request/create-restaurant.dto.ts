@@ -17,6 +17,17 @@ export class CreateRestaurantDto {
   @Expose({ name: 'maps_address' })
   mapsAddress: string;
 
+  @ApiProperty({
+    example: 'Frente al parque central, al lado del banco',
+    description: 'Dirección de referencia',
+    required: false,
+    name: 'referential_address'
+  })
+  @IsOptional()
+  @IsString()
+  @Expose({ name: 'referential_address' })
+  referentialAddress?: string;
+
   @ApiProperty({ example: -12.04318, description: 'Latitud geográfica' })
   @IsLatitude()
   latitude: number;
