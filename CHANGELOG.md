@@ -1,5 +1,31 @@
 # 📋 Changelog
 
+## [v1.1.7] - 2025-08-16
+
+### ✨ Nuevas funcionalidades
+
+- **Creación de cartas asociadas a un restaurante**:
+  - Se implementó el endpoint **`POST /api/v1/restaurants/{restaurantId}/cards`** para registrar nuevas cartas vinculadas directamente a un restaurante específico mediante **Path Param**.
+  - La relación asegura que cada carta quede correctamente asociada al restaurante correspondiente en base al `restaurantId` proporcionado.
+  - Validaciones estrictas para verificar la existencia del restaurante antes de permitir la creación de la carta.
+  - Respuestas claras en caso de éxito o errores de validación (ej. restaurante inexistente).
+
+#### 📌 Datos requeridos en la creación de la carta
+
+- **Path Param**:
+  - `restaurantId` → Identificador único del restaurante.
+
+- **Body**:
+  - `title` → Título o nombre de la carta.
+  - `description` → Breve descripción de la carta.
+  - `isActive` → Estado de la carta (activa o inactiva).
+
+### 🛠️ Cambios técnicos
+
+- Creación de la lógica de asociación entre `Card` y `Restaurant` mediante `restaurantId`.
+- Actualización de repositorios y casos de uso para soportar la creación de cartas por relación.
+- Documentación en Swagger del nuevo endpoint con ejemplos de requests y responses.
+
 ## [v1.1.6] - 2025-08-12
 
 ### ✨ Nuevas funcionalidades
