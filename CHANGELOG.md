@@ -1,5 +1,100 @@
 # 📋 Changelog
 
+## [v1.1.7] - 2025-08-16
+
+### ✨ Nuevas funcionalidades
+
+- **Creación de cartas asociadas a un restaurante**:
+  - Se implementó el endpoint **`POST /api/v1/restaurants/{restaurantId}/cards`** para registrar nuevas cartas vinculadas directamente a un restaurante específico mediante **Path Param**.
+  - La relación asegura que cada carta quede correctamente asociada al restaurante correspondiente en base al `restaurantId` proporcionado.
+  - Validaciones estrictas para verificar la existencia del restaurante antes de permitir la creación de la carta.
+  - Respuestas claras en caso de éxito o errores de validación (ej. restaurante inexistente).
+
+#### 📌 Datos requeridos en la creación de la carta
+
+- **Path Param**:
+  - `restaurantId` → Identificador único del restaurante.
+
+- **Body**:
+  - `title` → Título o nombre de la carta.
+  - `description` → Breve descripción de la carta.
+  - `isActive` → Estado de la carta (activa o inactiva).
+
+### 🛠️ Cambios técnicos
+
+- Creación de la lógica de asociación entre `Card` y `Restaurant` mediante `restaurantId`.
+- Actualización de repositorios y casos de uso para soportar la creación de cartas por relación.
+- Documentación en Swagger del nuevo endpoint con ejemplos de requests y responses.
+
+## [v1.1.6] - 2025-08-12
+
+### ✨ Nuevas funcionalidades
+
+- **Actualización de datos de usuario autenticado**:
+  - Se implementó el endpoint **`PUT /api/v1/users`** para que el usuario autenticado pueda actualizar su información personal.
+  - Soporte para modificar datos primitivos como teléfono, dirección, descripción y foto de perfil.
+  - Manejo seguro de datos relacionados (por ejemplo, información de restaurante o administrador) sin afectar otros registros asociados.
+  - Validaciones estrictas en el DTO para garantizar integridad y formato correcto de la información recibida.
+  - Respuestas claras y consistentes ante actualizaciones exitosas o fallidas.
+
+#### 📌 Campos que se pueden actualizar
+
+- **Campos primitivos**:
+  - `phone` → Número de teléfono.
+  - `district` → Distrito de residencia.
+  - `province` → Provincia de residencia.
+  - `description` → Descripción o bio del usuario (opcional).
+  - `profilePicture` → URL o base64 de la foto de perfil (opcional).
+
+- **Datos relacionados** (opcional, actualizando solo lo enviado):
+  - `restaurant` → Datos del restaurante asociado (ej. nombre, dirección, horarios).
+  - `admin` → Datos del perfil administrador (ej. username).
+
+### 🛠️ Cambios técnicos
+
+- Implementación de lógica para diferenciar campos primitivos de relaciones antes de persistir cambios.
+- Actualización de Swagger para documentar el nuevo endpoint con ejemplos de peticiones y respuestas.
+- Refactor de validaciones para optimizar la verificación de datos opcionales.
+
+## [v1.1.5] - 2025-08-11
+
+### ✨ Nuevas funcionalidades
+
+- **Función para eliminar usuarios por ID**:
+  - Se implementó el endpoint **`DELETE /api/v1/users/{id}`** para eliminar un usuario específico mediante su identificador.
+  - Verificación previa para confirmar que el usuario exista antes de proceder con la eliminación.
+  - Respuesta clara en caso de éxito o cuando el usuario no se encuentra.
+  - Manejo adecuado de errores con mensajes descriptivos para facilitar el debugging.
+  - Soporte para soft delete (eliminación lógica) o eliminación física, según configuración.
+
+### 🛠️ Cambios técnicos
+
+- Se añadió método `deleteUserById` en el servicio de usuarios.
+- Actualización de DTOs y validaciones para manejar correctamente el parámetro `id`.
+- Documentación Swagger actualizada para el nuevo endpoint con ejemplos y posibles respuestas.
+
+## [v1.1.4] - 2025-08-11
+
+### ✨ Nuevas funcionalidades
+
+- **Listado de usuarios con paginación, filtros y carga dinámica de relaciones**:
+  - Se implementó el endpoint **`POST /api/v1/users?page={page}&limit={limit}`** para obtener usuarios con soporte de paginación mediante _query params_.
+  - **Selección de campos**: Permite indicar en `select` qué columnas devolver de la entidad principal.
+  - **Relaciones dinámicas**: Soporta incluir relaciones simples (`['restaurant', 'admin', 'consumer]`) o anidadas (`{ restaurant: ['id', 'name'], admin: ['isDeleted'] }`).
+  - **Filtros avanzados**: En el cuerpo (`where`) se pueden definir condiciones con operadores (`eq`, `like`, `gte`, `lte`) o valores exactos.
+  - **Ordenamiento**: Permite ordenar ascendente o descendente por uno o varios campos mediante `order`.
+  - Optimiza la consulta devolviendo únicamente la información necesaria para el cliente.
+
+### 🛠️ Cambios técnicos
+
+- Se creó el DTO **`SearchUserDto`** con validaciones para `select`, `relations`, `where` y `order`.
+- Se añadió lógica en el servicio para interpretar filtros y relaciones anidadas.
+- Se actualizó la documentación **Swagger** con ejemplos para cada campo y estructura soportada.
+
+### 📌 Ruta para buscar usuarios
+
+**`GET /api/v1/userspage={page}&limit={limit}`**
+
 ## [v1.2.0] - 2025-08-07
 
 ### ✨ Nuevas funcionalidades

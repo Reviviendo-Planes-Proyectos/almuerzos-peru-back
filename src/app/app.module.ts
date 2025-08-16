@@ -10,6 +10,7 @@ import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
 import { AppController } from 'src/interfaces/controllers/app/app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { UserModule } from './modules/user/user.module';
+import { CardModule } from './modules/card/card.module';
 
 // Environment file paths
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -52,7 +53,8 @@ const envTemplatePath = join(process.cwd(), 'config', 'environments', `${nodeEnv
       inject: [ConfigService]
     }),
     AuthenticationModule,
-    UserModule
+    UserModule,
+    CardModule
   ],
   controllers: [AppController],
   providers: [

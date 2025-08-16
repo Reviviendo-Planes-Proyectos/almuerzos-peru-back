@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from '../authentication/user.entity';
 import { OpeningHourEntity } from '../opening-hour/openings-hours.entity';
+import { CardEntity } from '../card/card.entity';
 
 @Entity('restaurants')
 export class RestaurantEntity {
@@ -26,6 +27,12 @@ export class RestaurantEntity {
     eager: false
   })
   openingHour?: OpeningHourEntity[];
+
+  @OneToMany(() => CardEntity, (card) => card.restaurant, {
+    cascade: true,
+    eager: false
+  })
+  card?: CardEntity[];
 
   @Column()
   name: string;
